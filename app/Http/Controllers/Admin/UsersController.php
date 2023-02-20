@@ -10,7 +10,6 @@ class UsersController extends Controller
 {
     public function all_users(){
         $this->data['users'] = User::get();
-        dd($this->data['users']);
-        return view('dashboard.admin.all_users',['data'=>$this->data]);
+        return view('dashboard.admin.all_users')->with(['data'=>$this->data]);
     }
 }
