@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-      @include('dashboard.user.layouts.head')
+      @include('dashboard.admin.layouts.head')
     </head>
 <body class="app sidebar-mini ltr dark-mode mode-color2">
 
@@ -19,7 +19,7 @@
 
 {{--</div>--}}
 
-@include('dashboard.user.layouts.footer')
+@include('dashboard.admin.layouts.footer')
 
 </body>
 </html>
