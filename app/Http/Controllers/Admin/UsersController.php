@@ -196,6 +196,14 @@ class UsersController extends Controller
 
     }
 
+    //in_review_users
+    public function in_review_users(){
+
+        //$this->data['users'] = User::get()->where('status', '<>' ,0);
+        $this->data['users'] = User::get();
+        return view('dashboard.admin.all_users')->with(['data'=>$this->data]);
+    }
+
 }
 
 

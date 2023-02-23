@@ -9,8 +9,8 @@
 <div class="page">
     <div class="page-main">
     @if(Auth::check())
-        @include('dashboard.user.layouts.header')
-        @include('dashboard.user.layouts.sidebar')
+        @include('dashboard.admin.layouts.header')
+        @include('dashboard.admin.layouts.sidebar')
     @endif
 
     @yield('content')

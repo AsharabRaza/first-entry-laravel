@@ -74,6 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
         Route::post('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
         Route::post('/delete-user',[UsersController::class,'delete_user'])->name('deleteUser');
+        Route::get('/in-review-users',[UsersController::class,'in_review_users'])->name('in-review-users');
     });
 
 });
