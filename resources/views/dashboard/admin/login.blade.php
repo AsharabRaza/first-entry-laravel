@@ -40,7 +40,7 @@
                 </div>
                 <form action="{{route('admin.check')}}" class="login" method="post" autocomplete="off">
                     @if(Session::get('fail'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-danger">
                             {{ Session::get('fail') }}
                         </div>
                     @endif

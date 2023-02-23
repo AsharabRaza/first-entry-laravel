@@ -62,8 +62,8 @@
                             </a>
                         </li>
                         <!-- <li><a href="in_review_users.php" class="slide-item"> In Review</a></li> -->
-                        <li><a href="trial_users.php" class="slide-item"> Trial users</a></li>
-                        <li><a href="paid_users.php" class="slide-item"> Paid users</a></li>
+                        {{--<li><a href="trial_users.php" class="slide-item"> Trial users</a></li>
+                        <li><a href="paid_users.php" class="slide-item"> Paid users</a></li>--}}
                     </ul>
                 </li>
            {{-- <li class="slide in_review_main">

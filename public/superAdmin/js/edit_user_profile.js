@@ -55,12 +55,13 @@ $('#edit_profile_form').submit(function(e){
             data.append("edit_profile", "true");
             data.append("POST", "true");
             old_request = $.ajax({
-                url: 'core/edit_user_profile.php',
+                url: edit_user_profile,
                 type: 'POST',
                 data: data,
                 processData: false,
                 contentType: false,
                 success: function(res){
+                    var res = JSON.parse(res)
                     $('.alert').hide();
                     if(res.success == true){
                         $('.edit_profile_alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
@@ -96,7 +97,7 @@ $('#edit_profile_form').submit(function(e){
 
 function hideLoaderBtn(submit_btn){
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -118,7 +119,7 @@ function hideLoaderBtn(submit_btn){
 function showLoaderBtn(submit_btn){
     submit_btn.prop('disabled', true);
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(1).css({
         position: 'absolute',
         display: 'flex',

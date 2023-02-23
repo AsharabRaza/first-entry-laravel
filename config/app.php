@@ -31,7 +31,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------------------------LOG_SLACK_WEBHOOK_URL
     |
     | When your application is in debug mode, detailed error messages with
     | stack traces will be shown on every error that occurs within your
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------

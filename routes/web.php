@@ -69,9 +69,39 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::view('/home','dashboard.admin.home')->name('home');
         Route::post('/logout',[AdminController::class,'logout'])->name('logout');
         Route::get('/all-users',[UsersController::class,'all_users'])->name('all-users');
+        Route::any('/add-user',[UsersController::class,'add_user'])->name('addUser');
+        Route::any('/edit-user',[UsersController::class,'edit_user'])->name('editUser');
+        Route::get('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
+        Route::post('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
+        Route::post('/delete-user',[UsersController::class,'delete_user'])->name('deleteUser');
     });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
