@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MembershipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,15 +68,17 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
     });
     Route::middleware(['auth:admin','PreventBackHistory'])->group(function(){
-        Route::view('/home','dashboard.admin.home')->name('home');
+        Route::get('/home',[DashboardController::class,'dashboard'])->name('home');
         Route::post('/logout',[AdminController::class,'logout'])->name('logout');
         Route::get('/all-users',[UsersController::class,'all_users'])->name('all-users');
         Route::any('/add-user',[UsersController::class,'add_user'])->name('addUser');
         Route::any('/edit-user',[UsersController::class,'edit_user'])->name('editUser');
         Route::get('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
         Route::post('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
-        Route::post('/delete-user',[UsersController::class,'delete_user'])->name('deleteUser');
+        Route::get('/delete-user',[UsersController::class,'delete_user'])->name('deleteUser');
         Route::get('/in-review-users',[UsersController::class,'in_review_users'])->name('in-review-users');
+        Route::get('/assign-membership',[MembershipController::class,'assign_membership'])->name('assign-membership');
+        Route::post('/assign-membership',[MembershipController::class,'assign_membership'])->name('assign-membership');
     });
 
 });

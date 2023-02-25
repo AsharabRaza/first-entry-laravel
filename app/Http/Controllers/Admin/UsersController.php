@@ -10,9 +10,7 @@ use Illuminate\Support\Arr;
 class UsersController extends Controller
 {
     public function all_users(){
-
-        //$this->data['users'] = User::get()->where('status', '<>' ,0);
-        $this->data['users'] = User::get();
+        $this->data['users'] = User::get()->where('status', '<>' ,0);
         return view('dashboard.admin.all_users')->with(['data'=>$this->data]);
     }
 
@@ -178,18 +176,22 @@ class UsersController extends Controller
 
     public function delete_user(Request $request){
 
+
         if($request->filled('user_id')){
             $user = User::find($request->user_id);
             if($user){
                 if($user->delete()){
-                    return response()->json([
+                   /* return response()->json([
                         'success' => true,
                         'msg' => 'User Successfully deleted. Reloading....',
-                    ]);
+                    ]);*/
+                    return back()->with('success',"User Successfully deleted");
                 }else{
-                    return response()->json([
+                    /*return response()->json([
                         'success' => false,
-                    ]);
+                        'msg' => 'Something went wrong, please try again later.',
+                    ]);*/
+                    return back()->with('fail',"Something went wrong, please try again later.");
                 }
             }
         }
@@ -199,9 +201,8 @@ class UsersController extends Controller
     //in_review_users
     public function in_review_users(){
 
-        //$this->data['users'] = User::get()->where('status', '<>' ,0);
-        $this->data['users'] = User::get();
-        return view('dashboard.admin.all_users')->with(['data'=>$this->data]);
+        $this->data['users'] = User::get()->where('status','=',1);
+        return view('dashboard.admin.in_review_users')->with(['data'=>$this->data]);
     }
 
 }

@@ -21,7 +21,7 @@
                     <h3>Main</h3>
                 </li>
                 <li class="slide">
-                    <a class="side-menu__item dashboard_item" data-bs-toggle="slide" href="index.php"><i class="side-menu__icon bi bi-house-door-fill"></i><span class="side-menu__label">Dashboard</span></a>
+                    <a class="side-menu__item dashboard_item" data-bs-toggle="slide" href="{{ route('admin.home') }}"><i class="side-menu__icon bi bi-house-door-fill"></i><span class="side-menu__label">Dashboard</span></a>
                 </li>
                 <li class="sub-category">
                     <h3>LOTTERIES</h3>
@@ -49,16 +49,7 @@
                         <li><a href="{{ route('admin.all-users') }}" class="slide-item"> All users</a></li>
                         <li><a href="{{ route('admin.in-review-users') }}" class="slide-item">
                                 In review
-                                {{--                                <?php--}}
-                                {{--                                if ($total_in_review_users > 0)--}}
-                                {{--                                {--}}
-                                {{--                                ?>--}}
-                                {{--                                <span class="badge bg-secondary side-badge" style="position:absolute;right: 0;top: 50%;transform: translate(-50%, -50%);">--}}
-                                {{--                                    				<?php echo $total_in_review_users;?>--}}
-                                {{--                                    			</span>--}}
-                                {{--                                <?php--}}
-                                {{--                                }--}}
-                                {{--                                ?>--}}
+                                <span class="badge bg-secondary side-badge" style="position:absolute;right: 0;top: 50%;transform: translate(-50%, -50%);">{{ $data['total_in_review_users'] }}</span>
                             </a>
                         </li>
                         <!-- <li><a href="in_review_users.php" class="slide-item"> In Review</a></li> -->
@@ -74,8 +65,8 @@
                     <ul class="slide-menu">
                         <li class="side-menu-label1"><a href="javascript:void(0)">Memberships</a></li>
                         <li><a href="paid_users.php" class="slide-item"> All users</a></li>
-                        <li><a href="memberships_settings.php?action=add_user" class="slide-item">Assign Membership</a></li>
-                        <li><a href="memberships_settings.php" class="slide-item"> Settings</a></li>
+                        <li><a href="{{ route('admin.assign-membership') }}" class="slide-item">Assign Membership</a></li>
+                        <li><a href="javascript:void(0);" class="slide-item"> Settings</a></li>
                     </ul>
                 </li>
                 <li class="sub-category not_hide">

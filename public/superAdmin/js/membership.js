@@ -6,7 +6,7 @@ $('#add_membership_form').submit(function(e){
     var membership_id = $('#membership_id').val();
     var expire_date = $('#expire_date').val();
     var expire_time = $('#expire_time').val();
-    
+
     var add_btn = $('#add_btn');
 
     $('.add_membership_alert').fadeOut();
@@ -21,7 +21,7 @@ $('#add_membership_form').submit(function(e){
     data.append("POST", "true");
 
     request = $.ajax({
-        url: 'core/membership.php',
+        url: assign_membership,
         type: 'POST',
         data: data,
         processData: false,
@@ -52,7 +52,7 @@ $('#add_membership_form').submit(function(e){
 function showLoaderBtn(add_btn){
     add_btn.prop('disabled', true);
     var add_btn_height = add_btn.height() / 2;
-    
+
     add_btn.children('span').eq(1).css({
         position: 'absolute',
         top: 'calc(50% + ' + add_btn_height +'px)',
@@ -78,7 +78,7 @@ function showLoaderBtn(add_btn){
 
 function hideLoaderBtn(add_btn){
     var add_btn_height = add_btn.height() / 2;
-    
+
     add_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',

@@ -10,20 +10,20 @@
             <!-- PAGE-HEADER -->
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">All users</h1>
+                    <h1 class="page-title">In review users</h1>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Management</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Users</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">All users</li>
+                        <li class="breadcrumb-item active" aria-current="page">In review users</li>
                     </ol>
                 </div>
-                <div class="ms-auto pageheader-btn">
+               {{-- <div class="ms-auto pageheader-btn">
                     <a href="{{ route('admin.addUser') }}" class="btn btn-primary btn-icon text-white me-2">
                         <span>
                             <i class="bi bi-plus"></i>
                         </span> Add User
                     </a>
-                </div>
+                </div>--}}
             </div>
             <!-- PAGE-HEADER END -->
 
@@ -33,19 +33,10 @@
                     <div class="card">
                         <div class="card-header" style="place-content: space-between;">
                             <h3 class="card-title">All users</h3>
-                            {{--                            <small>All times are in <strong><?php echo $timezoneText;?></strong></small>--}}
                             <small>All times are in <strong></strong></small>
                         </div>
                         <div class="card-body">
-
-                            {{--                            <?php /*include_once('messages.php') */?><!----}}
-                            {{--                            messages file coding below.--}}
-                            {{--                            <?php /*$alertClass = empty($_GET['error']) ? "alert alert-danger" : "alert alert-success"; */?>--}}
-                            {{--                            <?php /*if (!empty($_GET['message'])) :*/?>--}}
-                            {{--                            <div class="alert <?php /*echo $alertClass */?>">--}}
-                            {{--                                <?php /*echo  base64_decode($_GET['message']); */?>--}}
-                            {{--                            </div>--}}
-                            {{--                            --><?php /*endif;*/?>--}}
+                            <div class="alert delete_alert" style="display: none;"></div>
                             @if(Session::get('fail'))
                                 <div class="alert alert-danger">
                                     {{ Session::get('fail') }}
@@ -55,7 +46,7 @@
                                     {{ Session::get('success') }}
                                 </div>
                             @endif
-                            <div class="alert delete_alert" style="display: none;"></div>
+
                             <div class="alert alert-users" style="display: none;"></div>
                             <div class="table-responsive table-lg">
                                 <table class="table border table-bordered mb-0" id="responsive-datatable">
@@ -229,19 +220,11 @@
                                                         <a class="btn btn-sm btn-primary badge"
                                                            href="{{ route('admin.editUserProfile', ['user_id'=>$user->id]) }}"><i
                                                                 class="bi bi-pencil-square"></i></a>
-
-                                                        <a class="btn btn-sm btn-primary badge"
-                                                           href="{{ route('admin.assign-membership',['user_id'=>$user->id]) }}"
-                                                           title="Add memberships package" target="_blank"><i
-                                                                class="bi bi-person-video2"></i></a>
-                                                    </div>
-                                                    <div class="btn-group align-top">
-                                                        <a href="{{ route('admin.editUser', ['user_id'=>$user->id]) }}"
-                                                           class="btn btn-sm btn-primary badge">Edit</a>
                                                         <a href="{{ route('admin.deleteUser', ['user_id'=>$user->id]) }}"
                                                            class="btn btn-sm btn-primary badge">
                                                             <i class="bi bi-trash-fill"></i>
                                                         </a>
+
                                                     </div>
                                                 </td>
                                             </tr>
