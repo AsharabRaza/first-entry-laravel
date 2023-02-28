@@ -112,6 +112,14 @@ class UsersController extends Controller
 
     }
 
+    public function view_user(Request $request){
+
+        $this->data['user'] = User::where('id','=',$request->user_id)->first();
+        return view('dashboard.admin.view_user')->with(['data'=>$this->data]);
+
+
+    }
+
     public function edit_user_profile(Request $request){
 
 
@@ -201,8 +209,15 @@ class UsersController extends Controller
     //in_review_users
     public function in_review_users(){
 
-        $this->data['users'] = User::get()->where('status','=',1);
+        $this->data['users'] = User::where('status','=',1)->get();
         return view('dashboard.admin.in_review_users')->with(['data'=>$this->data]);
+    }
+
+    public function paid_users(){
+
+        //$this->data['users'] = User::where('paid_memberships','=',1)->where('in_review','=',0)->orderBy('id', 'desc')->get();
+        $this->data['users'] = User::where('paid_memberships','=',1)->orderBy('id', 'desc')->get();
+        return view('dashboard.admin.paid_users')->with(['data'=>$this->data]);
     }
 
 }

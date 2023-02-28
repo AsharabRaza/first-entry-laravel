@@ -29,8 +29,6 @@ Route::get('/clear', function() {
     echo '<p>Config cache cleared</p><br>';
 });
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -69,16 +67,21 @@ Route::prefix('admin')->name('admin.')->group(function(){
     });
     Route::middleware(['auth:admin','PreventBackHistory'])->group(function(){
         Route::get('/home',[DashboardController::class,'dashboard'])->name('home');
-        Route::post('/logout',[AdminController::class,'logout'])->name('logout');
+        Route::any('/logout',[AdminController::class,'logout'])->name('logout');
         Route::get('/all-users',[UsersController::class,'all_users'])->name('all-users');
         Route::any('/add-user',[UsersController::class,'add_user'])->name('addUser');
         Route::any('/edit-user',[UsersController::class,'edit_user'])->name('editUser');
+        Route::any('/view-user',[UsersController::class,'view_user'])->name('view-user');
         Route::get('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
         Route::post('/edit-user-profile',[UsersController::class,'edit_user_profile'])->name('editUserProfile');
         Route::get('/delete-user',[UsersController::class,'delete_user'])->name('deleteUser');
         Route::get('/in-review-users',[UsersController::class,'in_review_users'])->name('in-review-users');
+        Route::get('/paid-users',[UsersController::class,'paid_users'])->name('paid-users');
         Route::get('/assign-membership',[MembershipController::class,'assign_membership'])->name('assign-membership');
         Route::post('/assign-membership',[MembershipController::class,'assign_membership'])->name('assign-membership');
+        Route::get('/view-profile',[AdminController::class,'view_profile'])->name('view-profile');
+        Route::any('/edit-profile',[AdminController::class,'edit_profile'])->name('edit-profile');
+        Route::any('/change-password',[AdminController::class,'change_password'])->name('change-password');
     });
 
 });

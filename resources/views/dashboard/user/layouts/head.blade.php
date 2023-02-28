@@ -27,6 +27,22 @@
 <!-- COLOR SKIN CSS -->
 <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ url('assets/colors/color1.css') }}" />
 
+{{--
+<style>
+    <?php
+        if($user_type == 1){
+            if($in_review == 1 || $review_approves == 0){
+                ?>
+                .side-menu li:not(.not_hide) {
+        display: none !important;
+    }
+    <?php
+    }
+    }
+
+    ?>
+
+</style>--}}
 
 
 @stack('css')

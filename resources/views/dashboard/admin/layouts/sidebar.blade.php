@@ -64,9 +64,9 @@
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person-check-fill"></i><span class="side-menu__label">Memberships</span><i class="angle bi bi-chevron-right"></i></a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1"><a href="javascript:void(0)">Memberships</a></li>
-                        <li><a href="paid_users.php" class="slide-item"> All users</a></li>
+                        <li><a href="{{ route('admin.paid-users') }}" class="slide-item"> All users</a></li>
                         <li><a href="{{ route('admin.assign-membership') }}" class="slide-item">Assign Membership</a></li>
-                        <li><a href="javascript:void(0);" class="slide-item"> Settings</a></li>
+{{--                        <li><a href="javascript:void(0);" class="slide-item"> Settings</a></li>--}}
                     </ul>
                 </li>
                 <li class="sub-category not_hide">
@@ -76,9 +76,9 @@
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person"></i><span class="side-menu__label">Profile</span><i class="angle bi bi-chevron-right"></i></a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1 not_hide"><a href="javascript:void(0)">Profile</a></li>
-                        <li class="not_hide"><a href="profile.php" class="slide-item"> View profile</a></li>
-                        <li class="not_hide"><a href="edit_profile.php" class="slide-item"> Edit profile</a></li>
-                        <li class="not_hide"><a href="change_password.php" class="slide-item"> Change password</a></li>
+                        <li class="not_hide"><a href="{{ route('admin.view-profile') }}" class="slide-item"> View profile</a></li>
+                        <li class="not_hide"><a href="{{ route('admin.edit-profile') }}" class="slide-item"> Edit profile</a></li>
+                        <li class="not_hide"><a href="{{ route('admin.change-password') }}" class="slide-item"> Change password</a></li>
                     </ul>
                 </li>
 

@@ -214,7 +214,7 @@
                                                     @endif
                                                     <div class="btn-group align-top">
                                                         <a class="btn btn-sm btn-primary badge"
-                                                           href="users.php?id={{ $user->id }}" target="_blank"><i
+                                                           href="{{ route('admin.view-user', ['user_id'=>$user->id]) }}" target="_blank"><i
                                                                 class="bi bi-eye-fill"></i></a>
 
                                                         <a class="btn btn-sm btn-primary badge"

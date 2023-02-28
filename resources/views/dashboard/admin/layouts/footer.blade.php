@@ -1,3 +1,17 @@
+</div>
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="row align-items-center flex-row-reverse">
+            <div class="col-md-12 col-sm-12 text-center">
+                Copyright © <?php echo date('Y');?> <a href="javascript:void(0);">First Entry</a>. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- FOOTER END -->
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -64,6 +78,7 @@
 
 <!-- CUSTOM JS -->
 {{ Html::script('assets/js/custom.js') }}
+{{ Html::script('assets/plugin/sweet-alert/sweetalert.min.js') }}
 
 <script>
     $('#open_right_toggle').click(function(e){

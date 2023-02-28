@@ -3,8 +3,10 @@
     <head>
       @include('dashboard.user.layouts.head')
     </head>
-<body>
-{{--<div class="">--}}
+<body class="app sidebar-mini ltr dark-mode">
+
+<div class="page">
+    <div class="page-main">
 
     @include('dashboard.user.layouts.header')
 
