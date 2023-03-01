@@ -5,7 +5,7 @@
 </div>--}}
 <!-- /GLOBAL-LOADER -->
 <!-- app-Header -->
-<div class="app-header header sticky ">
+<div class="app-header header sticky">
     <div class="container-fluid main-container">
         <div class="d-flex align-items-center">
             <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0);"></a>
@@ -111,7 +111,7 @@
                                     <div class="drop-heading">
                                         <div class="text-center">
 
-                                            <h5 class="text-dark mb-0">{{ auth()->user()->name }}</h5>
+                                            <h5 class="text-dark mb-0">{{ auth()->user()->first_name.' '.auth()->user()->last_name }}</h5>
                                             <small class="text-muted">Trial</small>
                                         </div>
                                     </div>

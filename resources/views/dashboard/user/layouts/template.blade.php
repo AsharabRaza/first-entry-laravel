@@ -8,16 +8,13 @@
 <div class="page">
     <div class="page-main">
 
-    @include('dashboard.user.layouts.header')
-
-{{--    <div class="">--}}
-
+    @if(Auth::check())
+        @include('dashboard.user.layouts.header')
         @include('dashboard.user.layouts.sidebar')
+    @endif
+
         @yield('content')
 
-{{--    </div>--}}
-
-{{--</div>--}}
 
 @include('dashboard.user.layouts.footer')
 

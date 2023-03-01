@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MembershipController;
+use App\Http\Controllers\User\LotteryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +35,8 @@ Route::get('/clear', function() {
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
 Auth::routes();
+
 
 
 //User routes
@@ -51,8 +52,10 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::post('/check',[UserController::class,'check'])->name('check');
     });
     Route::middleware(['auth:web','PreventBackHistory'])->group(function(){
-        Route::view('/home','dashboard.user.home')->name('home');
-        Route::post('/logout',[UserController::class,'logout'])->name('logout');
+        Route::get('/home',[UserDashboardController::class,'dashboard'])->name('home');
+        Route::any('/logout',[UserController::class,'logout'])->name('logout');
+        Route::any('/all-lotteries',[LotteryController::class,'all_lotteries'])->name('all-lotteries');
+        Route::any('/add-lottery',[LotteryController::class,'add_lottery'])->name('add-lottery');
     });
 
 });

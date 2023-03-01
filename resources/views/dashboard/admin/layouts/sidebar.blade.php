@@ -3,7 +3,7 @@
     <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
     <aside class="app-sidebar">
         <div class="side-header">
-            <a class="header-brand1" href="index.php" style="display: flex;place-content: center;align-items: center;">
+            <a class="header-brand1" href="{{ route('admin.home') }}" style="display: flex;place-content: center;align-items: center;">
                 <img src="{{ url('superAdmin/images/logo_black_1.png') }}" class="header-brand-img desktop-logo" style="    height: 50px !important;" alt="logo">
                 <img src="../assets/images/logo_white_2.png" class="header-brand-img toggle-logo" alt="logo">
                 <img src="../assets/images/logo_white_2.png" class="header-brand-img light-logo" style="height: 44px !important;" alt="logo">
