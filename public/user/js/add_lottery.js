@@ -51,13 +51,13 @@ $('#remove_img_lottery_background_image').click(function(){
 });
 
 
-$('#lottery_url').keypress(function(e){    
-    if(e.which === 32) 
+$('#lottery_url').keypress(function(e){
+    if(e.which === 32)
         return false;
 });
 
 var old_request;
-$('#lottery_url').keyup(function(e){    
+$('#lottery_url').keyup(function(e){
     $(this).removeClass('is-invalid');
     $(this).removeClass('is-valid');
     if($(this).val() != ''){
@@ -73,7 +73,7 @@ $('#lottery_url').keyup(function(e){
         data.append("POST", "true");
 
         old_request = $.ajax({
-            url: 'core/lotteries.php',
+            url: check_lottery_url,
             type: 'POST',
             data: data,
             processData: false,
@@ -90,7 +90,7 @@ $('#lottery_url').keyup(function(e){
                 }
             },
             error: function(){
-                
+
             }
         });
     }else{
@@ -98,7 +98,7 @@ $('#lottery_url').keyup(function(e){
             old_request.abort();
         }
     }
-    
+
 });
 
 $('#add_lottery_form').submit(function(e){
@@ -124,7 +124,7 @@ $('#add_lottery_form').submit(function(e){
     var submit_btn = $('#submit_btn');
 
     $('.lottery-alert').fadeOut();
-    
+
     if($('#lottery_url').hasClass('is-valid')){
         if(description != ''){
             console.log('Sumitted');
@@ -134,11 +134,11 @@ $('#add_lottery_form').submit(function(e){
                 if(terms_conditions != ''){
                     $('#terms_conditions_wrap').css({borderColor: ''});
                     showLoaderBtn(submit_btn);
-                    
+
 
                     if($('#lottery_logo').val() != '' || $('#lottery_background_image').val() != ''){
                         var data = new FormData();
-                        
+
                         if($('#lottery_logo').val() != ''){
                             data.append('lottery_logo', $('#lottery_logo').get(0).files[0]);
                         }
@@ -146,13 +146,13 @@ $('#add_lottery_form').submit(function(e){
                         if($('#lottery_background_image').val() != ''){
                             data.append('lottery_background_image', $('#lottery_background_image').get(0).files[0]);
                         }
-                        
+
                         data.append('lottery_images_upload', 'true');
                         data.append('POST', 'true');
 
                         $.ajax({
                             type:'POST',
-                            url: 'core/lotteries.php',
+                            url: add_lottery,
                             data: data,
                             cache: false,
                             enctype: 'multipart/form-data',
@@ -172,7 +172,7 @@ $('#add_lottery_form').submit(function(e){
                                     data["end_date"] = end_date;
                                     data["end_time"] = end_time;
                                     data["add_lottery"] = "true";
-                                    data["POST"] = "true";  
+                                    data["POST"] = "true";
                                     data["country_code"] = country_code;
                                     data["timezone"] = timezone;
                                     data["scanning_option"] = scanning_option;
@@ -189,23 +189,23 @@ $('#add_lottery_form').submit(function(e){
                                     }else{
                                         data["lottery_background_image"] = "";
                                     }
-                                     
+
                                     var data_json = {};
                                     data_json[0] = data;
                                     data_json[1] = description;
                                     data_json[2] = how_it_works;
                                     data_json[3] = terms_conditions;
 
-                                    add_lottery_run(data_json, submit_btn); 
+                                    add_lottery_run(data_json, submit_btn);
                                 }else if(res.success == false){
                                     $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
                                 }else{
                                     $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html('Error uploading map image.').fadeIn();
                                 }
-                                hideLoaderBtn(update_btn);
+                               // hideLoaderBtn(update_btn);
                             },
                             error: function(data){
-                                hideLoaderBtn(update_btn);
+                                //hideLoaderBtn(update_btn);
                                 $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html('Something went wrong, please try again later.').fadeIn();
                             }
                         });
@@ -229,6 +229,7 @@ $('#add_lottery_form').submit(function(e){
                         data["timezone"] = timezone;
                         data["scanning_option"] = scanning_option;
                         data["queing_process"] = queing_process;
+                        data["add_lottery"] = true;
 
                         if($('#fake_img_lottery_logo').attr('data-value') == ''){
                             data["lottery_logo"] = "";
@@ -269,10 +270,12 @@ $('#countries').change(function() {
     $('#timezone').html();
 
     $.ajax({
-        url: 'core/lotteries.php?get_time_zone=true&country_code='+country_code,
-        type: 'GET',
+        //url: 'core/lotteries.php?get_time_zone=true&country_code='+country_code,
+        url: get_country_timezone,
+        data:{'get_time_zone':'true','country_code':country_code},
+        type: 'POST',
         success: function(res){
-            res = JSON.parse(res);
+            //res = JSON.parse(res);
             let html = '';
             for(const timezone of res) {
                 html += '<option value="'+timezone+'">'+timezone+'</option>';
@@ -286,7 +289,8 @@ $('#countries').change(function() {
 
 function add_lottery_run(data_json, submit_btn){
     $.ajax({
-        url: 'core/lotteries.php?add_lottery=true',
+        //url: 'core/lotteries.php?add_lottery=true',
+        url: add_lottery,
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify(data_json),
@@ -297,17 +301,19 @@ function add_lottery_run(data_json, submit_btn){
                 // $('#add_lottery_form').get(0).reset();
                 $('.lottery-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                 setTimeout(function(){
-                    window.location.href = 'edit_lottery.php?id='+res.lottery_id+'&edit_tab=2';
+                    //window.location.href = 'edit_lottery.php?id='+res.lottery_id+'&edit_tab=2';
+                    window.location.href = res.url;
+
                 }, 1200);
             }else if(res.success == false){
                 $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
             }else{
                 $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html('Something went wrong, please try again later.').fadeIn();
             }
-            hideLoaderBtn(submit_btn);
+           // hideLoaderBtn(submit_btn);
         },
         error: function(){
-            hideLoaderBtn(submit_btn);
+           // hideLoaderBtn(submit_btn);
             $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html('Something went wrong, please try again later.').fadeIn();
         }
     });
@@ -338,7 +344,7 @@ $('#edit_lottery_form').submit(function(e){
     var update_btn = $('#update_btn');
 
     $('.lottery-alert').fadeOut();
-    
+
     if($('#lottery_url').hasClass('is-valid')){
         if(description != ''){
             $('#description_wrap').css({borderColor: ''});
@@ -359,22 +365,22 @@ $('#edit_lottery_form').submit(function(e){
 
                             if($('#lottery_logo').val() != '' || $('#lottery_background_image').val() != ''){
                                 var data = new FormData();
-                                
+
                                 if($('#lottery_logo').val() != ''){
                                     data.append('lottery_logo', $('#lottery_logo').get(0).files[0]);
                                 }else{
                                     data["lottery_logo"] = "";
                                 }
-        
+
                                 if($('#lottery_background_image').val() != ''){
                                     data.append('lottery_background_image', $('#lottery_background_image').get(0).files[0]);
                                 }else{
                                     data["lottery_background_image"] = "";
                                 }
-                                
+
                                 data.append('lottery_images_upload', 'true');
                                 data.append('POST', 'true');
-        
+
                                 $.ajax({
                                     type:'POST',
                                     url: 'core/lotteries.php',
@@ -407,7 +413,7 @@ $('#edit_lottery_form').submit(function(e){
                                             if(res.lottery_logo != undefined){
                                                 data["lottery_logo"] = res.lottery_logo;
                                             }
-        
+
                                             if(res.lottery_background_image != undefined){
                                                 data["lottery_background_image"] = res.lottery_background_image;
                                             }
@@ -417,8 +423,8 @@ $('#edit_lottery_form').submit(function(e){
                                             data_json[1] = description;
                                             data_json[2] = how_it_works;
                                             data_json[3] = terms_conditions;
-        
-                                            edit_lottery_run(data_json, update_btn); 
+
+                                            edit_lottery_run(data_json, update_btn);
                                         }else if(res.success == false){
                                             $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
                                         }else{
@@ -465,10 +471,10 @@ $('#edit_lottery_form').submit(function(e){
                                 data_json[2] = how_it_works;
                                 data_json[3] = terms_conditions;
 
-                                edit_lottery_run(data_json, update_btn); 
+                                edit_lottery_run(data_json, update_btn);
                             }
 
-                            
+
                         }
                     });
                 }else{
@@ -483,7 +489,7 @@ $('#edit_lottery_form').submit(function(e){
     }else{
         $('#lottery_url').focus();
     }
-    
+
 });
 
 function edit_lottery_run(data_json, update_btn){
@@ -541,7 +547,7 @@ $('#update_agent_detail_form').submit(function(e) {
 
             var data = {lottery_status, lottery_agents, old_lottery_agents, scan_start_date, scan_start_time, scan_end_date,
                 scan_end_time, update_lottery_agents_details: true,edit_lottery_agents: 'true',lottery_id};
-            
+
             $.ajax({
                 type:'POST',
                 url: 'core/lotteries.php',
@@ -564,7 +570,7 @@ $('#update_agent_detail_form').submit(function(e) {
                     $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html('Something went wrong, please try again later.').fadeIn();
                 }
             });
-            
+
         }
     });
 });
@@ -579,7 +585,7 @@ $('#form_customization_form').submit(function(e){
     data.append("update_customization_form", "true");
     data.append("POST", "true");
     showLoaderBtn($('#form_cus_submit_btn'));
-    
+
     $('.alert-customize').fadeOut();
 
     $.ajax({
@@ -611,7 +617,7 @@ $('#form_customization_form').submit(function(e){
 
 function hideLoaderBtn(submit_btn){
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -633,7 +639,7 @@ function hideLoaderBtn(submit_btn){
 function showLoaderBtn(submit_btn){
     submit_btn.prop('disabled', true);
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(1).css({
         position: 'absolute',
         display: 'flex',

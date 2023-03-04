@@ -37,7 +37,7 @@
                         <h3>EVENT LOTTERIES</h3>
                     </li>
                     <li class="slide not_hide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="events.php"><i class="side-menu__icon bi bi-stars"></i><span class="side-menu__label">Landing Page</span></a>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{{ route('user.events') }}"><i class="side-menu__icon bi bi-stars"></i><span class="side-menu__label">Landing Page</span></a>
                     </li>
                     <li class="slide not_hide">
                         <a class="side-menu__item" data-bs-toggle="slide" href="{{ route('user.all-lotteries') }}"><i class="side-menu__icon bi bi-stars"></i><span class="side-menu__label">All lotteries</span></a>

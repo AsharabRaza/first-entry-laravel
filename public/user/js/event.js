@@ -9,7 +9,7 @@ $('#add_event_form').submit(function(e){
     var about_event = $('#about_event').val();
     var how_it_works = $('#how_it_works').val();
     var add_btn = $('#add_btn');
-    
+
         $('.add_event_alert').fadeOut();
         showLoaderBtn(add_btn);
 
@@ -25,7 +25,7 @@ $('#add_event_form').submit(function(e){
         data.append("add_event_btn", "true");
         data.append("POST", "true");
         request = $.ajax({
-            url: 'core/event.php',
+            url: add_event,
             type: 'POST',
             data: data,
             processData: false,
@@ -56,7 +56,7 @@ $('#add_event_form').submit(function(e){
 function showLoaderBtn(add_btn){
     add_btn.prop('disabled', true);
     var add_btn_height = add_btn.height() / 2;
-    
+
     add_btn.children('span').eq(1).css({
         position: 'absolute',
         top: 'calc(50% + ' + add_btn_height +'px)',
@@ -82,7 +82,7 @@ function showLoaderBtn(add_btn){
 
 function hideLoaderBtn(add_btn){
     var add_btn_height = add_btn.height() / 2;
-    
+
     add_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -111,7 +111,7 @@ $('.copy-event-link').click(function(){
 
     // Copy the text inside the text field
     navigator.clipboard.writeText(copyText);
-    
+
     // Alert the copied text
     alert("Copied the text: " + copyText);
 

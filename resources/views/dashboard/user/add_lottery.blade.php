@@ -80,7 +80,7 @@
                                                 @if(empty($data['remaining_events']))
                                                     <div class="alert alert-danger lottery-alert">You already exceeded your event creation limit.</div>
                                                 @endif
-                                                <form method="POST" action="" id="add_lottery_form" {{ empty($data['remaining_events']) ? 'style="pointer-events: none; opacity: 0.5;"':'' }} >
+                                                <form method="POST" action="" id="add_lottery_form" {{ empty($data['remaining_events']) ? 'style="pointer-events: none; opacity: 0.5;"':'' }} novalidate>
                                                     <div class="alert alert-danger lottery-alert" style="display: none;"></div>
                                                     <div class="form-row">
                                                         <div class="col-md-6 mb-4">
@@ -417,7 +417,9 @@
     {{ Html::script('assets/plugin/quill/quill.min.js') }}
 
     <script>
-
+        var add_lottery = '{{ route("user.add-lottery") }}';
+        var check_lottery_url = '{{ route("user.check-lottery-url") }}';
+        var get_country_timezone = '{{ route("user.get-country-timezone") }}';
         $(function() {
             'use strict'
 

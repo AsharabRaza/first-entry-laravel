@@ -30,7 +30,7 @@ function getMemberShipInfo($userId)
         $memberShipId = $row1->membership_id;
         $row = DB::table('memberships_infos')->where('id', $memberShipId)->first();
         if (!empty($row)) {
-            /*$array = [
+            $array = [
                 "total_months" => $row1->total_months,
                 "expire_date_time" => $row1->expire_date_time,
                 "payment_method" => $row1->payment_method,
@@ -56,8 +56,8 @@ function getMemberShipInfo($userId)
                 "last_updated" => $row->last_updated,
                 "date_created" => $row->date_created,
             ];
-            return $array;*/
-            return true;
+            return $array;
+            //return true;
         } else {
             return false;
         }
@@ -93,7 +93,8 @@ function expireStatus($userId)
                 //return if user subscription expired.
                 return ['status'=>false,'expire'=>true];
 
-            }elseif ($membershipInfo == false){
+            //}elseif ($membershipInfo == false){
+            }elseif (!$membershipInfo){
                 //return if subscribed package/event no more exist or deleted.
                 return ['status'=>false,'subscription'=>false];
             }
@@ -359,6 +360,23 @@ function getCountriesNames($country_code = '', $search_country = false){
         return (isset($countries[$country_code]) ? $countries[$country_code] : '');
     return $countries;
 }
+
+function convert_timezone($datetime, $from_tz, $to_tz, $format = 'M d, Y h:i a') {
+    if(empty($datetime)) {
+        return null;
+    }
+
+    $to_tz = empty($to_tz) ? config('app.timezone') : $to_tz;
+    $date = Carbon\Carbon::createFromFormat('Y-m-d H:i', $datetime, $from_tz)->setTimezone($to_tz);
+    return $date->format($format);
+}
+
+function getTimeZone($country_code = '') {
+    $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $country_code);
+    return $timezones;
+}
+
+
 
 
 

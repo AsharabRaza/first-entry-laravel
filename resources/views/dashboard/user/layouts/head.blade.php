@@ -1,6 +1,7 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 {{ HTML::favicon('superAdmin/images/favicon.ico') }}
 <title>Dashboard - First Entry</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css"  />
