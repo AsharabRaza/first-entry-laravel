@@ -22,7 +22,7 @@ $('.remove_winners').click(function(e){
                 data.append("guest_id", b.attr('data-gid'));
                 data.append("guest_id2", b.attr('data-gid2'));
                 data.append("request_id", b.attr('data-id'));
-                
+
                 data.append("remove_winners", "true");
                 data.append("POST", "true");
 
@@ -83,7 +83,7 @@ $('.remove_entries').click(function(e){
                 data.append("guest_id", b.attr('data-gid'));
                 data.append("guest_id2", b.attr('data-gid2'));
                 data.append("request_id", b.attr('data-id'));
-                
+
                 data.append("remove_entries", "true");
                 data.append("POST", "true");
 
@@ -140,12 +140,12 @@ $('.delete_lotteries').click(function(e){
 
                 var data = new FormData();
                 data.append("request_id", b.attr('data-id'));
-                
+
                 data.append("delete_lotteries", "true");
                 data.append("POST", "true");
 
                 old_request3 = $.ajax({
-                    url: '../dashboard/core/lotteries.php',
+                    url: delete_lottery,
                     type: 'POST',
                     data: data,
                     processData: false,
@@ -183,16 +183,16 @@ $('#search_with_uid').click(function(){
 
     if(uid != ''){
         $('#uid').removeClass('is-invalid');
-        
+
         $('.entry-alert').hide();
         $('.result_wrap').hide();
         $('.result_placeholder').show();
         $('.no_result').hide();
         $('.loading_placeholder').fadeIn();
-        
+
         var data = new FormData();
         data.append("uid", 'FE-' + uid);
-        
+
         data.append("get_uid_entries", "true");
         data.append("POST", "true");
 
@@ -233,7 +233,7 @@ $('#search_with_uid').click(function(){
                     $('#phone').html(res.phone);
                     $('#bring_guest').html(res.bring_guest);
                     $('#entered_datetime').html(res.date_created);
-                    
+
                     if(res.g_first_name == undefined){
                         $('#g_first_name').parent().parent().hide();
                         if(user_type == 2){
@@ -242,9 +242,9 @@ $('#search_with_uid').click(function(){
                     }else{
                         $('#g_first_name').parent().parent().show();
                         $('#g_first_name').html(res.g_first_name);
-                        
+
                     }
-                    
+
                     if(res.g_last_name == undefined){
                         $('#g_last_name').parent().parent().hide();
                     }else{
@@ -264,7 +264,7 @@ $('#search_with_uid').click(function(){
                         } else {
                             $('#winner_no').parent().parent().hide();
                         }
-                       
+
                         $('#entry_confirm_btn').show().attr('data-id', res.entry_id);
                         $('#submit_confirm_entry').attr('data-id', res.entry_id);
                         $('#submit_confirm_entry').attr('data-type', dataType);
@@ -293,7 +293,7 @@ $('#search_with_uid').click(function(){
                         $('#entry_confirm_btn').prev().css({border: 'none'});
                     }
 
-                    
+
                 }else if(res.success == false){
                     $('.entry-alert').hide();
                     $('.result_wrap').hide();
@@ -342,7 +342,7 @@ $('#submit_confirm_entry').click(function(){
         var data = new FormData();
         data.append("entry_id", dataId);
         data.append("submit_type", dataType);
-        
+
         data.append("entry_confirmed", "true");
         data.append("POST", "true");
 
@@ -366,7 +366,7 @@ $('#submit_confirm_entry').click(function(){
                     $('.entry-alert').html('Something went wrong, please try again later.').addClass('alert-danger').removeClass('alert-success').fadeIn();
                 }
                 hideLoaderBtn($('#submit_confirm_entry'));
-                
+
                 $('html, body').animate({
                     scrollTop: $(".entry-alert").position().top
                 }, 300);
@@ -385,7 +385,7 @@ $('#submit_confirm_entry').click(function(){
 
 function hideLoaderBtn(submit_btn){
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -407,7 +407,7 @@ function hideLoaderBtn(submit_btn){
 function showLoaderBtn(submit_btn){
     submit_btn.prop('disabled', true);
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(1).css({
         position: 'absolute',
         display: 'flex',

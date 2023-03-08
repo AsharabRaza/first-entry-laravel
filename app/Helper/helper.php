@@ -368,6 +368,17 @@ function convert_timezone($datetime, $from_tz, $to_tz, $format = 'M d, Y h:i a')
 
     $to_tz = empty($to_tz) ? config('app.timezone') : $to_tz;
     $date = Carbon\Carbon::createFromFormat('Y-m-d H:i', $datetime, $from_tz)->setTimezone($to_tz);
+//    $date = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $from_tz)->setTimezone($to_tz);
+    return $date->format($format);
+}
+
+function convert_timezone_new($datetime, $from_tz, $to_tz, $format = 'M d, Y h:i a') {
+    if(empty($datetime)) {
+        return null;
+    }
+
+    $to_tz = empty($to_tz) ? config('app.timezone') : $to_tz;
+    $date = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $from_tz)->setTimezone($to_tz);
     return $date->format($format);
 }
 

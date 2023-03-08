@@ -9,7 +9,7 @@ $('#add_agent_form').submit(function(e){
     var pass = $('#agent_password').val();
     var agent_permissions_actions = $('#agent_permissions_actions').val();
     var add_btn = $('#add_btn');
-    
+
         $('.add_agent_alert').fadeOut();
         showLoaderBtn(add_btn);
 
@@ -22,7 +22,7 @@ $('#add_agent_form').submit(function(e){
         data.append("add_agent_btn", "true");
         data.append("POST", "true");
         request = $.ajax({
-            url: 'core/agent.php',
+            url: add_agent,
             type: 'POST',
             data: data,
             processData: false,
@@ -59,7 +59,7 @@ $('#edit_agent_form').submit(function(e){
     var agent_id = $('#agent_id').val();
     var agent_permissions_actions = $('#agent_permissions_actions').val();
     var add_btn = $('#add_btn');
-    
+
         $('.edit_agent_alert').fadeOut();
         showLoaderBtn(add_btn);
 
@@ -73,7 +73,7 @@ $('#edit_agent_form').submit(function(e){
         data.append("edit_agent_btn", "true");
         data.append("POST", "true");
         request = $.ajax({
-            url: 'core/edit_agent.php',
+            url: edit_agent,
             type: 'POST',
             data: data,
             processData: false,
@@ -101,7 +101,7 @@ $('#edit_agent_form').submit(function(e){
 });
 function hideLoaderBtn(add_btn){
     var add_btn_height = add_btn.height() / 2;
-    
+
     add_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -123,7 +123,7 @@ function hideLoaderBtn(add_btn){
 function showLoaderBtn(add_btn){
     add_btn.prop('disabled', true);
     var add_btn_height = add_btn.height() / 2;
-    
+
     add_btn.children('span').eq(1).css({
         position: 'absolute',
         top: 'calc(50% + ' + add_btn_height +'px)',
@@ -168,12 +168,12 @@ $('.delete_agents').click(function(e){
 
                 var data = new FormData();
                 data.append("request_id", b.attr('data-id'));
-                
+
                 data.append("delete_agents", "true");
                 data.append("POST", "true");
 
                 old_request3 = $.ajax({
-                    url: '../dashboard/core/agent.php',
+                    url: delete_agent,
                     type: 'POST',
                     data: data,
                     processData: false,

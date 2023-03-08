@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name', 'last_name', 'user_type', 'email', 'phone', 'password', 'email_limit', 'event_limit', 'start_date', 'end_date', 'status', 'country', 'is_admin',
-        'company_name', 'company_size', 'about_projects', 'website_or_social', 'features_functions', 'please_specify_custom'
+        'company_name', 'company_size', 'about_projects', 'website_or_social', 'features_functions', 'please_specify_custom', 'created_by', 'permissions', 'date_joined', 'email_confirm'
     ];
 
     /**

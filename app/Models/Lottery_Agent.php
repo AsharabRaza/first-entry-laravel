@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lottery_Agent extends Model
 {
     use HasFactory;
+    protected $table = 'lottery_agents';
+    protected $fillable = ['lottery_id','agent_id'];
+
 }

@@ -160,7 +160,7 @@
                                                             <label for="countries" {{ ($tooltip_status)?$country_tooltip:'' }}>Country</label>
                                                             <select class="form-control select2" name="countries" id="countries" required>
                                                                 @foreach(getCountriesNames() as $code => $country)
-                                                                    {{ '<option value="'.$code.'" '.($data['country_code'] == $code ? 'selected' : '' ).'>'.$country.'</option>' }}
+                                                                    <option value="{{ $code }}" {{ $data['country_code'] == $code ? 'selected' : '' }}>{{ $country }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -169,7 +169,7 @@
                                                             <label for="timezone" {{ ($tooltip_status)?$timezone_tooltip:'' }}>Timezone</label>
                                                             <select class="form-control select2" name="timezone" id="timezone">
                                                                 @foreach(getTimeZone($data['country_code']) as $timezn)
-                                                                    {{ '<option value="'.$data['lott_timezone'].'" '.($timezn == $data['lott_timezone'] ? 'selected' : ''). '>'.$timezn.'</option>' }}
+                                                                    <option value="{{ $data['lott_timezone'] }}" {{ $timezn == $data['lott_timezone'] ? 'selected' : '' }}>{{ $timezn }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -438,42 +438,42 @@
                                                         <div class="tab_content active">
 
                                                             <form method="POST" action="" id="modify_winners_email_form">
-                                                                <input type="hidden" value="<?php echo $lottery_id;?>" name="lottery_id" id="winners_emails_lottery_id">
+                                                                <input type="hidden" value="{{ $data['lottery_id'] }}" name="lottery_id" id="winners_emails_lottery_id">
                                                                 <div class="alert alert-danger winners-emails-alert" style="display: none;"></div>
 
                                                                 <div class="form-group row d-flex">
-                                                                    <label class="col-md-3 col-form-label" for="winners_emails_instructions" <?php echo ($tooltip_status)?$instructions_tooltip:'';?>>Instructions</label>
+                                                                    <label class="col-md-3 col-form-label" for="winners_emails_instructions" {{ ($tooltip_status)?$instructions_tooltip:'' }}>Instructions</label>
                                                                     <div class="col-md-9" style="height: 100%;">
-                                                                        <div id="winners_emails_instructions"><?php echo $winners_emails_instructions;?></div>
+                                                                        <div id="winners_emails_instructions">{{ $data['winners_emails_instructions'] }}</div>
                                                                         <!--<textarea name="instructions" id="winners_emails_instructions" class="form-control" cols="30" rows="4" required></textarea>-->
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row d-flex">
-                                                                    <label class="col-md-3 col-form-label" <?php echo ($tooltip_status)?$reminders_tooltip:'';?> for="winners_emails_reminders">Reminders</label>
+                                                                    <label class="col-md-3 col-form-label" {{ ($tooltip_status)?$reminders_tooltip:'' }} for="winners_emails_reminders">Reminders</label>
                                                                     <div class="col-md-9" style="height: 100%;">
-                                                                        <div id="winners_emails_reminders"><?php echo $winners_emails_reminders;?></div>
+                                                                        <div id="winners_emails_reminders">{{ $data['winners_emails_reminders'] }}</div>
                                                                         <!--<textarea name="reminders" id="winners_emails_reminders" class="form-control" cols="30" rows="4" required></textarea>-->
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row d-flex">
-                                                                    <label class="col-md-3 col-form-label" for="map_image" <?php echo ($tooltip_status)?$map_image_tooltip:'';?>>Map image</label>
+                                                                    <label class="col-md-3 col-form-label" for="map_image" {{ ($tooltip_status)?$map_image_tooltip:'' }}>Map image</label>
                                                                     <div class="col-md-9">
                                                                         <input type="file" class="form-control" id="map_image" accept="image/*">
 
-                                                                        <div class="mt-2 img-thumbnail <?php if($winners_emails_map_image == ''){echo 'd-none';}?>" style="width: fit-content;position: relative;" id="preview_map_image_wrap">
-                                                                            <img src="<?php if($winners_emails_map_image != ''){echo '../assets/images/media/' . $winners_emails_map_image;}?>" id="preview_map_image" style="width: 120px;">
-                                                                            <input type="hidden" id="fake_img" data-value="<?php if($winners_emails_map_image != ''){echo $winners_emails_map_image;}?>" value="<?php if($winners_emails_map_image != ''){echo $winners_emails_map_image;}?>">
+                                                                        <div class="mt-2 img-thumbnail {{ ($data['winners_emails_map_image']=='') ? 'd-none' : '' }}" style="width: fit-content;position: relative;" id="preview_map_image_wrap">
+                                                                            <img src="{{ ($data['winners_emails_map_image']!='') ? url('assets/images/media/' . $data['winners_emails_map_image']) : '' }}" id="preview_map_image" style="width: 120px;">
+                                                                            <input type="hidden" id="fake_img" data-value="{{ ($data['winners_emails_map_image']!='') ? $data['winners_emails_map_image'] : '' }}" value="{{ ($data['winners_emails_map_image']!='') ? $data['winners_emails_map_image'] : '' }}">
                                                                             <button type="button" class="remove_btn" id="remove_img"><i class="bi bi-x-circle-fill"></i></button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row d-flex">
-                                                                    <label class="col-md-3 col-form-label" for="winners_emails_venue_link" <?php echo ($tooltip_status)?$venuelink_tooltip:'';?>>Venue link</label>
+                                                                    <label class="col-md-3 col-form-label" for="winners_emails_venue_link" {{ ($tooltip_status)?$venuelink_tooltip:'' }}>Venue link</label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" class="form-control" id="winners_emails_venue_link" value="<?php echo $winners_emails_venue_link;?>" placeholder="Enter here... (include http:// or https://)" required>
+                                                                        <input type="text" class="form-control" id="winners_emails_venue_link" value="{{ $data['winners_emails_venue_link'] }}" placeholder="Enter here... (include http:// or https://)" required>
                                                                     </div>
                                                                 </div>
 
@@ -483,27 +483,27 @@
                                                                 </button>
 
                                                                 <div style="float: left;">
-                                                                    <button <?php echo ($tooltip_status)?$preview_email_tooltip:'';?> class="btn btn-info preview_btn" type="button" id="preview_btn_winner" data-template="winner" style="float: right;margin-right: 6px;">Preview</button>
+                                                                    <button {{ ($tooltip_status)?$preview_email_tooltip:'' }} class="btn btn-info preview_btn" type="button" id="preview_btn_winner" data-template="winner" style="float: right;margin-right: 6px;">Preview</button>
                                                                 </div>
                                                             </form>
                                                         </div>
 
                                                         <div class="tab_content">
                                                             <form method="POST" action="" id="modify_losers_email_form">
-                                                                <input type="hidden" value="<?php echo $lottery_id;?>" name="lottery_id" id="losers_emails_lottery_id">
+                                                                <input type="hidden" value="{{ $data['lottery_id'] }}" name="lottery_id" id="losers_emails_lottery_id">
                                                                 <div class="alert alert-danger losers-emails-alert" style="display: none;"></div>
 
                                                                 <div class="form-group row d-flex">
                                                                     <label class="col-md-3 col-form-label" for="losers_emails_instructions">Instructions</label>
                                                                     <div class="col-md-9" style="height: 100%;">
-                                                                        <div id="losers_emails_instructions"><?php echo $losers_emails_instructions;?></div>
+                                                                        <div id="losers_emails_instructions">{{ $data['losers_emails_instructions'] }}</div>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group row d-flex">
                                                                     <label class="col-md-3 col-form-label" for="losers_emails_venue_link">Venue link</label>
                                                                     <div class="col-md-9">
-                                                                        <input type="text" class="form-control" id="losers_emails_venue_link" value="<?php echo $losers_emails_venue_link;?>" placeholder="Enter here... (include http:// or https://)" required>
+                                                                        <input type="text" class="form-control" id="losers_emails_venue_link" value="{{ $data['losers_emails_venue_link'] }}" placeholder="Enter here... (include http:// or https://)" required>
                                                                     </div>
                                                                 </div>
 
@@ -513,7 +513,7 @@
                                                                 </button>
 
                                                                 <div style="float: left;">
-                                                                    <button <?php echo ($tooltip_status)?$preview_email_tooltip:'';?> class="btn btn-info preview_btn" type="button" id="preview_btn_looser" data-template="looser" style="float: right;margin-right: 6px;">Preview</button>
+                                                                    <button {{ ($tooltip_status)?$preview_email_tooltip:'' }} class="btn btn-info preview_btn" type="button" id="preview_btn_looser" data-template="looser" style="float: right;margin-right: 6px;">Preview</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -523,31 +523,27 @@
                                             </div>
                                             <div class="tab-pane" id="tab4">
                                                 <form method="POST" action="" id="update_agent_detail_form">
-                                                    <input type="hidden" value="<?php echo $lottery_id;?>" name="lottery_id" id="lottery_id">
+                                                    <input type="hidden" value="{{ $data['lottery_id'] }}" name="lottery_id" id="lottery_id">
                                                     <div class="alert alert-danger lottery-alert" style="display: none;"></div>
 
                                                     <div class="form-row">
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <input type="hidden" id="old_lottery_agents" name="old_lottery_agents" value="<?php echo $old_lottery_agents; ?>" />
-                                                            <label for="lottery_agents" <?php echo ($tooltip_status)?$lott_agent_tooltip:'';?>>Verification agents</label>
+                                                            <input type="hidden" id="old_lottery_agents" name="old_lottery_agents" value="{{ $data['old_lottery_agents'] }}" />
+                                                            <label for="lottery_agents" {{ ($tooltip_status)?$lott_agent_tooltip:'' }}>Verification agents</label>
                                                             <select class="form-control select2" name="lottery_agents[]" id="lottery_agents" multiple>
-                                                                <?php
-                                                                $normal_user = $_COOKIE['normal_user'];
-                                                                $sql = "SELECT id, first_name, last_name FROM users WHERE user_type='2' AND created_by='{$_COOKIE['normal_user']}' ORDER BY id DESC";
-                                                                $result = $con->query($sql);
-                                                                $old_lottery_agents_array = explode(',', $old_lottery_agents);
-                                                                while($row = $result->fetch_assoc()){
-                                                                    echo '<option value="'.$row['id'].'" '.(in_array($row['id'], $old_lottery_agents_array) ? 'selected' : '').' >'.$row['first_name'].' '.$row['last_name'].'</option>';
-                                                                }
-                                                                ?>
+                                                                @foreach ($data['users'] as $user)
+                                                                    <option value="{{ $user->id }}" {{ in_array($user->id, $data['old_lottery_agents_array']) ? 'selected' : '' }}>
+                                                                        {{ $user->first_name }} {{ $user->last_name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 mb-4">
                                                             <div class="form-group">
-                                                                <div class="form-label" <?php echo ($tooltip_status)?$lott_status_tooltip:'';?>>Lottery status</div>
+                                                                <div class="form-label" {{ ($tooltip_status)?$lott_status_tooltip:'' }}>Lottery status</div>
                                                                 <label class="custom-switch" style="margin-top: 8px;">
-                                                                    <input type="checkbox" name="" id="lottery_status" class="custom-switch-input" value="1" <?php echo ($lottery_status == 1 ? 'checked' : ''); ?> >
-                                                                    <span class="custom-switch-indicator lott_status_tt" data-bs-placement="top" data-bs-toggle="tooltip-primary" title="<?php echo ($lottery_status == 1 ? 'Active' : 'Deactive'); ?>"></span>
+                                                                    <input type="checkbox" name="" id="lottery_status" class="custom-switch-input" value="1" {{ ($data['lottery_status']==1) ? 'checked' : '' }} >
+                                                                    <span class="custom-switch-indicator lott_status_tt" data-bs-placement="top" data-bs-toggle="tooltip-primary" title="{{ ($data['lottery_status']==1) ? 'Active' : 'Deactive' }} "></span>
                                                                     <span class="" style="margin-left: 0.5rem;">Deactive/Active</span>
                                                                 </label>
                                                             </div>
@@ -556,40 +552,40 @@
 
                                                     <div class="form-row">
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <label for="validationServer04" <?php echo ($tooltip_status)?$scan_starttime_tooltip:'';?>>Scan start date-time</label>
+                                                            <label for="validationServer04" {{ ($tooltip_status)?$scan_starttime_tooltip:'' }}>Scan start date-time</label>
 
                                                             <div class="row">
                                                                 <div class="input-group col-7" style="padding-right: 5px;">
                                                                     <div class="input-group-text">
                                                                         <i class="bi bi-calendar3"></i>
                                                                     </div>
-                                                                    <input class="form-control fc-datepicker" id="scan_start_date" placeholder="DD-MM-YYYY" value="<?php echo $scan_start_date;?>" type="text" required>
+                                                                    <input class="form-control fc-datepicker" id="scan_start_date" placeholder="DD-MM-YYYY" value="{{ $data['scan_start_date'] }}" type="text" required>
                                                                 </div>
 
                                                                 <div class="input-group col-5" style="padding-left: 5px;">
                                                                     <div class="input-group-text input-icon">
                                                                         <i class="bi bi-clock"></i>
                                                                     </div>
-                                                                    <input class="form-control timepicker" id="scan_start_time" value="<?php echo $scan_start_time;?>" placeholder="00:00 AM" type="text" required>
+                                                                    <input class="form-control timepicker" id="scan_start_time" value="{{ $data['scan_start_time'] }}" placeholder="00:00 AM" type="text" required>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <label for="validationServer04" <?php echo ($tooltip_status)?$scan_endtime_tooltip:'';?>>Scan end date-time</label>
+                                                            <label for="validationServer04" {{ ($tooltip_status)?$scan_endtime_tooltip:'' }}>Scan end date-time</label>
 
                                                             <div class="row">
                                                                 <div class="input-group col-7" style="padding-right: 5px;">
                                                                     <div class="input-group-text">
                                                                         <i class="bi bi-calendar3"></i>
                                                                     </div>
-                                                                    <input class="form-control fc-datepicker" id="scan_end_date" value="<?php echo $scan_end_date;?>" placeholder="DD-MM-YYYY" type="text" required>
+                                                                    <input class="form-control fc-datepicker" id="scan_end_date" value="{{ $data['scan_end_date'] }}" placeholder="DD-MM-YYYY" type="text" required>
                                                                 </div>
 
                                                                 <div class="input-group col-5" style="padding-left: 5px;">
                                                                     <div class="input-group-text input-icon">
                                                                         <i class="bi bi-clock"></i>
                                                                     </div>
-                                                                    <input class="form-control timepicker" id="scan_end_time" value="<?php echo $scan_end_time;?>" placeholder="00:00 AM" type="text" required>
+                                                                    <input class="form-control timepicker" id="scan_end_time" value="{{ $data['scan_end_time'] }}" placeholder="00:00 AM" type="text" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -651,11 +647,11 @@
                                                     <div class="f-fallback">
 
                                                         <p class="align-center" style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                            <img class="second_logo_value" src="<?php if($lottery_logo != ''){echo '../assets/images/media/' . $lottery_logo;}?>" alt="image not found" style="width: 120px;">
+                                                            <img class="second_logo_value" src="{{ $data['lottery_logo']!='' ? url('assets/images/media/' . $data['lottery_logo']) : '' }}" alt="image not found" style="width: 120px;">
                                                         </p>
                                                         <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Congratulations!</h1>
                                                         <h2 style="margin-top: 0; color: #FFFFFF !important; font-size: 16px; font-weight: bold; text-align: left;">winner name,</h2>
-                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have been randomly selected for <?php echo $site_title; ?> at <?php echo ucfirst($title);?> on <?php echo date('M d, Y', strtotime($event_date)).' ' . $event_time;?>. Please read the instructions carefully.</p>
+                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have been randomly selected for {{ config('app.name') }} at {{ ucfirst($data['title']) }} on {{ date('M d, Y', strtotime($data['event_date'])).' ' . $data['event_time'] }}. Please read the instructions carefully.</p>
                                                         <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Here's your winner information:</p>
                                                         <table class="attributes" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 21px;">
                                                             <tbody><tr>
@@ -680,20 +676,20 @@
                                                                 </td>
                                                             </tr>
                                                             </tbody></table>
-                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;"><?php echo $winners_emails_instructions;?></p>
+                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">{{ $data['winners_emails_instructions'] }}</p>
 
-                                                        <div class="align-center" style="text-align: center;"><img class="map_image_value" src="<?php echo ($winners_emails_map_image)?'../assets/images/media/' . $winners_emails_map_image:'-';?>" alt="image not uploaded"></div>
+                                                        <div class="align-center" style="text-align: center;"><img class="map_image_value" src="{{$data['winners_emails_map_image'] ? url('assets/images/media/' . $data['winners_emails_map_image']):'-'}}" alt="image not uploaded"></div>
 
                                                         <p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Your QR Code:</p>
                                                         <div class="align-center" style="text-align: center;"><img src="../assets/images/media/dummy_qr_code.png" class="uid-img" style="width: 30%; margin: auto;"></div>
 
                                                         <p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Some reminders:</p>
-                                                        <div><?php echo $winners_emails_reminders;?></div>
+                                                        <div>{{ $data['winners_emails_reminders'] }}</div>
 
                                                         <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review the <a href="venue_link_Value" class="venue-link-color" style="color: #FFFFFF;">venue policies on prohibited items</a></p>
 
                                                         <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Thank you,
-                                                            <br><?php echo $site_title; ?> Team</p>
+                                                            <br>{{ config('app.name') }} Team</p>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -705,12 +701,12 @@
                                         <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="width: 570px; margin: 0 auto; padding: 0; -premailer-width: 570px; -premailer-cellpadding: 0; -premailer-cellspacing: 0; text-align: center; background-color: #222222 !important; color: #FFFFFF !important;">
                                             <tbody><tr>
                                                 <td class="content-cell" align="center" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 10px 20px 20px;">
-                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;"><?php echo $company_address;?></p>
+                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;"></p>
                                                     <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                        This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with <?php echo $site_title; ?>. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
-                                                        <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from <?php echo $site_title; ?>, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
+                                                        This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with {{ config('app.name') }}. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
+                                                        <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from {{ config('app.name') }}, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
                                                     </p>
-                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © <?php echo date('Y');?> <?php echo $site_title; ?>. All rights reserved.</p>
+                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
                                                 </td>
                                             </tr>
                                             </tbody></table>
@@ -741,16 +737,16 @@
                                                                 <div class="f-fallback">
 
                                                                     <p class="align-center" style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                                        <img class="second_logo_value" src="<?php if($lottery_logo != ''){echo '../assets/images/media/' . $lottery_logo;}?>" alt="image not found" style="width: 120px;">
+                                                                        <img class="second_logo_value" src="{{ $data['lottery_logo']!='' ? url('../assets/images/media' . $data['lottery_logo']) : '' }} " alt="image not found" style="width: 120px;">
                                                                     </p>
-                                                                    <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Thank you for entering <?php echo $site_title; ?> <?php echo ucfirst($title);?> <?php echo date('M d, Y', strtotime($event_date));?></h1>
+                                                                    <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Thank you for entering {{config('app.name')}} {{ ucfirst($data['title']) }} {{ date('M d, Y', strtotime($data['event_date'])) }}</h1>
                                                                     <h2 style="margin-top: 0; color: #FFFFFF !important; font-size: 16px; font-weight: bold; text-align: left;">Not selected name,</h2>
-                                                                    <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have not won the <?php echo $site_title; ?> for <?php echo ucfirst($title);?> <?php echo date('M d, Y', strtotime($event_date));?>, thank you for participating, please try again next time.</p>
-                                                                    <?php echo $losers_emails_instructions;?>
+                                                                    <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have not won the {{config('app.name')}} for {{ ucfirst($data['title']) }} {{ date('M d, Y', strtotime($data['event_date'])) }}, thank you for participating, please try again next time.</p>
+                                                                    {{ $data['losers_emails_instructions'] }}
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review <a href="venue_link_Value" class="venue-link-color" style="color: #FFFFFF;">venue policies</a>.</p>
 
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Thank you,
-                                                                        <br><?php echo $site_title; ?> Team</p>
+                                                                        <br>{{config('app.name')}} Team</p>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -762,12 +758,12 @@
                                                     <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="width: 570px; margin: 0 auto; padding: 0; -premailer-width: 570px; -premailer-cellpadding: 0; -premailer-cellspacing: 0; text-align: center; background-color: #222222 !important; color: #FFFFFF !important;">
                                                         <tbody><tr>
                                                             <td class="content-cell" align="center" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 10px 20px 20px;">
-                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;"><?php echo $company_address;?></p>
+                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;"></p>
                                                                 <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                                    This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with <?php echo $site_title; ?>. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
-                                                                    <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from <?php echo $site_title; ?>, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
+                                                                    This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with {{config('app.name')}}. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
+                                                                    <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from {{config('app.name')}}, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
                                                                 </p>
-                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © <?php echo date('Y');?> <?php echo $site_title; ?>. All rights reserved.</p>
+                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © {{ date('Y') }} {{config('app.name')}}. All rights reserved.</p>
                                                             </td>
                                                         </tr>
                                                         </tbody></table>
@@ -869,7 +865,7 @@
                 <div class="modal-body pd-0">
                     <div class="ql-wrapper ql-wrapper-modal ht-250">
                         <div class="flex-1" id="quillEditorModal">
-                            <?php echo $description;?>
+                            {{ $data['description'] }}
                         </div>
                     </div>
                 </div>
@@ -892,7 +888,7 @@
                 <div class="modal-body pd-0">
                     <div class="ql-wrapper ql-wrapper-modal ht-250">
                         <div class="flex-1" id="quillEditorModal2">
-                            <?php echo $how_it_works;?>
+                            {{ $data['how_it_works'] }}
                         </div>
                     </div>
                 </div>
@@ -915,7 +911,7 @@
                 <div class="modal-body pd-0">
                     <div class="ql-wrapper ql-wrapper-modal ht-250">
                         <div class="flex-1" id="quillEditorModal3">
-                            <?php echo $terms_conditions;?>
+                            {{ $data['terms_conditions'] }}
                         </div>
                     </div>
                 </div>
@@ -1035,6 +1031,17 @@
 
 
     <script>
+
+        var customization_form = '{{ route('user.customization-form') }}';
+        var modify_emails = '{{ route('user.modify-emails') }}';
+        var update_winners_emails = '{{ route('user.modify-emails',['update_winners_emails'=>true]) }}';
+        var update_losers_emails = '{{ route('user.modify-emails',['update_losers_emails'=>true]) }}';
+        var edit_tab_3 = '{{ route('user.edit-lottery',['id' => request()->query('id'), 'edit_tab' => 3]) }}';
+        var winner_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 3]) }}';
+        var winners_emails_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 3]) }}';
+        var update_lottery_agents_details = '{{ route('user.update-lottery-agents-details') }}';
+        var edit_tab_4 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 4]) }}';
+
         $(function() {
             'use strict'
 
@@ -1111,7 +1118,7 @@
         }
 
         <?php
-        if($allow_guest==1){?>
+        if($data['allow_guest']==1){?>
         $('#guest_').css("display","inline");
         <?php }
         ?>
@@ -1127,13 +1134,17 @@
         $('a[data-bs-toggle="tab"]').click(function(){
             var href = $(this).attr('href');
             if(href == '#tab1'){
-                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=1');
+                {{--window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=1');--}}
+                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", '{{ route('user.edit-lottery',['id'=>request('id'),'edit_tab'=>1]) }}');
             }else if(href == '#tab2'){
-                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=2');
+                {{--window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=2');--}}
+                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", '{{ route('user.edit-lottery',['id'=>request('id'),'edit_tab'=>2]) }}');
             }else if(href == '#tab3'){
-                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=3');
+                {{--window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=3');--}}
+                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", '{{ route('user.edit-lottery',['id'=>request('id'),'edit_tab'=>3]) }}');
             }else if(href == '#tab4'){
-                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=4');
+                {{--window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", 'edit_lottery.php?id='+<?php echo $_GET['id'];?>+'&edit_tab=4');--}}
+                window.history.pushState({"html": $('body').html(), "pageTitle": $('title').text()},"", '{{ route('user.edit-lottery',['id'=>request('id'),'edit_tab'=>4]) }}');
             }
         });
 
@@ -1143,7 +1154,8 @@
                     $('.panel-tabs li a[href="#' + tab + '"]').get(0).click();
                 }
             };
-            activaTab('tab<?php echo !empty($_GET['edit_tab']) ? $_GET['edit_tab'] : ""?>');
+            {{--activaTab('tab<?php echo !empty($_GET['edit_tab']) ? $_GET['edit_tab'] : ""?>');--}}
+            activaTab('tab{{ !empty(request('edit_tab')) ? request('edit_tab') : '' }}');
 
             $('#customFieldsDropDown').click(function(){
                 $(this).find('.dropdown-menu').toggleClass('show');
@@ -1281,8 +1293,10 @@
         });
     </script>
 
+
     <script>
-        var custom_input_fields = <?php if(json_encode($form_customization) == 'null' || json_encode($form_customization) == 'false'){echo '[]';}else{echo json_encode($form_customization);}?>;
+        {{--var custom_input_fields = <?php if(json_encode($form_customization) == 'null' || json_encode($form_customization) == 'false'){echo '[]';}else{echo json_encode($form_customization);}?>;--}}
+        var custom_input_fields = {!! (json_encode($data['form_customization']) == 'null' || json_encode($data['form_customization']) == 'false') ? '[]' : json_encode($data['form_customization']) !!};
         function setup_input_cus(e){
             $('#selected_input_field').val('');
             $('#input_label').val('');
@@ -1471,43 +1485,6 @@
 
 
 @endpush
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

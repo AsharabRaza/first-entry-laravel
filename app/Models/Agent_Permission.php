@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lottery_Winner extends Model
+class Agent_Permission extends Model
 {
     use HasFactory;
-    protected $table = 'lottery_winners';
+    protected  $table = 'agent_permissions';
 }

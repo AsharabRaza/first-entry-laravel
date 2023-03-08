@@ -52,12 +52,12 @@ $('#edit_profile_form').submit(function(e){
             } else {
                 data.append("submit_profile", "false");
             }
-            
+
             data.append("edit_profile", "true");
             data.append("POST", "true");
 
             old_request = $.ajax({
-                url: 'core/edit_profile.php',
+                url: update_profile,
                 type: 'POST',
                 data: data,
                 processData: false,
@@ -98,7 +98,7 @@ $('#edit_profile_form').submit(function(e){
 
 function hideLoaderBtn(submit_btn){
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -120,7 +120,7 @@ function hideLoaderBtn(submit_btn){
 function showLoaderBtn(submit_btn){
     submit_btn.prop('disabled', true);
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(1).css({
         position: 'absolute',
         display: 'flex',

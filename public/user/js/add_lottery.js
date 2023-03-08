@@ -550,13 +550,14 @@ $('#update_agent_detail_form').submit(function(e) {
 
             $.ajax({
                 type:'POST',
-                url: 'core/lotteries.php',
+                url: update_lottery_agents_details,
                 data: data,
                 success:function(res){
                     if(res.success == true){
                         $('.lottery-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                         setTimeout(function(){
-                            window.location.href = 'edit_lottery.php?id='+lottery_id+'&edit_tab=4';
+                            // window.location.href = 'edit_lottery.php?id='+lottery_id+'&edit_tab=4';
+                            window.location.href = edit_tab_4;
                         }, 1200);
                     }else if(res.success == false){
                         $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
@@ -589,7 +590,7 @@ $('#form_customization_form').submit(function(e){
     $('.alert-customize').fadeOut();
 
     $.ajax({
-        url: 'core/lotteries.php',
+        url: customization_form,
         type: 'POST',
         data: data,
         processData: false,
@@ -598,7 +599,8 @@ $('#form_customization_form').submit(function(e){
             if(res.success == true){
                 $('.alert-customize').html(res.msg).addClass('alert-success').removeClass('alert-danger').fadeIn();
                 setTimeout(function(){
-                    window.location.href = 'edit_lottery.php?id='+$('#cus_lottery_id').val()+'&edit_tab=3';
+                    //window.location.href = 'edit_lottery.php?id='+$('#cus_lottery_id').val()+'&edit_tab=3';
+                    window.location.href = edit_tab_3;
                 }, 1200);
             }else if(res.success == false){
                 $('.alert-customize').html(res.msg).addClass('alert-danger').removeClass('alert-success').fadeIn();

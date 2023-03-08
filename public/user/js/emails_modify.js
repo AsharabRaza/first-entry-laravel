@@ -42,7 +42,7 @@ $('#modify_winners_email_form').submit(function(e){
     $('.winners-emails-alert').fadeOut();
 
     console.log(instructions);
-    
+
     if(instructions != '<p><br></p>'){
         $('#winners_emails_instructions').parent().find('.ql-snow').css({borderColor: ''});
         if(reminders != '<p><br></p>'){
@@ -67,7 +67,7 @@ $('#modify_winners_email_form').submit(function(e){
 
                             $.ajax({
                                 type:'POST',
-                                url: 'core/modify_emails.php',
+                                url: modify_emails,
                                 data: data,
                                 cache: false,
                                 enctype: 'multipart/form-data',
@@ -133,7 +133,8 @@ function update_winners_email(instructions, reminders, map_image, venue_link, wi
     data_json[2] = reminders;
 
     $.ajax({
-        url: 'core/modify_emails.php?update_winners_emails=true',
+        // url: 'core/modify_emails.php?update_winners_emails=true',
+        url: update_winners_emails,
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify(data_json),
@@ -145,7 +146,8 @@ function update_winners_email(instructions, reminders, map_image, venue_link, wi
                 $('.winners-emails-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                 localStorage.setItem('form_email_entry_tab', 'not-selected');
                 setTimeout(function(){
-                    window.location.href = 'edit_lottery.php?id='+winners_emails_lottery_id+'&edit_tab=3';
+                    // window.location.href = 'edit_lottery.php?id='+winners_emails_lottery_id+'&edit_tab=3';
+                    window.location.href = winners_emails_edit_tab_3;
                 }, 1000);
             }else if(res.success == false){
                 $('.winners-emails-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
@@ -174,7 +176,7 @@ $('#modify_losers_email_form').submit(function(e){
     var update_btn = $('#losers_emails_update_btn');
 
     $('.losers-emails-alert').fadeOut();
-    
+
     if(instructions != '<p><br></p>'){
         $('#winners_emails_instructions').parent().find('.ql-snow').css({borderColor: ''});
         swal({
@@ -199,7 +201,8 @@ $('#modify_losers_email_form').submit(function(e){
                 data_json[1] = instructions;
 
                 $.ajax({
-                    url: 'core/modify_emails.php?update_losers_emails=true',
+                    // url: 'core/modify_emails.php?update_losers_emails=true',
+                    url: update_losers_emails,
                     type: 'POST',
                     dataType: 'json',
                     data: JSON.stringify(data_json),
@@ -210,7 +213,8 @@ $('#modify_losers_email_form').submit(function(e){
                             //$('#modify_winners_email_form').get(0).reset();
                             $('.losers-emails-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                             setTimeout(function(){
-                                window.location.href = window.location.href = 'edit_lottery.php?id='+losers_emails_lottery_id+'&edit_tab=3';;
+                                // window.location.href = window.location.href = 'edit_lottery.php?id='+losers_emails_lottery_id+'&edit_tab=3';
+                                window.location.href = winner_edit_tab_3;
                             }, 1000);
                         }else if(res.success == false){
                             $('.losers-emails-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
@@ -230,7 +234,7 @@ $('#modify_losers_email_form').submit(function(e){
         $('#losers_emails_instructions').parent().find('.ql-snow').get(0).style.setProperty('border-color', 'red', 'important');
         $('#losers_emails_instructions').parent().find('.ql-snow').get(1).style.setProperty('border-color', 'red', 'important');
     }
-    
+
 });
 
 
@@ -253,20 +257,20 @@ $('#send_winners_emails').click(function(){
                 var send_test_email_btn = $('#send_test_email_btn');
                 var preview_btn = $('#preview_btn');
                 var cancel_btn = $('#cancel_btn');
-    
+
                 $(preview_btn).prop('disabled', true);
                 $(send_test_email_btn).prop('disabled', true);
                 $(cancel_btn).prop('disabled', true);
 
                 showLoaderBtn(send_email_btn);
-    
+
                 window.onbeforeunload = confirmExit;
                 function confirmExit() {
                     return "You have attempted to leave this page. Are you sure?";
                 }
 
                 send_winners_emails();
-    
+
             }
         });
     }
@@ -281,11 +285,11 @@ function send_winners_emails(){
         checked_values.push($(checkboxes[index]).val());
     }
     var update_btn = $('#send_winners_emails');
-    
+
     var data = new FormData();
     data.append("selected_emails", checked_values);
     data.append("lottery_id", $('#lottery_id').val());
-    
+
     data.append("send_winners_emails_1", "true");
     data.append("POST", "true");
 
@@ -357,20 +361,20 @@ $('#send_losers_email').click(function(){
                 var send_test_email_btn = $('#send_test_email_btn');
                 var preview_btn = $('#preview_btn');
                 var cancel_btn = $('#cancel_btn');
-    
+
                 $(preview_btn).prop('disabled', true);
                 $(send_test_email_btn).prop('disabled', true);
                 $(cancel_btn).prop('disabled', true);
 
                 showLoaderBtn(send_email_btn);
-    
+
                 window.onbeforeunload = confirmExit;
                 function confirmExit() {
                     return "You have attempted to leave this page. Are you sure?";
                 }
 
                 send_losers_email(0, 0);
-    
+
             }
         });
     }
@@ -384,15 +388,15 @@ function send_losers_email(start_batch, current_batch){
         checked_values.push($(checkboxes[index]).val());
     }
     var update_btn = $('#send_losers_email');
-    
+
     var total_batch = Math.ceil(checked_values.length / 500);
-    
+
     console.log('total_batch', total_batch);
     console.log('current_batch', current_batch);
     //console.log(checked_values);
-    
+
     var checked_values_data = [];
-    
+
     for(var i = start_batch; i < start_batch + 500; i++){
         if(checked_values.length > i){
             checked_values_data.push(checked_values[i]);
@@ -400,15 +404,15 @@ function send_losers_email(start_batch, current_batch){
             $('.right_content_' + $(checked_values[i]).val()).children('.spinner-border').show();
         }
     }
-    
+
     if(checked_values_data.length > 0){
         var data = new FormData();
         data.append("selected_emails", checked_values_data);
         data.append("lottery_id", $('#lottery_id').val());
-        
+
         data.append("send_losers_emails_1", "true");
         data.append("POST", "true");
-    
+
         $.ajax({
             url: 'core/modify_emails.php',
             type: 'POST',
@@ -420,17 +424,17 @@ function send_losers_email(start_batch, current_batch){
                 if(res.success == true){
                     var val = res.emails;
                     var keys = Object.keys(res.emails);
-                    
+
                     for (let index = 0; index < keys.length; index++) {
                         if(val[keys[index]] == 0){
-                            $('.right_content_19495').find('.spinner-border').hide();;
+                            $('.right_content_19495').find('.spinner-border').hide();
                             $('.right_content_' + keys[index]).find('span').html('Sent').addClass('bg-success').removeClass('bg-info').show();
                         }else{
-                            $('.right_content_' + keys[index]).find('.spinner-border').hide();;
+                            $('.right_content_' + keys[index]).find('.spinner-border').hide();
                             $('.right_content_' + keys[index]).find('span').html('Failed').addClass('bg-danger').removeClass('bg-info').show();
                         }
                     }
-                    
+
                     if(current_batch < total_batch){
                         send_losers_email(start_batch + 500, current_batch + 1);
                     }else{
@@ -440,7 +444,7 @@ function send_losers_email(start_batch, current_batch){
                             $(update_btn).prop('disabled', true);
                         }, 210);
                     }
-                    
+
                 }else if(res.success == false){
                     $('.right_content').children('.spinner-border').hide();;
                     $('.right_content').children('span').html('Failed').addClass('bg-danger').removeClass('bg-info').show();
@@ -468,7 +472,7 @@ function send_losers_email(start_batch, current_batch){
 
 function hideLoaderBtn(submit_btn){
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(0).css({
         display: 'block',
         webkitTransform: 'translateY(0px)',
@@ -490,7 +494,7 @@ function hideLoaderBtn(submit_btn){
 function showLoaderBtn(submit_btn){
     submit_btn.prop('disabled', true);
     var submit_btn_height = submit_btn.height() / 2;
-    
+
     submit_btn.children('span').eq(1).css({
         position: 'absolute',
         display: 'flex',
@@ -529,7 +533,7 @@ $('.see_analytics').click(function(){
     $('#loader_wrap').show();
     var data = new FormData();
     data.append("message_id", $(this).attr('data-id'));
-    
+
     data.append("see_analytics", "true");
     data.append("POST", "true");
 
@@ -574,7 +578,7 @@ $('.resend_email').click(function(){
                     var data = new FormData();
                     data.append("selected_emails", message_id);
                     data.append("lottery_id", dataLid);
-                    
+
                     data.append("send_winners_emails_1", "true");
                     data.append("POST", "true");
 
@@ -607,7 +611,7 @@ $('.resend_email').click(function(){
                     var data = new FormData();
                     data.append("selected_emails", message_id);
                     data.append("lottery_id", dataLid);
-                    
+
                     data.append("send_losers_emails_1", "true");
                     data.append("POST", "true");
 
@@ -632,7 +636,7 @@ $('.resend_email').click(function(){
                         }
                     });
                 }
-                
+
             }
         });
     }

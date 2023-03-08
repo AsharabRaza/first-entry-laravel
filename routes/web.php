@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\User\LotteryController;
 use App\Http\Controllers\User\EventController;
+use App\Http\Controllers\User\Agent;
 
 
 /*
@@ -59,10 +60,22 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/add-lottery',[LotteryController::class,'add_lottery'])->name('add-lottery');
         Route::any('/edit-lottery',[LotteryController::class,'edit_lottery'])->name('edit-lottery');
         Route::any('/check-lottery-url',[LotteryController::class,'check_lottery_url'])->name('check-lottery-url');
+        Route::any('/customization-form',[LotteryController::class,'customization_form'])->name('customization-form');
+        Route::any('/modify-emails',[LotteryController::class,'modify_emails'])->name('modify-emails');
+        Route::any('/update-lottery-agents-details',[LotteryController::class,'update_lottery_agents_details'])->name('update-lottery-agents-details');
+        Route::any('/delete-lottery',[LotteryController::class,'delete_lottery'])->name('delete-lottery');
         Route::any('/get-country-timezone',[LotteryController::class,'get_country_timezone'])->name('get-country-timezone');
         Route::any('/events',[EventController::class,'events'])->name('events');
         Route::any('/event-landing',[EventController::class,'event_landing'])->name('event-landing');
         Route::any('/add-event',[EventController::class,'add_event'])->name('add-event');
+        Route::any('/all-agents',[Agent::class,'all_agents'])->name('all-agents');
+        Route::any('/add-agent',[Agent::class,'add_agent'])->name('add-agent');
+        Route::any('/edit-agent',[Agent::class,'edit_agent'])->name('edit-agent');
+        Route::any('/delete-agent',[Agent::class,'delete_agent'])->name('delete-agent');
+        Route::get('/view-profile',[UserController::class,'view_profile'])->name('view-profile');
+        Route::post('/upload-profile-image',[UserController::class,'upload_profile_image'])->name('upload-profile-image');
+        Route::any('/edit-profile',[UserController::class,'edit_profile'])->name('edit-profile');
+        Route::any('/change-password',[UserController::class,'change_password'])->name('change-password');
     });
 
 });

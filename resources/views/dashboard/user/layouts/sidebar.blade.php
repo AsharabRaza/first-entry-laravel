@@ -82,9 +82,9 @@
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person-workspace"></i><span class="side-menu__label">Agents</span><i class="angle bi bi-chevron-right"></i></a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1 not_hide"><a href="javascript:void(0)">Agents</a></li>
-                        <li class="not_hide"><a href="all_agents.php" class="slide-item"> All agents</a></li>
+                        <li class="not_hide"><a href="{{ route('user.all-agents') }}" class="slide-item"> All agents</a></li>
                         <li class="not_hide"><a href="agents_history.php" class="slide-item"> Agents history</a></li>
-                        <li class="not_hide"><a href="add_agent.php" class="slide-item"> Add agent</a></li>
+                        <li class="not_hide"><a href="{{ route('user.add-agent') }}" class="slide-item"> Add agent</a></li>
                     </ul>
                 </li>
                 @endif
@@ -92,9 +92,9 @@
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person"></i><span class="side-menu__label">Profile</span><i class="angle bi bi-chevron-right"></i></a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1 not_hide"><a href="javascript:void(0)">Profile</a></li>
-                        <li class="not_hide"><a href="profile.php" class="slide-item"> View profile</a></li>
-                        <li class="not_hide"><a href="edit_profile.php" class="slide-item"> Edit profile</a></li>
-                        <li class="not_hide"><a href="change_password.php" class="slide-item"> Change password</a></li>
+                        <li class="not_hide"><a href="{{ route('user.view-profile') }}" class="slide-item"> View profile</a></li>
+                        <li class="not_hide"><a href="{{ route('user.edit-profile') }}" class="slide-item"> Edit profile</a></li>
+                        <li class="not_hide"><a href="{{ route('user.change-password') }}" class="slide-item"> Change password</a></li>
                     </ul>
                 </li>
             </ul>

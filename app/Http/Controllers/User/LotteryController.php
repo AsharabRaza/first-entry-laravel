@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lottery;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
@@ -11,21 +12,22 @@ use Torann\GeoIP\Facades\GeoIP;
 use Torann\GeoIP\Location;
 use Carbon\Carbon;
 use App\Models\Email_Template;
+use App\Models\Lottery_Agent;
+use App\Models\Entry;
+use App\Models\Lottery_Winner;
+use App\Models\Lottery_Losser;
 
 
 
 class LotteryController extends Controller
 {
-    public function __construct(Request $request)
-    {
-
-    }
+    public function __construct(Request $request){}
 
     public function all_lotteries(Request $request){
 
 //        expireStatus();
 
-        $result = DB::table('lotteries')
+        $this->data['lotteries'] = DB::table('lotteries')
             ->leftJoin('lottery_agents', 'lotteries.id', '=', 'lottery_agents.lottery_id')
             ->leftJoin('users', 'lottery_agents.agent_id', '=', 'users.id')
             ->select('lotteries.*', DB::raw("GROUP_CONCAT(' ', CONCAT(users.first_name, ' ', users.last_name)) AS lottery_agents"),
@@ -36,6 +38,8 @@ class LotteryController extends Controller
             ->groupBy('lotteries.id')
             ->orderByDesc('lotteries.updated_at')
             ->get();
+
+        //dd($result);
 
         return view('dashboard.user.all_lotteries')->with(['data'=>$this->data]);
     }
@@ -232,19 +236,16 @@ class LotteryController extends Controller
         }
 
         $lottery_id = request()->input('id');
-
         $result = Lottery::leftJoin('lottery_agents', 'lotteries.id', '=', 'lottery_agents.lottery_id')
             ->select('lotteries.*', DB::raw('GROUP_CONCAT(agent_id) as agent_ids'))
             ->where('lotteries.id', '=', $lottery_id)
             ->groupBy('lotteries.id')
             ->first();
 
-        //dd($result);
-
         if ($result != null) {
             $current_datetime = date('d-m-Y h:i A');
             $this->data['lottery_url'] = $result->lottery_url;
-            $old_lottery_agents = $result->agent_ids;
+            $this->data['old_lottery_agents'] = $result->agent_ids;
             $this->data['country_code'] = $result->country_code;
             $this->data['lott_timezone'] = $result->timezone;
             $this->data['title'] = $result->title;
@@ -252,8 +253,8 @@ class LotteryController extends Controller
             $this->data['lottery_background_image'] = $result->background_image;
             $this->data['total_winners'] = $result->total_winners;
             $this->data['allow_guest'] = $result->allow_guest;
-            $form_customization = unserialize($result->form_customization);
-            $lottery_status = $result->status;
+            $this->data['form_customization'] = unserialize($result->form_customization);
+            $this->data['lottery_status'] = $result->status;
             $this->data['scanning_option'] = $result->scanning_option;
             $this->data['queing_process'] = $result->queing_process;
 
@@ -266,11 +267,11 @@ class LotteryController extends Controller
             $this->data['event_date'] = date('d-m-Y', strtotime($result->event_datetime));
             $this->data['event_time'] = date('h:i A', strtotime($result->event_datetime));
 
-            $scan_start_date = !empty($result->scan_start_datetime) ? date('d-m-Y', strtotime($result->scan_start_datetime)) : null;
-            $scan_start_time = !empty($result->scan_start_datetime) ? date('h:i A', strtotime($result->scan_start_datetime)) : null;
+            $this->data['scan_start_date'] = !empty($result->scan_start_datetime) ? date('d-m-Y', strtotime($result->scan_start_datetime)) : null;
+            $this->data['scan_start_time'] = !empty($result->scan_start_datetime) ? date('h:i A', strtotime($result->scan_start_datetime)) : null;
 
-            $scan_end_date = !empty($result->scan_end_datetime) ? date('d-m-Y', strtotime($result->scan_end_datetime)) : null;
-            $scan_end_time = !empty($result->scan_end_datetime) ? date('h:i A', strtotime($result->scan_end_datetime)) : null;
+            $this->data['scan_end_date'] = !empty($result->scan_end_datetime) ? date('d-m-Y', strtotime($result->scan_end_datetime)) : null;
+            $this->data['scan_end_time'] = !empty($result->scan_end_datetime) ? date('h:i A', strtotime($result->scan_end_datetime)) : null;
 
             $date_created = date('d-m-Y h:i A', strtotime($result->created_at));
 
@@ -287,9 +288,7 @@ class LotteryController extends Controller
             return redirect()->route('user.all-lotteries');
         }
 
-
         $normal_user = auth()->user()->id;
-
         $email_template = Email_Template::where('email_type', 'winners_email')
             ->where('lottery_id', $lottery_id)
             ->where('user_id', $normal_user)
@@ -302,15 +301,15 @@ class LotteryController extends Controller
             $email_data = $email_template->email_data;
             if ($email_data != '') {
                 $email_data = unserialize($email_data);
-                $winners_emails_instructions = $email_data['instructions'];
-                $winners_emails_reminders = $email_data['reminders'];
-                $winners_emails_map_image = $email_data['map_image'];
-                $winners_emails_venue_link = $email_data['venue_link'];
+                $this->data['winners_emails_instructions'] = $email_data['instructions'];
+                $this->data['winners_emails_reminders'] = $email_data['reminders'];
+                $this->data['winners_emails_map_image'] = $email_data['map_image'];
+                $this->data['winners_emails_venue_link'] = $email_data['venue_link'];
             } else {
-                $winners_emails_instructions = '';
-                $winners_emails_reminders = '';
-                $winners_emails_map_image = '';
-                $winners_emails_venue_link = '';
+                $this->data['winners_emails_instructions'] = '';
+                $this->data['winners_emails_reminders'] = '';
+                $this->data['winners_emails_map_image'] = '';
+                $this->data['winners_emails_venue_link'] = '';
             }
         } else {
             $current_datetime_db = now();
@@ -331,10 +330,10 @@ class LotteryController extends Controller
             if (!$created) {
                 echo '<div class="alert alert-danger">Something went wrong, please try again later.</div>';
             } else {
-                $winners_emails_instructions = '';
-                $winners_emails_reminders = '';
-                $winners_emails_map_image = '';
-                $winners_emails_venue_link = '';
+                $this->data['winners_emails_instructions'] = '';
+                $this->data['winners_emails_reminders'] = '';
+                $this->data['winners_emails_map_image'] = '';
+                $this->data['winners_emails_venue_link'] = '';
             }
         }
 
@@ -351,11 +350,11 @@ class LotteryController extends Controller
             $email_data = $email_template->email_data;
             if ($email_data != '') {
                 $email_data = unserialize($email_data);
-                $losers_emails_instructions = $email_data['instructions'];
-                $losers_emails_venue_link = $email_data['venue_link'];
+                $this->data['losers_emails_instructions'] = $email_data['instructions'];
+                $this->data['losers_emails_venue_link'] = $email_data['venue_link'];
             } else {
-                $losers_emails_instructions = '';
-                $losers_emails_venue_link = '';
+                $this->data['losers_emails_instructions'] = '';
+                $this->data['losers_emails_venue_link'] = '';
             }
         } else {
             $current_datetime_db = now();
@@ -376,14 +375,200 @@ class LotteryController extends Controller
             if (!$created) {
                 echo '<div class="alert alert-danger">Something went wrong, please try again later.</div>';
             } else {
-                $losers_emails_instructions = '';
-                $losers_emails_venue_link = '';
+                $this->data['losers_emails_instructions'] = '';
+                $this->data['losers_emails_venue_link'] = '';
             }
         }
 
         $this->data['lottery_id'] = $lottery_id;
 
+        $this->data['users'] = User::select('id', 'first_name', 'last_name')
+            ->where('user_type', 2)
+            ->where('created_by', $normal_user)
+            ->orderBy('id', 'DESC')
+            ->get();
+        $this->data['old_lottery_agents_array'] = explode(',', $this->data['old_lottery_agents']);
+
         return view('dashboard.user.edit_lottery',['data'=>$this->data]);
+
+    }
+
+    public function delete_lottery(Request $request){
+
+        $request_id = request('request_id');
+        $current_datetime = date('Y-m-d H:i:s');
+        $output = array();
+
+        if (Email_Template::where('lottery_id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        if (Lottery_Winner::where('lottery_id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        if (Lottery_Losser::where('lottery_id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        if (Lottery_Agent::where('id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+
+        if (Entry::where('lottery_id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        if (Lottery::where('id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        return response()->json($output);
+
+    }
+
+    public function customization_form(Request $request){
+
+        $lottery_id = $request->input('cus_lottery_id');
+        $customization_values = serialize(json_decode($request->input('customization_values'), true));
+        $normal_user = auth()->user()->id;
+        $current_datetime = date('Y-m-d H:i:s');
+
+        $lottery = Lottery::where('user_id', $normal_user)->where('id', $lottery_id)->first();
+        if ($lottery) {
+            $lottery->form_customization = $customization_values;
+            $lottery->updated_at = $current_datetime;
+            $lottery->save();
+
+            $output['success'] = true;
+            $output['msg'] = 'Successfully form customization updated. Redirecting...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        return response()->json($output);
+    }
+
+    public function modify_emails(Request $request){
+
+        $output = [];
+        if ($request->has('map_image_upload')) {
+
+            if ($request->hasFile('map_image')) {
+                $file = $request->file('map_image');
+
+                $extension = $file->getClientOriginalExtension();
+                $r = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1,15))), 1, 15);
+                $file_name = $r . '.' . $extension;
+
+//                if ($file->storeAs('assets/images/media', $file_name)) {
+                if ($file->move(public_path('assets/images/media/'), $file_name)) {
+                    $output['success'] = true;
+                    $output['msg'] = $file_name;
+                } else {
+                    $output['success'] = false;
+                    $output['msg'] = 'Failed to upload map image.';
+                }
+            } else {
+                $output['success'] = false;
+                $output['msg'] = 'No map image found.';
+            }
+
+            return response()->json($output);
+
+        }
+
+
+        $requestArray = json_decode($request->getContent(), true);
+        if ( isset($requestArray[0]['update_winners_emails']) && $requestArray[0]['update_winners_emails'] == 'true') {
+            $normal_user = auth()->user()->id;
+            $email_type = 'winners_email';
+            $current_datetime_db = date('Y-m-d H:i:s');
+
+            $lottery_id = $requestArray[0]['lottery_id'];
+            $map_image = $requestArray[0]['map_image'];
+            $venue_link = $requestArray[0]['venue_link'];
+
+            $instructions = $requestArray[1];
+            $reminders = $requestArray[2];
+
+            $email_data = array('instructions' => $instructions, 'reminders' => $reminders, 'map_image' => $map_image, 'venue_link' => $venue_link);
+            $email_data_s = serialize($email_data);
+
+            $result = Email_Template::where('email_type', $email_type)
+                ->where('lottery_id', $lottery_id)
+                ->where('user_id', $normal_user)
+                ->update(['email_data' => $email_data_s, 'updated_at' => $current_datetime_db]);
+
+            if ($result == true) {
+                $output['success'] = true;
+                $output['msg'] = 'Winners email template successfully updated. Redirecting...';
+            } else {
+                $output['success'] = false;
+                $output['msg'] = 'Something went wrong. Please try again later.';
+            }
+
+            return response()->json($output);
+        }
+
+        $requestData = $request->all();
+        if ($requestData[0]['update_losers_emails'] == 'true') {
+            $normal_user = auth()->user()->id;
+            $email_type = 'losers_email';
+            $current_datetime_db = now()->toDateTimeString();
+            $lottery_id = $requestData[0]['lottery_id'];
+            $venue_link = $requestData[0]['venue_link'];
+            $instructions = $requestData[1];
+            $email_data = array('instructions' => $instructions, 'venue_link' => $venue_link);
+            $email_data_s = serialize($email_data);
+
+            $result = Email_Template::where('email_type', '=', $email_type)
+                ->where('lottery_id', '=', $lottery_id)
+                ->where('user_id', '=', $normal_user)
+                ->update([
+                    'email_data' => $email_data_s,
+                    'updated_at' => $current_datetime_db,
+                ]);
+
+            if ($result) {
+                $output['success'] = true;
+                $output['msg'] = 'Losers email template successfully updated. Redirecting...';
+            } else {
+                $output['success'] = false;
+                $output['msg'] = 'Something went wrong. Please try again later.';
+            }
+            return response()->json($output);
+        }
+
+
+
+
 
 
     }
@@ -423,6 +608,67 @@ class LotteryController extends Controller
         return response()->json($timeZone);
     }
 
+    public function update_lottery_agents_details(Request $request){
+
+        $request = Request::capture();
+        $normal_user = auth()->user()->id;
+        $lottery_id = $request->input('lottery_id');
+
+        $scan_start_date = $request->input('scan_start_date');
+        $scan_start_time = $request->input('scan_start_time');
+        $scan_start_datetime = date('Y-m-d H:i', strtotime($scan_start_date . $scan_start_time));
+
+        $scan_end_date = $request->input('scan_end_date');
+        $scan_end_time = $request->input('scan_end_time');
+        $scan_end_datetime = date('Y-m-d H:i', strtotime($scan_end_date . $scan_end_time));
+
+        $lottery_agents = $request->input('lottery_agents');
+        $old_lottery_agents = $request->input('old_lottery_agents');
+        if (!empty($old_lottery_agents)) {
+            $old_lottery_agents = explode(',', $old_lottery_agents);
+        } else {
+            $old_lottery_agents = [];
+        }
+
+        $lottery_status = (int)$request->input('lottery_status');
+
+        $current_datetime = date('Y-m-d H:i:s');
+
+        $result = Lottery::where('user_id', '=', $normal_user)
+            ->where('id', '=', $lottery_id)
+            ->update([
+                'status' => $lottery_status,
+                'scan_start_datetime' => $scan_start_datetime,
+                'scan_end_datetime' => $scan_end_datetime
+            ]);
+
+        // Adding lottery agents
+        $add_lottery_agents = array_diff($lottery_agents, $old_lottery_agents);
+        $remove_lottery_agents = array_diff($old_lottery_agents, $lottery_agents);
+
+        foreach ($add_lottery_agents as $lott_agent_id) {
+            Lottery_Agent::create([
+                'lottery_id' => $lottery_id,
+                'agent_id' => $lott_agent_id
+            ]);
+        }
+
+        if (!empty($remove_lottery_agents)) {
+            Lottery_Agent::where('lottery_id', '=', $lottery_id)
+                ->whereIn('agent_id', $remove_lottery_agents)
+                ->delete();
+        }
+
+        if ($result == true) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery agent section successfully updated. Redirecting...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+        return response()->json($output);
+
+    }
 
 
 }
