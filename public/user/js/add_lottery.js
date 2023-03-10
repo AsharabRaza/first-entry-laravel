@@ -383,7 +383,7 @@ $('#edit_lottery_form').submit(function(e){
 
                                 $.ajax({
                                     type:'POST',
-                                    url: 'core/lotteries.php',
+                                    url: edit_lottery_details,
                                     data: data,
                                     cache: false,
                                     enctype: 'multipart/form-data',
@@ -494,7 +494,7 @@ $('#edit_lottery_form').submit(function(e){
 
 function edit_lottery_run(data_json, update_btn){
     $.ajax({
-        url: 'core/lotteries.php?edit_lottery=true',
+        url: edit_lottery_detail_run,
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify(data_json),
@@ -505,7 +505,8 @@ function edit_lottery_run(data_json, update_btn){
                 // $('#edit_lottery_form').get(0).reset();
                 $('.lottery-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                 setTimeout(function(){
-                    window.location.href = 'edit_lottery.php?id='+data_json[0]['lottery_id']+'&edit_tab=2';
+                    // window.location.href = 'edit_lottery.php?id='+data_json[0]['lottery_id']+'&edit_tab=2';
+                    window.location.href = res.url;
                 }, 1200);
             }else if(res.success == false){
                 $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();

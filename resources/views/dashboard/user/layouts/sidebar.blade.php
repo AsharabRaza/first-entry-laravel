@@ -46,7 +46,7 @@
                         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-people"></i><span class="side-menu__label">Entries</span><i class="angle bi bi-chevron-right"></i></a>
                         <ul class="slide-menu">
                             <li class="side-menu-label1"><a href="javascript:void(0)">Entries</a></li>
-                            <li><a href="all_entries.php" class="slide-item"> All entries</a></li>
+                            <li><a href="{{ route('user.all-entries') }}" class="slide-item"> All entries</a></li>
                             <li><a href="all_winners.php" class="slide-item"> Selected entries</a></li>
                             <li><a href="all_losers.php" class="slide-item"> Non-selected entries</a></li>
                         </ul>

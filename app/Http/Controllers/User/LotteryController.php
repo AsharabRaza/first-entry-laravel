@@ -393,6 +393,136 @@ class LotteryController extends Controller
 
     }
 
+    public function edit_lottery_details(Request $request){
+
+        if ($request->has('lottery_images_upload')) {
+
+            if ($request->hasFile('lottery_logo')) {
+                $tmp_img = $request->file('lottery_logo')->getClientOriginalName();
+                $extention = $request->file('lottery_logo')->getClientOriginalExtension();
+                $r = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1, 15))), 1, 15);
+                $file_name = $r . '.' . $extention;
+                if($request->file('lottery_logo')->move(public_path('assets/images/media/'), $file_name)){
+                    $output['success'] = true;
+                    $output['lottery_logo'] = $file_name;
+                    $output['msg'] = 'Image uploaded.';
+                }else {
+                    $output['success'] = false;
+                    $output['msg'] = 'Failed to upload image.';
+                }
+            }
+
+            if ($request->hasFile('lottery_background_image')) {
+                $tmp_img = $request->file('lottery_background_image')->getClientOriginalName();
+                $extention = $request->file('lottery_background_image')->getClientOriginalExtension();
+                $r = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', mt_rand(1, 15))), 1, 15);
+                $file_name = $r . '.' . $extention;
+                if($request->file('lottery_background_image')->move(public_path('assets/images/media/'), $file_name)){
+                    $output['success'] = true;
+                    $output['lottery_background_image'] = $file_name;
+                    $output['msg'] = 'Image uploaded.';
+                }else{
+                    $output['success'] = false;
+                    $output['msg'] = 'Failed to upload image.';
+                }
+
+            }
+
+            return response()->json($output);
+
+        }
+
+        $requestData = $request->json()->all();
+        if ($requestData[0]['edit_lottery'] == 'true') {
+            $timezone = 'America/New_York';
+            $normal_user = auth()->user()->id;
+            $lottery_id = $requestData[0]['lottery_id'];
+
+            $lottery_url = $requestData[0]['lottery_url'];
+            $lottery_title = $requestData[0]['lottery_title'];
+            $number_of_winners = $requestData[0]['number_of_winners'];
+            $allow_guest = $requestData[0]['allow_guest'];
+
+            $start_date = $requestData[0]['start_date'];
+            $start_time = $requestData[0]['start_time'];
+            $start_datetime = date('Y-m-d H:i', strtotime($start_date . $start_time));
+
+            $event_date = $requestData[0]['event_date'];
+            $event_time = $requestData[0]['event_time'];
+            $event_datetime = date('Y-m-d H:i', strtotime($event_date . $event_time));
+
+            $end_date = $requestData[0]['end_date'];
+            $end_time = $requestData[0]['end_time'];
+            $end_datetime = date('Y-m-d H:i', strtotime($end_date . $end_time));
+
+            $start_datetime_utc = convert_timezone($start_datetime, $timezone, 'UTC', 'Y-m-d H:i');
+            $end_datetime_utc = convert_timezone($end_datetime, $timezone, 'UTC', 'Y-m-d H:i');
+
+            $description = serialize($requestData[1]);
+            $how_it_works = serialize($requestData[2]);
+            $terms_conditions = serialize($requestData[3]);
+
+            $country_code = $requestData[0]['country_code'];
+            $lott_timezone = $requestData[0]['timezone'];
+            $scanning_option = $requestData[0]['scanning_option'];
+            $queing_process = $requestData[0]['queing_process'];
+
+            $current_datetime = date('Y-m-d H:i:s');
+
+            $lottery = new Lottery;
+
+            $data = [
+                'lottery_url' => $lottery_url,
+                'title' => $lottery_title,
+                'total_winners' => $number_of_winners,
+                'start_datetime' => $start_datetime,
+                'event_datetime' => $event_datetime,
+                'allow_guest' => $allow_guest,
+                'end_datetime' => $end_datetime,
+                'start_datetime_utc' => $start_datetime_utc,
+                'end_datetime_utc' => $end_datetime_utc,
+                'description' => $description,
+                'how_it_works' => $how_it_works,
+                'terms_conditions' => $terms_conditions,
+                'country_code' => $country_code,
+                'timezone' => $lott_timezone,
+                'scanning_option' => $scanning_option,
+                'queing_process' => $queing_process,
+                'updated_at' => $current_datetime
+            ];
+
+            if (isset($request[0]['lottery_logo'])) {
+                $lottery_logo = $request[0]['lottery_logo'];
+                //$lottery->header_image = $lottery_logo;
+                array_push($data,'header_image',$lottery_logo);
+            }
+
+            if (isset($request[0]['lottery_background_image'])) {
+                $lottery_background_image = $request[0]['lottery_background_image'];
+//              $lottery->background_image = $lottery_background_image;
+                array_push($data,'background_image',$lottery_background_image);
+            }
+
+            $result = $lottery->where('user_id', $normal_user)
+                ->where('id', $lottery_id)
+                ->update($data);
+
+            if ($result == true) {
+                $output['success'] = true;
+                $output['url'] = route('user.edit-lottery', ['id' => $lottery_id, 'edit_tab' => 2]);
+                $output['msg'] = 'Lottery successfully updated. Redirecting...';
+            } else {
+                $output['success'] = false;
+                $output['msg'] = 'Something went wrong. Please try again later.';
+            }
+
+            return response()->json($output);
+        }
+
+
+
+    }
+
     public function delete_lottery(Request $request){
 
         $request_id = request('request_id');

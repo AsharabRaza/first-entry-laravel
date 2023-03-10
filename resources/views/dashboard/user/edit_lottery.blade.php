@@ -69,10 +69,10 @@
                                             <ul class="nav panel-tabs">
                                                 <li><a href="#tab1" class="me-1 active" data-bs-toggle="tab">Lottery details</a></li>
                                                 @if(getMemberShipInfo(auth()->user()->id)['customize_online_forms'] === "yes")
-                                                    <li {{ ($tooltip_status) ? $form_customization_tooltip : '' }}><a href="#tab2" data-bs-toggle="tab" class="me-1">Form customization</a></li>
+                                                    <li {!! ($tooltip_status) ? $form_customization_tooltip : '' !!}><a href="#tab2" data-bs-toggle="tab" class="me-1">Form customization</a></li>
                                                 @endif
 
-                                                <li {{ ($tooltip_status) ? $email_custimization_tooltip : '' }}><a href="#tab3" data-bs-toggle="tab" class="me-1">Emails customization</a></li>
+                                                <li {!! ($tooltip_status) ? $email_custimization_tooltip : '' !!}><a href="#tab3" data-bs-toggle="tab" class="me-1">Emails customization</a></li>
                                                 <li><a href="#tab4" data-bs-toggle="tab" class="me-1">Agents detail</a></li>
                                             </ul>
                                         </div>
@@ -85,23 +85,23 @@
                                                     <div class="alert alert-danger lottery-alert" style="display: none;"></div>
                                                     <div class="form-row">
                                                         <div class="col-md-6 mb-4">
-                                                            <label for="lottery_title" {{ ($tooltip_status) ? $title_tooltip : '' }}>Title</label>
+                                                            <label for="lottery_title" {!! ($tooltip_status) ? $title_tooltip : '' !!}>Title</label>
                                                             <input type="text" class="form-control" id="lottery_title" value="{{ $data['title'] }}" placeholder="Enter here..." required>
                                                         </div>
                                                         <div class="col-md-6 mb-4">
-                                                            <label for="lottery_url" {{ ($tooltip_status) ? $url_tooltip : '' }}>Lottery URL</label>
+                                                            <label for="lottery_url" {!! ($tooltip_status) ? $url_tooltip : '' !!}>Lottery URL</label>
                                                             <input type="text" class="form-control is-valid" id="lottery_url" pattern="[^' ']+" title="No space" value="{{ $data['lottery_url'] }}" data-not="{{ $data['lottery_id'] }}" placeholder="Enter here..." required>
                                                             <div class="invalid-feedback" id="lottery_name_invalid_feedback"></div>
                                                         </div>
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col-lg-3 col-md-4 mb-4">
-                                                            <label for="number_of_winners" {{ ($tooltip_status)?$winners_tooltip:'' }}>Winners</label>
+                                                            <label for="number_of_winners" {!! ($tooltip_status)?$winners_tooltip:'' !!}>Winners</label>
                                                             <input type="number" class="form-control" id="number_of_winners" value="{{ $data['total_winners'] }}" placeholder="0" required>
                                                         </div>
 
                                                         <div class="col-lg-6 col-md-8 mb-4">
-                                                            <label for="validationServer04" {{ ($tooltip_status)?$event_date_tooltip:'' }}>Event date-time</label>
+                                                            <label for="validationServer04" {!! ($tooltip_status)?$event_date_tooltip:'' !!}>Event date-time</label>
 
                                                             <div class="row">
                                                                 <div class="input-group col-7" style="padding-right: 5px;">
@@ -121,7 +121,7 @@
                                                         </div>
 
                                                         <div class="col-lg-3 col-md-12 mb-4">
-                                                            <label for="validationServer04" {{ ($tooltip_status)?$guest_tooltip:'' }}>Guest</label>
+                                                            <label for="validationServer04" {!! ($tooltip_status)?$guest_tooltip:'' !!}>Guest</label>
 
                                                             <div class="row">
                                                                 <div class="input-group" style="padding-right: 5px;">
@@ -178,7 +178,7 @@
 
                                                     <div class="form-row">
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <label for="validationServer04" {{ ($tooltip_status)?$start_datetime_tooltip:'' }}>Lottery start date-time</label>
+                                                            <label for="validationServer04" {!! ($tooltip_status)?$start_datetime_tooltip:'' !!}>Lottery start date-time</label>
 
                                                             <div class="row">
                                                                 <div class="input-group col-7" style="padding-right: 5px;">
@@ -197,7 +197,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <label for="validationServer04" {{ ($tooltip_status)?$end_datetime_tooltip:'' }}>Lottery end date-time</label>
+                                                            <label for="validationServer04" {!! ($tooltip_status)?$end_datetime_tooltip:'' !!}>Lottery end date-time</label>
 
                                                             <div class="row">
                                                                 <div class="input-group col-7" style="padding-right: 5px;">
@@ -218,21 +218,21 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col-lg-4 col-md-4 mb-4">
-                                                            <label for="" {{ ($tooltip_status)?$description_tooltip:'' }}>Description</label>
+                                                            <label for="" {!! ($tooltip_status)?$description_tooltip:'' !!}>Description</label>
                                                             <div class="text-center p-4 bg-light border br-5" id="description_wrap">
                                                                 <a class="btn btn-primary" data-bs-target="#modalQuill" data-bs-toggle="modal" href="">Open editor</a>
                                                                 <input type="hidden" name="description" value="{{ $data['description'] }}" id="description">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 mb-4">
-                                                            <label for="" {{ ($tooltip_status)?$how_it_work_tooltip:'' }}>How it works</label>
+                                                            <label for="" {!! ($tooltip_status)?$how_it_work_tooltip:'' !!}>How it works</label>
                                                             <div class="text-center p-4 bg-light border br-5" id="how_it_works_wrap">
                                                                 <a class="btn btn-primary" data-bs-target="#modalQuill2" data-bs-toggle="modal" href="">Open editor</a>
                                                                 <input type="hidden" name="how_it_works" value="{{ $data['how_it_works'] }}" id="how_it_works">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4 mb-4">
-                                                            <label for="" {{ ($tooltip_status)?$term_cond_tooltip:'' }}>Terms & Conditions</label>
+                                                            <label for="" {!! ($tooltip_status)?$term_cond_tooltip:'' !!}>Terms & Conditions</label>
                                                             <div class="text-center p-4 bg-light border br-5" id="terms_conditions_wrap">
                                                                 <a class="btn btn-primary" data-bs-target="#modalQuill3" data-bs-toggle="modal" href="">Open editor</a>
                                                                 <input type="hidden" name="terms_conditions" value="{{ $data['terms_conditions'] }}" id="terms_conditions">
@@ -241,7 +241,7 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <label for="lottery_logo" {{ ($tooltip_status)?$logo_tooltip:'' }}>Logo <small class="text-default">(Optional)</small></label>
+                                                            <label for="lottery_logo" {!! ($tooltip_status)?$logo_tooltip:'' !!}>Logo <small class="text-default">(Optional)</small></label>
                                                             <input type="file" class="form-control" id="lottery_logo" accept="image/*">
 
                                                             <div class="mt-2 img-thumbnail {{ ($data['lottery_logo']=='') ? 'd-none' : '' }}" style="width: fit-content;position: relative;" id="preview_lottery_logo_wrap">
@@ -251,7 +251,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 mb-4">
-                                                            <label for="lottery_background_image" {{ ($tooltip_status)?$bg_image_tooltip:'' }}>Background image <small class="text-green">(1920x1080)</small> <small class="text-default">(Optional)</small></label>
+                                                            <label for="lottery_background_image" {!! ($tooltip_status)?$bg_image_tooltip:'' !!}>Background image <small class="text-green">(1920x1080)</small> <small class="text-default">(Optional)</small></label>
                                                             <input type="file" class="form-control" id="lottery_background_image" accept="image/*">
 
                                                             <div class="mt-2 img-thumbnail {{ ($data['lottery_background_image']=='' ? 'd-none' : '') }} " style="width: fit-content;position: relative;" id="preview_lottery_background_image_wrap">
@@ -278,7 +278,7 @@
                                                             </div>
                                                             <div>
                                                                 <div id="customFieldsDropDown" class="dropdown btn-group">
-                                                                    <button {{ ($tooltip_status)?$add_cust_field_tooltip:'' }} type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                                                                    <button {!! ($tooltip_status)?$add_cust_field_tooltip:'' !!} type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
                                                                         <i class="bi bi-plus-lg"></i> Add custom field
                                                                     </button>
                                                                     <div class="dropdown-menu">
@@ -1041,6 +1041,8 @@
         var winners_emails_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 3]) }}';
         var update_lottery_agents_details = '{{ route('user.update-lottery-agents-details') }}';
         var edit_tab_4 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 4]) }}';
+        var edit_lottery_details = '{{ route('user.edit-lottery-details') }}';
+        var edit_lottery_detail_run = '{{ route('user.edit-lottery-details',['edit_lottery'=>true]) }}';
 
         $(function() {
             'use strict'

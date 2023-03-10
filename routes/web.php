@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\User\LotteryController;
 use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\Agent;
+use App\Http\Controllers\FrontEnd\LotteryFormController;
+use App\Http\Controllers\User\EntryController;
 
 
 /*
@@ -61,6 +63,7 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/edit-lottery',[LotteryController::class,'edit_lottery'])->name('edit-lottery');
         Route::any('/check-lottery-url',[LotteryController::class,'check_lottery_url'])->name('check-lottery-url');
         Route::any('/customization-form',[LotteryController::class,'customization_form'])->name('customization-form');
+        Route::any('/edit-lottery-details',[LotteryController::class,'edit_lottery_details'])->name('edit-lottery-details');
         Route::any('/modify-emails',[LotteryController::class,'modify_emails'])->name('modify-emails');
         Route::any('/update-lottery-agents-details',[LotteryController::class,'update_lottery_agents_details'])->name('update-lottery-agents-details');
         Route::any('/delete-lottery',[LotteryController::class,'delete_lottery'])->name('delete-lottery');
@@ -76,6 +79,9 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::post('/upload-profile-image',[UserController::class,'upload_profile_image'])->name('upload-profile-image');
         Route::any('/edit-profile',[UserController::class,'edit_profile'])->name('edit-profile');
         Route::any('/change-password',[UserController::class,'change_password'])->name('change-password');
+        Route::any('/all-entries',[EntryController::class,'all_entries'])->name('all-entries');
+        Route::any('/all-winners',[EntryController::class,'all_winners'])->name('all-winners');
+        Route::any('/all-losers',[EntryController::class,'all_losers'])->name('all-losers');
     });
 
 });
@@ -108,6 +114,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
     });
 
 });
+
+
+//Front End routes
+
+Route::any('/lottery/{url}',[LotteryFormController::class,'lottery_form'])->name('lottery-form');
+Route::any('/captcha',[LotteryFormController::class,'captcha'])->name('captcha');
+Route::any('/save_lottery_form',[LotteryFormController::class,'save_lottery_form'])->name('save-lottery-form');
+Route::any('/save-s_qrcode',[LotteryFormController::class,'save_s_qrcode'])->name('save-s_qrcode');
 
 
 

@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\Entry;
 use App\Models\User;
 use App\Models\Lottery;
 use Illuminate\Support\Facades\DB;
@@ -385,6 +387,22 @@ function convert_timezone_new($datetime, $from_tz, $to_tz, $format = 'M d, Y h:i
 function getTimeZone($country_code = '') {
     $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $country_code);
     return $timezones;
+}
+
+function generateUniqueUID($length){
+    $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $my_string = '';
+    for ($i = 0; $i < $length; $i++) {
+        $pos = mt_rand(0, strlen($chars) -1);
+        $my_string .= substr($chars, $pos, 1);
+    }
+    $entry = Entry::where('uid', $my_string)->first();
+
+    if($entry != null){
+        return generateUniqueUID($length);
+    } else{
+        return $my_string;
+    }
 }
 
 
