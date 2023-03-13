@@ -10,7 +10,6 @@
             <div class="main-container container-fluid">
 
                 @if(request()->has('id') && request()->filled('id'))
-                    {{--<script src="https://cdn.jsdelivr.net/npm/table2csv@1.1.6/src/table2csv.min.js"></script>--}}
                     <!-- PAGE-HEADER -->
                     @php
                         $is_winners_selected = $data['lottery']->is_winners_selected;
@@ -21,14 +20,14 @@
                     <div class="page-header">
                         <div>
                             <h1 class="page-title">{{ htmlspecialchars($data['lottery']->title) }}
-                                ({{ formatted_date($data['lottery']->event_datetime, 'M d, Y') }})</h1>
+                                ({{ date('M d, Y', strtotime($start_datetime)) }})</h1>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Lotteries</a></li>
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Participants</a></li>
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">All entries</a></li>
                                 <li class="breadcrumb-item active"
                                     aria-current="page">{{ htmlspecialchars($data['lottery']->title) }}
-                                    ({{ formatted_date($data['lottery']->event_datetime, 'M d, Y') }})
+                                    ({{ date('M d, Y', strtotime($start_datetime)) }})
                                 </li>
                             </ol>
                         </div>
@@ -42,10 +41,12 @@
                                 <div class="card-header" style="place-content: space-between;">
                                     <div>
                                         <h3 class="card-title">All entries - {{ htmlspecialchars($data['lottery']->title) }}
-                                            ({{ formatted_date($data['lottery']->event_datetime, 'M d, Y') }})</h3>
+                                            ({{ date('M d, Y', strtotime($start_datetime)) }})</h3>
                                         <small>All times are in <strong>{{ 'selected timezone' }}</strong></small>
                                     </div>
-
+                                    <div>
+                                        <a href="send_emails.php?lottery_id=<?php echo $data['lottery']->id;?>&entries_type=Winners" class="btn btn-primary">Send emails</a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="alert alert-entries" style="display: none;"></div>
@@ -54,28 +55,28 @@
                                                id="file-datatable">
                                             <thead>
                                             <tr>
-                                                <th class="wd-15p border-bottom-0">SN</th>
+                                                <th class="wd-15p border-bottom-0">No</th>
                                                 <th class="wd-15p border-bottom-0">UID</th>
                                                 <th class="wd-20p border-bottom-0">First name</th>
                                                 <th class="wd-15p border-bottom-0">Last name</th>
                                                 <th class="wd-15p border-bottom-0">Email</th>
                                                 <th class="wd-10p border-bottom-0">Phone</th>
-                                                <th class="wd-10p border-bottom-0">Custom fields values</th>
                                                 <th class="wd-10p border-bottom-0">Status</th>
                                                 <th class="wd-10p border-bottom-0">Bring guest</th>
                                                 <th class="wd-10p border-bottom-0">G. First name</th>
                                                 <th class="wd-10p border-bottom-0">G. Last name</th>
-                                                <th class="wd-10p border-bottom-0">Guest's SN</th>
+                                                <th class="wd-10p border-bottom-0">Guest's No</th>
                                                 <th class="wd-20p border-bottom-0">Lottery</th>
+                                                <th class="wd-25p border-bottom-0">QR code</th>
                                                 <th class="wd-25p border-bottom-0">Date entered</th>
                                                 <th class="wd-25p border-bottom-0 action">Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @if(count($data['entries']) > 0)
-                                                    @foreach($data['entries'] as $entry)
+                                                @if(count($data['winners']) > 0)
+                                                    @foreach($data['winners'] as $entry)
                                                         <tr>
-                                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                                            <td>{{ $entry->sorting }}</td>
                                                             <td class="text-center">
                                                                 @if ($entry->uid == "")
                                                                     <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
@@ -99,23 +100,8 @@
                                                                     {{ htmlspecialchars($entry->phone) }}
                                                                 @endif
                                                             </td>
-                                                            <td class="">
-                                                                @if($entry->custom_inputs_val)
-                                                                    @foreach ($entry->custom_inputs_val as $key => $value)
-                                                                        <strong>{{ $key }}:</strong> {{ $value }}<br>
-                                                                    @endforeach
-                                                                @endif
-                                                            </td>
                                                             <td class="text-center">
-                                                                @if ($is_winners_selected == 1)
-                                                                    @if ($entry->winner == 1)
-                                                                        <span class="badge bg-success-gradient">WINNER</span>
-                                                                    @elseif ($entry->loser == 1)
-                                                                        <span class="badge bg-danger-gradient">LOSER</span>
-                                                                    @endif
-                                                                @else
-                                                                    <span class="badge bg-default">NO SELECTION YET</span>
-                                                                @endif
+                                                                <span class="badge bg-success-gradient">WINNER</span>
                                                             </td>
                                                             <td class="text-center" style="vertical-align: middle;">
                                                                 @if ($entry->guest_id == 0 && $entry->has_parent > 0)
@@ -154,27 +140,30 @@
                                                                 @endif
                                                             </td>
                                                             <td><a href="{{route('lottery-form',['url'=> $lottery_url])}}" target="_blank">{{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}) <i class="bi bi-box-arrow-up-right"></i></a></td>
+                                                            <td>
+                                                                @if(!empty($entry->qr_code))
+                                                                    @php
+                                                                        $path = public_path('assets/images/brand/'.$entry->qr_code);
+                                                                        $type = pathinfo($path, PATHINFO_EXTENSION);
+                                                                        $data = file_get_contents($path);
+                                                                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                                                                    @endphp
+                                                                    <img src="{{ $base64 }}" style="width: 50px;" />
+                                                                @else
+                                                                    QR code not found
+                                                                @endif
+                                                            </td>
                                                             <td>{{ formatted_date($entry->created_at) }}</td>
                                                             <td class="text-center align-middle action">
-                                                                @if($is_winners_selected == 1)
-                                                                    @if($entry->has_parent == 0 && $entry->winner == 1)
-                                                                        <div class="btn-group align-top">
-                                                                            <button class="btn btn-sm btn-primary badge" type="button" id="remove_winners" data-lid="{{ request('id') }}" data-id="{{ $entry->winner_tid }}" data-eid="{{ $entry->entry_tid }}" data-gid="{{ $entry->guest_id }}" data-gid2="{{ $entry->g_id }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
-                                                                        </div>
-                                                                    @elseif($entry->loser == 1)
-                                                                        <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">LOSER</span>
-                                                                    @else
-                                                                        <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
-                                                                    @endif
-                                                                @elseif($is_winners_selected == 0)
-                                                                    @if($entry->has_parent == 0)
-                                                                        <div class="btn-group align-top">
-                                                                            <button class="btn btn-sm btn-primary badge remove_entries" type="button" id="remove_entries" data-lid="{{ request('id') }}" data-id="{{ $entry->winner_tid }}" data-eid="{{ $entry->entry_tid }}" data-gid="{{ $entry->guest_id }}" data-gid2="{{ $entry->g_id }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
-                                                                        </div>
-                                                                    @else
-                                                                        <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
-                                                                    @endif
+
+                                                                @if($entry->has_parent == 0)
+                                                                    <div class="btn-group align-top">
+                                                                        <button class="btn btn-sm btn-primary badge remove_winners" type="button" id="remove_winners" data-lid="{{ request('id') }}" data-id="{{ $entry->winner_tid }}" data-eid="{{ $entry->entry_tid }}" data-gid="{{ $entry->guest_id }}" data-gid2="{{ $entry->g_id }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
+                                                                    </div>
+                                                                @else
+                                                                    <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
                                                                 @endif
+
                                                             </td>
                                                 @endforeach
                                             @else
@@ -184,7 +173,14 @@
                                     </table>
                                 </div>
                             </div>
-
+                           {{-- <script>
+                                $('#download_table').click(function(){
+                                    $("#responsive-datatable").table2csv({
+                                        filename: 'Winners - {{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}).csv',
+                                        excludeColumns: '.action'
+                                    });
+                                });
+                            </script>--}}
 
                     @else
                     <!-- PAGE-HEADER -->
@@ -270,31 +266,37 @@
 @endsection
 @push('css')
 <style>
-    .dark-mode .lottery_list a {
-        color: #aaaad8;
-    }
+                                .dark-mode .lottery_list a {
+                                    color: #aaaad8;
+                                }
 
-    .dark-mode a, a:hover {
-        color: #fff !important;
-    }
+                                .dark-mode a, a:hover {
+                                    color: #fff !important;
+                                }
 
-    td a:hover, .list_a:hover {
-        color: var(--primary-bg-color) !important;
-    }
+                                td a:hover, .list_a:hover {
+                                    color: var(--primary-bg-color) !important;
+                                }
 
-    #file-datatable_length {
-        float: left;
-        margin-right: 12px;
-    }
+                                .right_content {
+                                    float: right;
+                                }
 
-    .dropdown-item {
-        background: var(--danger);
-    }
+                                .list-group-item .badge.bg-secondary {
+                                    margin-left: 4px;
+                                }
+                                #file-datatable_length {
+                                    float: left;
+                                    margin-right: 12px;
+                                }
+                                .dropdown-item {
+                                    background: var(--danger);
+                                }
 
-    .dropdown-item:hover {
-        background: var(--danger) !important;
-    }
-</style>
+                                .dropdown-item:hover {
+                                    background: var(--danger) !important;
+                                }
+                            </style>
 @endpush
 @push('js')
 

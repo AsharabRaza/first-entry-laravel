@@ -12,6 +12,7 @@ use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\Agent;
 use App\Http\Controllers\FrontEnd\LotteryFormController;
 use App\Http\Controllers\User\EntryController;
+use App\Http\Controllers\User\SendEmailController;
 
 
 /*
@@ -80,8 +81,12 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/edit-profile',[UserController::class,'edit_profile'])->name('edit-profile');
         Route::any('/change-password',[UserController::class,'change_password'])->name('change-password');
         Route::any('/all-entries',[EntryController::class,'all_entries'])->name('all-entries');
+        Route::any('/remove-winners',[EntryController::class,'remove_winners'])->name('remove-winners');
+        Route::any('/remove-entries',[EntryController::class,'remove_entries'])->name('remove-entries');
         Route::any('/all-winners',[EntryController::class,'all_winners'])->name('all-winners');
         Route::any('/all-losers',[EntryController::class,'all_losers'])->name('all-losers');
+        Route::any('/send-emails',[SendEmailController::class,'send_emails'])->name('send-emails');
+
     });
 
 });
@@ -122,6 +127,7 @@ Route::any('/lottery/{url}',[LotteryFormController::class,'lottery_form'])->name
 Route::any('/captcha',[LotteryFormController::class,'captcha'])->name('captcha');
 Route::any('/save_lottery_form',[LotteryFormController::class,'save_lottery_form'])->name('save-lottery-form');
 Route::any('/save-s_qrcode',[LotteryFormController::class,'save_s_qrcode'])->name('save-s_qrcode');
+
 
 
 

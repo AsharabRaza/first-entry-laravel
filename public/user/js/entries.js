@@ -27,7 +27,7 @@ $('.remove_winners').click(function(e){
                 data.append("POST", "true");
 
                 old_request1 = $.ajax({
-                    url: '../dashboard/core/lotteries.php',
+                    url: remove_winners,
                     type: 'POST',
                     data: data,
                     processData: false,
@@ -88,7 +88,7 @@ $('.remove_entries').click(function(e){
                 data.append("POST", "true");
 
                 old_request2 = $.ajax({
-                    url: '../dashboard/core/lotteries.php',
+                    url: remove_entries,
                     type: 'POST',
                     data: data,
                     processData: false,

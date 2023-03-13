@@ -47,8 +47,8 @@
                         <ul class="slide-menu">
                             <li class="side-menu-label1"><a href="javascript:void(0)">Entries</a></li>
                             <li><a href="{{ route('user.all-entries') }}" class="slide-item"> All entries</a></li>
-                            <li><a href="all_winners.php" class="slide-item"> Selected entries</a></li>
-                            <li><a href="all_losers.php" class="slide-item"> Non-selected entries</a></li>
+                            <li><a href="{{ route('user.all-winners') }}" class="slide-item"> Selected entries</a></li>
+                            <li><a href="{{ route('user.all-losers') }}" class="slide-item"> Non-selected entries</a></li>
                         </ul>
                     </li>
                     <li class="slide">
@@ -56,7 +56,7 @@
                         <ul class="slide-menu">
                             <li class="side-menu-label1"><a href="javascript:void(0)">Emails</a></li>
                             <li><a href="emails.php" class="slide-item"> History</a></li>
-                            <li><a href="send_emails.php" class="slide-item"> Send emails</a></li>
+                            <li><a href="{{ route('user.send-emails') }}" class="slide-item"> Send emails</a></li>
                         </ul>
                     </li>
 
