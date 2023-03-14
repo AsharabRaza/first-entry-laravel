@@ -294,7 +294,7 @@ function send_winners_emails(){
     data.append("POST", "true");
 
     $.ajax({
-        url: 'core/modify_emails.php',
+        url: send_email_to_winners,
         type: 'POST',
         data: data,
         processData: false,
@@ -414,7 +414,7 @@ function send_losers_email(start_batch, current_batch){
         data.append("POST", "true");
 
         $.ajax({
-            url: 'core/modify_emails.php',
+            url: send_email_to_losers,
             type: 'POST',
             data: data,
             processData: false,

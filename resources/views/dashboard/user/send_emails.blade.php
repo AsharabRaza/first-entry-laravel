@@ -6,6 +6,7 @@
         $tooltip_status = 1;
         $tooltip_primary = 'data-bs-toggle="tooltip-primary"';
         $send_email_sel_lotts_tooltip = $tooltip_primary.' title="Select the lottery to send emails" ';
+        $send_email_sel_notsel_type_tooltip = $tooltip_primary.' title="Select the lottery to send emails" ';
     @endphp
 
     <!--app-content open-->
@@ -42,7 +43,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="alert alert-emails" style="display: none;"></div>
-                                <form action="send_emails.php" method="GET" id="send_emails_filter">
+                                <form action="{{ route('user.send-emails') }}" method="GET" id="send_emails_filter">
                                     <input type="hidden" value="{{ request()->has('lottery_id') ? request('lottery_id') : ''  }}" id="lottery_id_get" name="lottery_id">
                                     <input type="hidden" value="{{ request()->has('entries_type') ? request('entries_type') : ''  }}" id="entries_type_get" name="entries_type">
                                 </form>
@@ -50,110 +51,73 @@
                                     <div class="alert alert-danger lottery-alert" style="display: none;"></div>
                                     <div class="form-row">
                                         <div class="col-md-6 mb-5">
-                                            <label for="lottery_id" style="display: block;"><span <?php echo ($tooltip_status) ? $send_email_sel_lotts_tooltip : ''; ?>>Lotteries</span> <small class="text-green">({{ $data['total_lotteries'] }} available)</small></label>
+                                            <label for="lottery_id" style="display: block;"><span {!! ($tooltip_status) ? $send_email_sel_lotts_tooltip : '' !!}>Lotteries</span> <small class="text-green">({{ $total_lotteries }} available)</small></label>
                                             <select name="lottery_id" id="lottery_id" class="select2">
-                                                <option value="" <?php if(!isset($_GET['lottery_id']) || $_GET['lottery_id'] == ''){echo 'selected';}?> disabled>Select a lottery</option>
-                                                <?php
-                                                while($row = $available_l->fetch_assoc()){
-                                                    echo '<option value="'.$row['id'].'"';
-                                                    if(isset($_GET['lottery_id']) && $_GET['lottery_id'] == $row['id']){
-                                                        echo ' selected';
-                                                    }
-                                                    echo '>'.$row['title'].'</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                            <select name="lottery_id" id="lottery_id" class="select2">
-                                                <option value="" @if(!isset($_GET['lottery_id']) || $_GET['lottery_id'] == '') selected @endif disabled >Select a lottery</option>
-                                                @while($row = $available_l->fetch_assoc())
-                                                    <option value="{{ $row['id'] }}" @if(isset($_GET['lottery_id']) && $_GET['lottery_id'] == $row['id']) selected @endif>{{ $row['title'] }}</option>
-                                                @endwhile
-
-                                                <option value="" @if(!isset($_GET['lottery_id']) || $_GET['lottery_id'] == '') selected @endif disabled >Select a lottery</option>
-                                                @if($data['available_l'])
-                                                    @foreach($data['available_l'] as $lotteries)
-                                                        <option value="{{ $lotteries['id'] }}" @if(isset($_GET['lottery_id']) && $_GET['lottery_id'] == $row['id']) selected @endif>{{ $row['title'] }}</option>
+                                                <option value="" @if(!request()->has('lottery_id') || !request()->filled('lottery_id')) selected @endif disabled >Select a lottery</option>
+                                                @if($available_l)
+                                                    @foreach($available_l as $lottery)
+                                                        <option value="{{ $lottery['id'] }}" @if(request()->has('lottery_id') || request('lottery_id') == $lottery->id) selected @endif >{{ $lottery->title }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </div>
 
                                         <div class="col-md-6 mb-5">
-                                            <label for="lottery_url" style="display: block;"><span <?php echo ($tooltip_status) ? $send_email_sel_notsel_type_tooltip : ''; ?>>Entries type</span></label>
-                                            <select name="entries_type" id="entries_type" class="select2" <?php if(!isset($_GET['lottery_id']) || $_GET['lottery_id'] == ''){echo 'disabled';}?>>
-                                                <option value="" <?php if(!isset($_GET['entries_type']) || $_GET['entries_type'] == ''){echo 'selected';}?> disabled>Select a type</option>
-                                                <option value="Winners" <?php if(isset($_GET['entries_type']) && $_GET['entries_type'] == 'Winners'){echo 'selected';}?>>Selected entries</option>
-                                                <option value="Losers" <?php if(isset($_GET['entries_type']) && $_GET['entries_type'] == 'Losers'){echo 'selected';}?>>Non-selected entries</option>
+                                            <label for="lottery_url" style="display: block;"><span {!! ($tooltip_status) ? $send_email_sel_notsel_type_tooltip : '' !!}>Entries type</span></label>
+                                            <select name="entries_type" id="entries_type" class="select2" @if(!request()->has('lottery_id') || !request()->filled('lottery_id')) disabled @endif>
+                                                <option value="" @if(!request()->has('entries_type') || !request()->filled('entries_type')) selected @endif disabled>Select a type</option>
+                                                <option value="Winners" @if(request()->has('entries_type') && request('entries_type') == 'Winners') selected @endif>Selected entries</option>
+                                                <option value="Losers" @if(request()->has('entries_type') && request('entries_type') == 'Losers') selected @endif>Non-selected entries</option>
                                             </select>
                                         </div>
-                                        <?php
-                                        if(isset($error_msg) && $error_msg != ''){
-                                        ?>
-                                        <div class="col-md-12 mb-5">
-                                            <?php echo $error_msg;?>
-                                        </div>
-                                        <?php
-                                        }
-                                        ?>
+
+                                        @if(isset($error_msg) && $error_msg != '')
+                                            <div class="col-md-12 mb-5">
+                                                {!! $error_msg !!}
+                                            </div>
+                                        @endif
 
                                     </div>
 
-                                    <button class="btn btn-primary" type="button" id="<?php if(isset($_GET['entries_type']) && $_GET['entries_type'] == 'Winners'){echo 'send_winners_emails';}else if(isset($_GET['entries_type']) && $_GET['entries_type'] == 'Losers'){echo 'send_losers_email';}?>" style="float: right;position: relative;" <?php if(!isset($send) || $send == false){echo 'disabled';}?>>
+                                    <button class="btn btn-primary" type="button" id="@if(request()->has('entries_type') && request('entries_type') == 'Winners'){{ 'send_winners_emails' }}@elseif(request()->has('entries_type') && request('entries_type') == 'Losers'){{ 'send_losers_email' }}@endif" style="float: right;position: relative;" {{ (!isset($send) || $send == false) ? 'disabled' : '' }}>
                                         <span style="-webkit-transition: all 0.2s;transition: all 0.2s;">Send email</span>
                                         <span style="-webkit-transition: all 0.2s;transition: all 0.2s;"><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;" role="status"></div></span>
                                     </button>
 
-                                    <?php if((isset($_GET['lottery_id']) || !empty($_GET['lottery_id'])) && (isset($_GET['entries_type']) || $_GET['entries_type'] != '')){
-                                    ?>
-                                    <div style="float: left;">
-                                    <!-- <a href="edit_lottery.php?id=<?php //echo $_GET['lottery_id']?>&edit_tab=3" class="btn btn-success" id="update_email_template" style="float: right;margin-right: 6px;" <?php //if(!isset($send) || $send == false){echo 'disabled';}?>>Update</a> -->
-
-                                        <button class="btn btn-info preview_btn" type="button" id="preview_btn" data-bs-target="#modalPreviewEmail" data-bs-toggle="modal" style="float: right;margin-right: 6px;" <?php if(!isset($send) || $send == false){echo 'disabled';}?>>Preview</button>
-                                    </div>
-                                    <?php
-                                    }?>
+                                    @if(request()->has('lottery_id') || request()->filled('lottery _id') && request()->has('entries_type') || request()->filled('entries_type'))
+                                        <div style="float: left;">
+                                            <button class="btn btn-info preview_btn" type="button" id="preview_btn" data-bs-target="#modalPreviewEmail" data-bs-toggle="modal" style="float: right;margin-right: 6px;" {{ (!isset($send) || $send == false) ? 'disabled' : '' }}>Preview</button>
+                                        </div>
+                                    @endif
 
                                 </form>
-                                <?php
-                                if(isset($total_result2)){
-                                ?>
-                                <div class="" id="emails_sending_list_wrap">
-                                    <div class="alert alert-sendings-emails-res" style="display: none;"></div>
-                                    <h4 class="text-center">Emails list</h4>
-                                    <ul class="list-group" id="emails_sending_list">
-                                        <?php
-                                        if($total_result2->num_rows > 0){
-                                        while($rows = $total_result2->fetch_assoc()){
-                                        if($rows['has_parent'] == 0){
-                                        ?>
-                                        <li class="list-group-item justify-content-between">
-                                            <input class="form-check-input receivers_emails" type="checkbox" name="receivers_emails[]" value="<?php echo $rows['id'];?>" id="receivers_emails_<?php echo $rows['id'];?>" onchange="receivers_emails_checkbox(this);" checked>
-                                            <label class="form-check-label" for="receivers_emails_<?php echo $rows['id'];?>">
-                                                <?php echo $rows['sorting'];?>. <?php echo $rows['first_name'] . ' ' . $rows['last_name'];?> - <?php echo $rows['email'];?>
-                                                <?php
-                                                if($rows['guest_id'] != 0){
-                                                ?>
-                                                <span class="badge bg-secondary">BRING GUEST</span>
-                                                <?php
-                                                }
-                                                ?>
-                                                <div class="right_content right_content_<?php echo $rows['id'];?>"><span class="badgetext badge bg-info rounded-pill">Selected</span><div class="spinner-border spinner-border-sm" style="display: flex;place-content: center;align-items: center;float: right;top: 2px;position: relative;display: none;" role="status"></div>
-                                            </label>
-                                        </li>
-                                        <?php
-                                        }
-                                        }
-                                        }else{
-                                            echo '<li class="list-group-item justify-content-between emails_p89">No emails available</li>';
-                                        }
 
-                                        ?>
-
-                                    </ul>
-                                </div>
-                                <?php
-                                }
-                                ?>
+                                @if(isset($total_result))
+                                    <div class="" id="emails_sending_list_wrap">
+                                        <div class="alert alert-sendings-emails-res" style="display: none;"></div>
+                                        <h4 class="text-center">Emails list</h4>
+                                        <ul class="list-group" id="emails_sending_list">
+                                            @if(count($total_result) > 0)
+                                                @foreach($total_result as $rows)
+                                                    @if($rows['has_parent'] == 0)
+                                                        <li class="list-group-item justify-content-between">
+                                                            <input class="form-check-input receivers_emails" type="checkbox" name="receivers_emails[]" value="{{ $rows['id'] }}" id="receivers_emails_{{ $rows['id'] }}" onchange="receivers_emails_checkbox(this);" checked>
+                                                            <label class="form-check-label" for="receivers_emails_{{ $rows['id'] }}">
+                                                                {{ $rows['sorting'] }}. {{ $rows['first_name'] . ' ' . $rows['last_name'] }} - {{ $rows['email'] }}
+                                                                @if($rows['guest_id'] != 0)
+                                                                    <span class="badge bg-secondary">BRING GUEST</span>
+                                                                @endif
+                                                                <div class="right_content right_content_{{ $rows['id'] }}"><span class="badgetext badge bg-info rounded-pill">Selected</span><div class="spinner-border spinner-border-sm" style="display: flex;place-content: center;align-items: center;float: right;top: 2px;position: relative;display: none;" role="status"></div></div>
+                                                            </label>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                <li class="list-group-item justify-content-between emails_p89">No emails available</li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                @endif
 
                             </div>
                         </div>
@@ -165,7 +129,7 @@
     </div>
     <!--app-content end-->
     <!--Modal-->
-    <div class="modal fade"  id="modalPreviewEmail">
+    {{--<div class="modal fade"  id="modalPreviewEmail">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header pd-20">
@@ -327,7 +291,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
         <!--/Modal-->
 
 
@@ -374,7 +338,8 @@
 @push('js')
 
     <script>
-        var add_agent = '{{ route('user.add-agent') }}';
+        var send_email_to_winners = '{{ route('user.send-winners-emails') }}';
+        var send_email_to_losers = '{{ route('user.send-losers-emails') }}';
     </script>
     <!-- FORMEDITOR JS -->
     {{ Html::script('assets/js/table-data.js') }}
@@ -403,29 +368,29 @@
     </script>
 
             {{ Html::script('assets/plugin/sweet-alert/sweetalert.min.js') }}
-            {{ Html::script('user/js/emails_modify.js'.rand(0,1000)) }}
-            {{ Html::script('user/js/entries.js'.rand(0,1000)) }}
+            {{ Html::script('user/js/emails_modify.js?t='.rand(0,1000)) }}
+            {{ Html::script('user/js/entries.js?t='.rand(0,1000)) }}
 
-            <script>
-                $(document.body).on("change", "#lottery_id",function(){
-                    $('#lottery_id_get').val(this.value);
-                    $('#send_emails_filter').submit();
-                });
-                $(document.body).on("change", "#entries_type",function(){
-                    $('#entries_type_get').val(this.value);
-                    $('#send_emails_filter').submit();
-                });
+    <script>
+        $(document.body).on("change", "#lottery_id",function(){
+            $('#lottery_id_get').val(this.value);
+            $('#send_emails_filter').submit();
+        });
+        $(document.body).on("change", "#entries_type",function(){
+            $('#entries_type_get').val(this.value);
+            $('#send_emails_filter').submit();
+        });
 
-                $('.preview_btn').click(function() {
-                    if($('#entries_type').val() == 'Winners') {
-                        $('#looser_template').hide();
-                        $('#winner_template').show();
-                    } else {
-                        $('#winner_template').hide();
-                        $('#looser_template').show();
-                    }
-                });
-            </script>
+        $('.preview_btn').click(function() {
+            if($('#entries_type').val() == 'Winners') {
+                $('#looser_template').hide();
+                $('#winner_template').show();
+            } else {
+                $('#winner_template').hide();
+                $('#looser_template').show();
+            }
+        });
+    </script>
 
 
 @endpush

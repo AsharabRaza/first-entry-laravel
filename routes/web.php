@@ -86,6 +86,8 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/all-winners',[EntryController::class,'all_winners'])->name('all-winners');
         Route::any('/all-losers',[EntryController::class,'all_losers'])->name('all-losers');
         Route::any('/send-emails',[SendEmailController::class,'send_emails'])->name('send-emails');
+        Route::any('/send-winners-emails',[SendEmailController::class,'send_winners_emails'])->name('send-winners-emails');
+        Route::any('/send-losers-emails',[SendEmailController::class,'send_losers_emails'])->name('send-losers-emails');
 
     });
 

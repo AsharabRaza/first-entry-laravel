@@ -208,4 +208,10 @@ class EntryController extends Controller
         return view('dashboard.user.all_winners',['data'=>$this->data]);
     }
 
+    public function all_losers(Request $request){
+
+        return view('dashboard.user.all_losers',['data'=>$this->data]);
+
+    }
+
 }

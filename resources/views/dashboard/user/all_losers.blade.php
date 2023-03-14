@@ -45,8 +45,7 @@
                                         <small>All times are in <strong>{{ 'selected timezone' }}</strong></small>
                                     </div>
                                     <div>
-                                        {{--<a href="send_emails.php?lottery_id=<?php echo $data['lottery']->id;?>&entries_type=Winners" class="btn btn-primary">Send emails</a>--}}
-                                        <a href="{{ route('user.send-emails') }}" class="btn btn-primary">Send emails</a>
+                                        <a href="send_emails.php?lottery_id=<?php echo $data['lottery']->id;?>&entries_type=Winners" class="btn btn-primary">Send emails</a>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -219,7 +218,7 @@
                                                             $current_datetime = date('Y-m-d H:i:s');
                                                         @endphp
                                                         <li class="list-group-item justify-content-between">
-                                                            <a class="list_a" href="{{ route('user.all-winners',['id'=>$lottery->id]) }}">
+                                                            <a class="list_a" href="{{ route('user.all-entries',['id'=>$lottery->id]) }}">
                                                                 {{ htmlspecialchars($lottery->title) }} ({{ date('M d, Y', strtotime($lottery->event_datetime)) }})
                                                                 @if(strtotime($current_datetime2) < strtotime($start_datetime))
                                                                     <span class="badge rounded-pill bg-warning-gradient" style="font-weight: bold;">Not started yet</span>

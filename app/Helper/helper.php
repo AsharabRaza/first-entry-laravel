@@ -4,6 +4,7 @@ use App\Models\Entry;
 use App\Models\User;
 use App\Models\Lottery;
 use Illuminate\Support\Facades\DB;
+use Postmark\PostmarkClient;
 
 function formatted_date($date, $format = 'M d, Y h:i a') {
     $formatted_Date = date($format, strtotime($date));
@@ -403,6 +404,17 @@ function generateUniqueUID($length){
     } else{
         return $my_string;
     }
+}
+
+function send_email_batch_with_template($batch){
+
+    $batches_chunk = array_chunk($batch, 500);
+    $client = new PostmarkClient('e22698e7-1778-41ea-bddc-c4442310a7b3');
+    foreach($batches_chunk as $batch_) {
+        $response = $client->sendEmailBatchWithTemplate($batch_);
+    }
+
+    return $response;
 }
 
 
