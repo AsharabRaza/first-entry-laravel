@@ -46,7 +46,7 @@
                                     </div>
                                     <div>
                                         {{--<a href="send_emails.php?lottery_id=<?php echo $data['lottery']->id;?>&entries_type=Winners" class="btn btn-primary">Send emails</a>--}}
-                                        <a href="{{ route('user.send-emails') }}" class="btn btn-primary">Send emails</a>
+                                        <a href="{{ route('user.send-emails',['lottery_id'=>$data['lottery']->id,'entries_type'=>'Winners']) }}" class="btn btn-primary">Send emails</a>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -187,11 +187,11 @@
                     <!-- PAGE-HEADER -->
                         <div class="page-header">
                             <div>
-                                <h1 class="page-title">All entries</h1>
+                                <h1 class="page-title">Selected entries</h1>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Lotteries</a></li>
-                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Participants</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">All entries</li>
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Event Lotteries</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Entries</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Selected entries</li>
                                 </ol>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">All entries</h3>
+                                        <h3 class="card-title">Selected entries</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="">
@@ -301,7 +301,9 @@
 @endpush
 @push('js')
 
-<script src="https://cdn.jsdelivr.net/npm/table2csv@1.1.6/src/table2csv.min.js"></script>
+
+{{ Html::script('assets/plugin/datatable/js/jquery.dataTables.min.js') }}
+{{ Html::script('assets/plugin/datatable/js/dataTables.bootstrap5.js') }}
 {{ Html::script('assets/plugin/datatable/js/dataTables.buttons.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/buttons.bootstrap5.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/jszip.min.js') }}
@@ -310,6 +312,7 @@
 {{ Html::script('assets/plugin/datatable/js/buttons.html5.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/buttons.print.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/buttons.colVis.min.js') }}
+{{ Html::script('assets/plugin/datatable/dataTables.responsive.min.js') }}
 {{ Html::script('assets/plugin/datatable/responsive.bootstrap5.min.js') }}
 
 <!-- Tooltip and Popover JS -->

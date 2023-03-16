@@ -45,7 +45,7 @@
                                         <small>All times are in <strong>{{ 'selected timezone' }}</strong></small>
                                     </div>
                                     <div>
-                                        <a href="send_emails.php?lottery_id=<?php echo $data['lottery']->id;?>&entries_type=Winners" class="btn btn-primary">Send emails</a>
+                                        <a href="{{ route('user.send-emails',['lottery_id'=>$data['lottery']->id,'entries_type'=>'Losers']) }}" class="btn btn-primary">Send emails</a>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -55,7 +55,7 @@
                                                id="file-datatable">
                                             <thead>
                                             <tr>
-                                                <th class="wd-15p border-bottom-0">No</th>
+                                                <th class="wd-15p border-bottom-0">SN</th>
                                                 <th class="wd-15p border-bottom-0">UID</th>
                                                 <th class="wd-20p border-bottom-0">First name</th>
                                                 <th class="wd-15p border-bottom-0">Last name</th>
@@ -65,18 +65,17 @@
                                                 <th class="wd-10p border-bottom-0">Bring guest</th>
                                                 <th class="wd-10p border-bottom-0">G. First name</th>
                                                 <th class="wd-10p border-bottom-0">G. Last name</th>
-                                                <th class="wd-10p border-bottom-0">Guest's No</th>
+                                                <th class="wd-10p border-bottom-0">Guest's SN</th>
                                                 <th class="wd-20p border-bottom-0">Lottery</th>
-                                                <th class="wd-25p border-bottom-0">QR code</th>
                                                 <th class="wd-25p border-bottom-0">Date entered</th>
-                                                <th class="wd-25p border-bottom-0 action">Action</th>
+
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @if(count($data['winners']) > 0)
-                                                    @foreach($data['winners'] as $entry)
+                                                @if(count($data['losers']) > 0)
+                                                    @foreach($data['losers'] as $entry)
                                                         <tr>
-                                                            <td>{{ $entry->sorting }}</td>
+                                                            <td>{{ $loop->iteration  }}</td>
                                                             <td class="text-center">
                                                                 @if ($entry->uid == "")
                                                                     <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
@@ -101,7 +100,7 @@
                                                                 @endif
                                                             </td>
                                                             <td class="text-center">
-                                                                <span class="badge bg-success-gradient">WINNER</span>
+                                                                <span class="badge bg-danger-gradient">LOSER</span>
                                                             </td>
                                                             <td class="text-center" style="vertical-align: middle;">
                                                                 @if ($entry->guest_id == 0 && $entry->has_parent > 0)
@@ -140,31 +139,8 @@
                                                                 @endif
                                                             </td>
                                                             <td><a href="{{route('lottery-form',['url'=> $lottery_url])}}" target="_blank">{{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}) <i class="bi bi-box-arrow-up-right"></i></a></td>
-                                                            <td>
-                                                                @if(!empty($entry->qr_code))
-                                                                    @php
-                                                                        $path = public_path('assets/images/brand/'.$entry->qr_code);
-                                                                        $type = pathinfo($path, PATHINFO_EXTENSION);
-                                                                        $data = file_get_contents($path);
-                                                                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                                                                    @endphp
-                                                                    <img src="{{ $base64 }}" style="width: 50px;" />
-                                                                @else
-                                                                    QR code not found
-                                                                @endif
-                                                            </td>
                                                             <td>{{ formatted_date($entry->created_at) }}</td>
-                                                            <td class="text-center align-middle action">
 
-                                                                @if($entry->has_parent == 0)
-                                                                    <div class="btn-group align-top">
-                                                                        <button class="btn btn-sm btn-primary badge remove_winners" type="button" id="remove_winners" data-lid="{{ request('id') }}" data-id="{{ $entry->winner_tid }}" data-eid="{{ $entry->entry_tid }}" data-gid="{{ $entry->guest_id }}" data-gid2="{{ $entry->g_id }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
-                                                                    </div>
-                                                                @else
-                                                                    <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
-                                                                @endif
-
-                                                            </td>
                                                 @endforeach
                                             @else
                                                 <tr><td colspan="13" class="text-center">No data available.</td></tr>
@@ -186,11 +162,11 @@
                     <!-- PAGE-HEADER -->
                         <div class="page-header">
                             <div>
-                                <h1 class="page-title">All entries</h1>
+                                <h1 class="page-title">Non-selected entries</h1>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Lotteries</a></li>
-                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Participants</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">All entries</li>
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Event Lotteries</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Entries</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Non-selected entries</li>
                                 </ol>
                             </div>
                         </div>
@@ -201,7 +177,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">All entries</h3>
+                                        <h3 class="card-title">Non-selected entries</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="">
@@ -218,7 +194,7 @@
                                                             $current_datetime = date('Y-m-d H:i:s');
                                                         @endphp
                                                         <li class="list-group-item justify-content-between">
-                                                            <a class="list_a" href="{{ route('user.all-entries',['id'=>$lottery->id]) }}">
+                                                            <a class="list_a" href="{{ route('user.all-losers',['id'=>$lottery->id]) }}">
                                                                 {{ htmlspecialchars($lottery->title) }} ({{ date('M d, Y', strtotime($lottery->event_datetime)) }})
                                                                 @if(strtotime($current_datetime2) < strtotime($start_datetime))
                                                                     <span class="badge rounded-pill bg-warning-gradient" style="font-weight: bold;">Not started yet</span>
@@ -266,41 +242,42 @@
 @endsection
 @push('css')
 <style>
-                                .dark-mode .lottery_list a {
-                                    color: #aaaad8;
-                                }
+    .dark-mode .lottery_list a {
+        color: #aaaad8;
+    }
 
-                                .dark-mode a, a:hover {
-                                    color: #fff !important;
-                                }
+    .dark-mode a, a:hover {
+        color: #fff !important;
+    }
 
-                                td a:hover, .list_a:hover {
-                                    color: var(--primary-bg-color) !important;
-                                }
+    td a:hover, .list_a:hover {
+        color: var(--primary-bg-color) !important;
+    }
 
-                                .right_content {
-                                    float: right;
-                                }
+    .right_content {
+        float: right;
+    }
 
-                                .list-group-item .badge.bg-secondary {
-                                    margin-left: 4px;
-                                }
-                                #file-datatable_length {
-                                    float: left;
-                                    margin-right: 12px;
-                                }
-                                .dropdown-item {
-                                    background: var(--danger);
-                                }
+    .list-group-item .badge.bg-secondary {
+        margin-left: 4px;
+    }
+    #file-datatable_length {
+        float: left;
+        margin-right: 12px;
+    }
+    .dropdown-item {
+        background: var(--danger);
+    }
 
-                                .dropdown-item:hover {
-                                    background: var(--danger) !important;
-                                }
-                            </style>
+    .dropdown-item:hover {
+        background: var(--danger) !important;
+    }
+</style>
 @endpush
 @push('js')
 
-<script src="https://cdn.jsdelivr.net/npm/table2csv@1.1.6/src/table2csv.min.js"></script>
+{{ Html::script('assets/plugin/datatable/js/jquery.dataTables.min.js') }}
+{{ Html::script('assets/plugin/datatable/js/dataTables.bootstrap5.js') }}
 {{ Html::script('assets/plugin/datatable/js/dataTables.buttons.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/buttons.bootstrap5.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/jszip.min.js') }}
@@ -309,6 +286,7 @@
 {{ Html::script('assets/plugin/datatable/js/buttons.html5.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/buttons.print.min.js') }}
 {{ Html::script('assets/plugin/datatable/js/buttons.colVis.min.js') }}
+{{ Html::script('assets/plugin/datatable/dataTables.responsive.min.js') }}
 {{ Html::script('assets/plugin/datatable/responsive.bootstrap5.min.js') }}
 
 <!-- Tooltip and Popover JS -->

@@ -159,7 +159,7 @@ class EntryController extends Controller
 
         if($request->filled('id') && $request->input('id') != '') {
 
-            $this->data['lottery'] = Lottery::select('id', 'title', 'lottery_url', 'is_winners_selected', 'start_datetime')
+            $this->data['lottery'] = Lottery::select('id', 'title', 'lottery_url', 'is_winners_selected', 'start_datetime','event_datetime')
                 ->where('user_id', $normal_user)
                 ->where('id', $request->id)
                 ->first();
@@ -200,7 +200,7 @@ class EntryController extends Controller
                 ->orderBy('updated_at', 'desc')
                 ->get();
 
-           // dd($this->data['lotteries']);
+            // dd($this->data['lotteries']);
 
         }
 
@@ -209,6 +209,37 @@ class EntryController extends Controller
     }
 
     public function all_losers(Request $request){
+
+        $normal_user = auth()->user()->id;
+        $current_datetime = now();
+
+        if($request->filled('id') && $request->input('id') != '') {
+
+            $this->data['lottery'] = Lottery::select('id', 'title', 'lottery_url', 'is_winners_selected', 'start_datetime','event_datetime')
+                ->where('user_id', $normal_user)
+                ->where('id', $request->id)
+                ->first();
+
+            $this->data['losers'] = Lottery_Losser::select('lottery_losers.*', 'entries.*', 'e2.first_name as g_first_name', 'e2.last_name as g_last_name')
+                ->leftJoin('entries', 'lottery_losers.entry_id', '=', 'entries.id')
+                ->leftJoin('lotteries', 'lottery_losers.lottery_id', '=', 'lotteries.id')
+                ->leftJoin('entries as e2', 'entries.guest_id', '=', 'e2.id')
+                ->where('lotteries.user_id', '=', $normal_user)
+                ->where('lottery_losers.lottery_id', '=', $request->id)
+                ->orderBy('lottery_losers.id', 'ASC')
+                ->get();
+
+        }else{
+            
+
+            $this->data['lotteries'] = Lottery::selectRaw('*, (SELECT COUNT(entries.id) FROM entries WHERE lotteries.id = entries.lottery_id) AS selected_total_entries, (SELECT COUNT(lottery_winners.id) FROM lottery_winners WHERE lotteries.id = lottery_winners.lottery_id) AS selected_total_winners, (SELECT COUNT(lottery_losers.id) FROM lottery_losers WHERE lotteries.id = lottery_losers.lottery_id) AS selected_total_losers')
+                ->where('user_id', $normal_user)
+                ->where('end_datetime', '<', $current_datetime)
+                ->where('is_winners_selected', 1)
+                ->orderBy('updated_at', 'desc')
+                ->get();
+
+        }
 
         return view('dashboard.user.all_losers',['data'=>$this->data]);
 
