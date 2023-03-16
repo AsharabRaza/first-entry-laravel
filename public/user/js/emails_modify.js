@@ -538,7 +538,7 @@ $('.see_analytics').click(function(){
     data.append("POST", "true");
 
     $.ajax({
-        url: 'core/modify_emails.php',
+        url: see_analytics,
         type: 'POST',
         data: data,
         processData: false,

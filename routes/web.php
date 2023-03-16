@@ -88,6 +88,8 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/send-emails',[SendEmailController::class,'send_emails'])->name('send-emails');
         Route::any('/send-winners-emails',[SendEmailController::class,'send_winners_emails'])->name('send-winners-emails');
         Route::any('/send-losers-emails',[SendEmailController::class,'send_losers_emails'])->name('send-losers-emails');
+        Route::any('/email-history',[SendEmailController::class,'email_history'])->name('email-history');
+        Route::any('/see-analytics',[SendEmailController::class,'see_analytics'])->name('see-analytics');
 
     });
 

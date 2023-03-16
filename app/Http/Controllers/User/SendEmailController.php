@@ -10,6 +10,7 @@ use App\Models\Lottery_Losser;
 use App\Models\EmailsHistory;
 use App\Models\Email_Template;
 use Illuminate\Support\Facades\DB;
+use Postmark\PostmarkClient;
 
 
 class SendEmailController extends Controller
@@ -261,7 +262,6 @@ class SendEmailController extends Controller
 
             $output['success'] = true;
             $output['msg'] = 'Successfully emails sent. It can take up to a few minutes to deliver them all. Please be patient.';
-            dd($batch);
             $response = send_email_batch_with_template($batch);
 
             $i = 0;
@@ -430,7 +430,111 @@ class SendEmailController extends Controller
         return response()->json($output);
 
     }
+
+    public function email_history(Request $request){
+
+        $normal_user = auth()->user()->id;
+        $current_datetime = now();
+
+        $available_l = Lottery::where('user_id', $normal_user)
+                    ->where('is_winners_selected', 1)
+                    ->orderBy('title', 'asc')
+                    ->get();
+
+        $lottery_id = $request->lottery_id;
+        $entries_type = $request->entries_type;
+        $emails_history_f1 = [];
+
+        if ($lottery_id > 0) {
+            if ($entries_type == 'Winners') {
+                $email_type = 'winners_email';
+            } else if ($entries_type == 'Losers') {
+                $email_type = 'losers_email';
+            }
+
+            $email_history = EmailsHistory::where('email_type', $email_type)
+                ->where('lottery_id', $lottery_id)
+                ->where('user_id', $normal_user)
+                ->first();
+
+            if ($email_history) {
+                $email_tag = $email_history->email_tag;
+
+                $client = new PostmarkClient('e22698e7-1778-41ea-bddc-c4442310a7b3');
+                $emails_history_f1 = $client->getOutboundMessages($count = 100, $offset = 0, $recipient = NULL, $fromEmail = NULL, $tag = $email_tag, $subject = NULL, $status = NULL, $fromdate = NULL, $todate = NULL, $metadata = NULL, $messagestream = NULL);
+                //dd($emails_history_f1['Messages']);
+            }
+        }
+
+        return view('dashboard.user.email_history',compact('available_l','emails_history_f1'));
+    }
+
+    public function see_analytics(Request $request){
+
+        $message_id = $request->input('message_id');
+
+        // Get message details using API client
+        $client = new PostmarkClient('e22698e7-1778-41ea-bddc-c4442310a7b3');
+        $response = $client->getOutboundMessageDetails($message_id);
+
+        $html_body = '';
+        $message_events = '';
+        foreach ($response as $key => $value) {
+            if(strtolower($key) == 'recipients'){
+                $html_body .= '<div style="width: 50%;float: left;" class="mb-2">To:</div><div style="width: 50%;float: left;" class="mb-2">' . $value[0] . '</div>';
+            }
+            if(strtolower($key) == 'tag'){
+                $html_body .= '<div style="width: 50%;float: left;" class="mb-2">Tag:</div><div style="width: 50%;float: left;" class="mb-2">' . $value . '</div>';
+            }
+            if(strtolower($key) == 'status'){
+                $html_body .= '<div style="width: 50%;float: left;" class="mb-2">Status:</div><div style="width: 50%;float: left;" class="mb-2">' . $value . '</div>';
+            }
+            if(strtolower($key) == 'messageevents'){
+                foreach ($value as $key2 => $value2) {
+                    if($value2['type'] == 'Transient'){
+                        $message_events .= '<div class="badge rounded-pill me-1 bg-default">' . $value2['type'] . '</div>';
+                    }
+                    if($value2['type'] == 'Delivered'){
+                        $message_events .= '<div class="badge rounded-pill me-1 bg-success">' . $value2['type'] . '</div>';
+                    }
+                    if($value2['type'] == 'Bounced'){
+                        $message_events .= '<div class="badge rounded-pill me-1 bg-danger">' . $value2['type'] . '</div>';
+                    }
+                    if($value2['type'] == 'Opened'){
+                        $message_events .= '<div class="badge rounded-pill me-1 bg-primary">' . $value2['type'] . '</div>';
+                    }
+                    if($value2['type'] == 'LinkClicked'){
+                        $message_events .= '<div class="badge rounded-pill me-1 bg-info">' . $value2['type'] . '</div>';
+                    }
+
+                }
+                $html_body .= '<div style="width: 50%;float: left;" class="mb-2">Message Events:</div><div style="width: 50%;float: left;" class="mb-2">' . $message_events . '</div>';
+            }
+        }
+        if($html_body == ''){
+            echo 'No data available.';
+        }else{
+            echo $html_body;
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -55,7 +55,7 @@
                         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-envelope"></i><span class="side-menu__label">Emails</span><i class="angle bi bi-chevron-right"></i></a>
                         <ul class="slide-menu">
                             <li class="side-menu-label1"><a href="javascript:void(0)">Emails</a></li>
-                            <li><a href="emails.php" class="slide-item"> History</a></li>
+                            <li><a href="{{ route('user.email-history') }}" class="slide-item"> History</a></li>
                             <li><a href="{{ route('user.send-emails') }}" class="slide-item"> Send emails</a></li>
                         </ul>
                     </li>
