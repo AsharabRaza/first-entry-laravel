@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lottery_Losser;
+use App\Models\Lottery_Winner;
 use Illuminate\Http\Request;
 use App\Models\Lottery;
 use App\Models\Entry;
@@ -252,8 +254,8 @@ class LotteryFormController extends Controller
                         "entry_uid" => $entry->uid,
                         "guest_hide" => $hide_guest,
                         "guest_full_name" => $entry->g_name . ' ' . $entry->g_lname,
-                        "qr_code_img" => url('/')."assets/images/brand/".$entry->qr_code,
-                        "action_check_status_url" => url('/')."status/".$entry->uid,
+                        "qr_code_img" => url('assets/images/brand/'.$entry->qr_code),
+                        "action_check_status_url" => route('uid-status',['uid'=>$entry->uid]),
                         "company_address" => '',
                         "receiver_email" => $entry->email,
                         "contact_support" => 'mailto:support@firstentry.net',
@@ -276,64 +278,89 @@ class LotteryFormController extends Controller
 
     }
 
+    public function uid_status(Request $request){
+
+        if($request->has('find_uid')){
+
+
+            /*$check_entry_sql = "SELECT entries.*, lotteries.scan_start_datetime, lotteries.scan_end_datetime, lotteries.title, lotteries.queing_process, lotteries.event_datetime, g_ent.first_name g_first_name, g_ent.last_name g_last_name
+            FROM entries LEFT JOIN lotteries ON entries.lottery_id = lotteries.id
+            LEFT JOIN entries g_ent ON entries.guest_id = g_ent.id
+            WHERE entries.uid = '$uid'";*/
+
+            $uid = $request->input('uid');
+            $current_timestamp = time();
+
+            $check_entry_row = Entry::select('entries.*', 'lotteries.scan_start_datetime', 'lotteries.scan_end_datetime', 'lotteries.title', 'lotteries.queing_process', 'lotteries.event_datetime', 'g_ent.first_name as g_first_name', 'g_ent.last_name as g_last_name')
+                    ->leftJoin('lotteries', 'entries.lottery_id', '=', 'lotteries.id')
+                    ->leftJoin('entries as g_ent', 'entries.guest_id', '=', 'g_ent.id')
+                    ->where('entries.uid', $uid)
+                    ->first();
+
+
+                if ($check_entry_row)
+                {
+                    $title = $check_entry_row->title;
+                    $event_datetime = formatted_date($check_entry_row->event_datetime);
+                    $first_name = $check_entry_row->first_name;
+                    $last_name = $check_entry_row->last_name;
+                    $email = $check_entry_row->email;
+                    $phone = $check_entry_row->phone;
+                    $e_id = $check_entry_row->id;
+
+                    /*$check_winners_sql = "SELECT * FROM lotteries_winners WHERE entry_id = '$e_id'";
+                    $check_winners_query = $con->query($check_winners_sql);*/
+                    $check_winners_query = Lottery_Winner::where('entry_id',$e_id)->first();
+                    /*$check_losers_sql = "SELECT * FROM lotteries_losers WHERE entry_id = '$e_id'";
+                    $check_losers_query = $con->query($check_losers_sql);*/
+                    $check_losers_query = Lottery_Losser::where('entry_id',$e_id)->first();
+
+                    if($check_winners_query){
+                        $winner_data = $check_winners_query;
+
+                        /*$check_gwin_sql = "SELECT sorting FROM lotteries_winners WHERE entry_id = '$check_entry_row->guest_id'";
+                        $check_gwin_query = $con->query($check_gwin_sql);*/
+
+                        $check_gwin_query = Lottery_Winner::select('sorting')->where('entry_id',$check_entry_row->guest_id)->first();
+
+                        $g_winner_data = ($check_gwin_query) ? $check_gwin_query : (object) ['sorting'=> '-'];
+
+                        $output['success'] = true;
+                        $output['msg'] = 'Event: <strong>'.$title.'</strong> <br> Event date-time: <strong>'.$event_datetime.'</strong> <br> Name: <strong>'.$first_name.' '.$last_name.'</strong> <br> Email: <strong>'.$email.'</strong> <br> Phone: <strong>'.$phone.'</strong>'.($check_entry_row->queing_option == 1 ? '<br> Queuing No: <strong>'.$winner_data->sorting.'</strong>' : '')
+                            .'<br> Guest Name: <strong>'.$check_entry_row->g_first_name.' '.$check_entry_row->g_last_name.'</strong>'.($check_entry_row->queing_option == 1 ? '<br> Guest Queuing No: <strong>'.$g_winner_data->sorting.'</strong>' : '').'<br> Status: selected!';
+                    }else if($check_losers_query){
+                        $output['success'] = false;
+                        $output['msg'] = 'Event: <strong>'.$title.'</strong> <br> Event date-time: <strong>'.$event_datetime.'</strong> <br> Name: <strong>'.$first_name.' '.$last_name.'</strong> <br> Email: <strong>'.$email.'</strong> <br> Phone: <strong>'.$phone.'</strong> <br> Status: not selected!';
+                    }else{
+                        $output['success'] = true;
+                        $output['msg'] = 'Event: <strong>'.$title.'</strong> <br> Event date-time: <strong>'.$event_datetime.'</strong> <br> Name: <strong>'.$first_name.' '.$last_name.'</strong> <br> Email: <strong>'.$email.'</strong> <br> Phone: <strong>'.$phone.'</strong> <br> Status: No selection yet!';
+                    }
+
+                }else{
+                    $output['success'] = false;
+                    $output['msg'] = 'No entries found with that UID.';
+                }
+
+            header('Content-Type: application/json; charset=utf-8');
+                return response()->json($output);
+
+
+        }
+
+        return view('FrontEnd.uid_status');
+    }
+
 }
 
 
 
 
-/*$newDate = date("Y-m-d H:i:s");
-$sql = "UPDATE entries SET qr_code = '$file_name', last_updated = '$newDate' WHERE id = '$parent_id'";
-$result_update = $con->query($sql);
-if($result_update == true){
 
-    $event_date = formatted_date($row->event_datetime);
-    $guest_id = $row->guest_id;
-    if($guest_id == 0){
-        $hide_guest = 'display: none';
-    }else{
-        $hide_guest = '';
-    }
 
-    $c_logo = $row->header_image;
-    if($c_logo == ''){
-        $c_logo = '';
-    }else{
-        $c_logo = "<img src=\"".$website_url."assets/images/media/".$c_logo."\" width=\"65\">";
-    }
 
-    require_once('send_emails_new.php');
-    $sendResult = $client->sendEmailWithTemplate(
-        $from_email,
-        $row->email,
-        28884921,
-        [
-            "website_url" => $website_url,
-            "second_logo" => $c_logo,
-            "entry_full_name" => $row->first_name . ' ' . $row->last_name,
-            "company_name" => $site_title,
-            "event_title" => $row->title,
-            "event_date" => $event_date,
-            "entry_uid" => $row->uid,
-            "guest_hide" => $hide_guest,
-            "guest_full_name" => $row->g_name . ' ' . $row->g_lname,
-            "qr_code_img" => $website_url."assets/images/brand/".$row->qr_code,
-            "action_check_status_url" => $website_url."status/".$row->uid,
-            "company_address" => $company_address,
-            "receiver_email" => $row->email,
-            "contact_support" => $contact_support_url,
-            "unsubscribe_hide" => 'd-none',
-            "current_year" => date('Y')
-        ],
-        true,
-        'Entry confirmation #' . $row->lottery_id);
 
-    $output['success'] = true;
-    $output['msg'] = 'You\'ve successfully entered the lottery, you will get a confirmation email soon.';
 
-}else{
-    $output['success'] = false;
-    $output['msg'] = 'Something went wrong. Please try again later.';
-}
 
-header('Content-Type: application/json; charset=utf-8');
-echo json_encode($output);*/
+
+
+

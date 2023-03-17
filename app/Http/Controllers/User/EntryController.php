@@ -230,7 +230,7 @@ class EntryController extends Controller
                 ->get();
 
         }else{
-            
+
 
             $this->data['lotteries'] = Lottery::selectRaw('*, (SELECT COUNT(entries.id) FROM entries WHERE lotteries.id = entries.lottery_id) AS selected_total_entries, (SELECT COUNT(lottery_winners.id) FROM lottery_winners WHERE lotteries.id = lottery_winners.lottery_id) AS selected_total_winners, (SELECT COUNT(lottery_losers.id) FROM lottery_losers WHERE lotteries.id = lottery_losers.lottery_id) AS selected_total_losers')
                 ->where('user_id', $normal_user)

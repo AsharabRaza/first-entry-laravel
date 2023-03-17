@@ -131,6 +131,7 @@ Route::any('/lottery/{url}',[LotteryFormController::class,'lottery_form'])->name
 Route::any('/captcha',[LotteryFormController::class,'captcha'])->name('captcha');
 Route::any('/save_lottery_form',[LotteryFormController::class,'save_lottery_form'])->name('save-lottery-form');
 Route::any('/save-s_qrcode',[LotteryFormController::class,'save_s_qrcode'])->name('save-s_qrcode');
+Route::any('/uid-status/{uid?}',[LotteryFormController::class,'uid_status'])->name('uid-status');
 
 
 

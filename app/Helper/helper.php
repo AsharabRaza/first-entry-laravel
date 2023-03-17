@@ -3,6 +3,8 @@
 use App\Models\Entry;
 use App\Models\User;
 use App\Models\Lottery;
+use App\Models\Lottery_Winner;
+use App\Models\Lottery_Losser;
 use Illuminate\Support\Facades\DB;
 use Postmark\PostmarkClient;
 
@@ -415,6 +417,148 @@ function send_email_batch_with_template($batch){
     }
 
     return $response;
+}
+
+function get_lotteries_winners_losers(){
+
+    $normal_user = auth()->user()->id;
+    $current_datetime = date('Y-m-d H:i:s');
+
+    $lottery = Lottery::where('user_id', $normal_user)
+            ->where('end_datetime', '<', $current_datetime)
+            ->where('is_winners_selected', 0)
+            ->orderBy('updated_at', 'desc')
+            ->first();
+
+    if ($lottery) {
+        $lottery_id = $lottery->id;
+        get_winners_losers($lottery_id);
+    }
+
+}
+
+function get_winners_losers($lottery_id){
+
+    $normal_user = auth()->user()->id;
+    $current_datetime = date('Y-m-d H:i:s');
+
+    $result = Lottery::where('user_id', $normal_user)
+        ->where('id', $lottery_id)
+        ->first();
+
+    if($result){
+            $row = $result;
+            $total_winners = $row->total_winners;
+
+            $entries_details = array();
+            $result2 = Entry::select('id', 'guest_id', 'has_parent')
+                ->where('lottery_id', $lottery_id)
+                ->where('has_parent', 0)
+                ->orderBy('id', 'DESC')
+                ->get();
+
+
+            if($result2){
+                if(count($result2) > 0){
+
+                    foreach ($result2 as $row2) {
+                        $entry = array(
+                            'entry_id' => $row2['id'],
+                            'guest_id' => $row2['guest_id'],
+                            'has_parent' => $row2['has_parent']
+                        );
+                        array_push($entries_details, $entry);
+                    }
+
+
+                    $range_numbers = range(0, sizeof($entries_details) - 1);
+                    shuffle($range_numbers);
+                    $numbers = array_slice($range_numbers, 0, sizeof($entries_details));
+                    $sorted_winners = array();
+
+
+                    for ($i=0; $i < sizeof($numbers); $i++) {
+                        $selected_entry = $entries_details[$numbers[$i]];
+
+                        if(sizeof($sorted_winners) < $total_winners){
+                            $error = false;
+                            if($selected_entry['guest_id'] != 0){
+                                if((sizeof($sorted_winners) + 2) > $total_winners){
+                                    $error = true;
+                                }
+                            }
+                            if($error == false){
+                                if(sizeof($sorted_winners) == 0){
+                                    $sorted = 1;
+                                }else{
+                                    $sorted = $sorted_winners[sizeof($sorted_winners) - 1]['sorted'] + 1;
+                                }
+                                $winner = array('entry_id' => $selected_entry['entry_id'], 'sorted' => $sorted);
+                                array_push($sorted_winners, $winner);
+
+                                if($selected_entry['guest_id'] != 0){
+
+                                    if(sizeof($sorted_winners) == 0){
+                                        $sorted = 1;
+                                    }else{
+                                        $sorted = $sorted_winners[sizeof($sorted_winners) - 1]['sorted'] + 1;
+                                    }
+                                    $winner = array('entry_id' => $selected_entry['guest_id'], 'sorted' => $sorted);
+                                    array_push($sorted_winners, $winner);
+                                }
+                            }
+                        }else{
+                            break;
+                        }
+                    }
+
+                    for ($j=0; $j < sizeof($sorted_winners); $j++) {
+
+                        $lotteryWinner = new Lottery_Winner;
+                        $lotteryWinner->lottery_id = $lottery_id;
+                        $lotteryWinner->entry_id = $sorted_winners[$j]['entry_id'];
+                        $lotteryWinner->sorting = $sorted_winners[$j]['sorted'];
+                        $lotteryWinner->updated_at = $current_datetime;
+                        $lotteryWinner->created_at = $current_datetime;
+                        $lotteryWinner->save();
+
+                    }
+                    for ($k=0; $k < sizeof($entries_details); $k++) {
+                        if(array_search($entries_details[$k]['entry_id'], array_column($sorted_winners, 'entry_id')) === false){
+
+                            $lotteryLoser = new Lottery_Losser;
+                            $lotteryLoser->lottery_id = $lottery_id;
+                            $lotteryLoser->entry_id = $entries_details[$k]['entry_id'];
+                            $lotteryLoser->updated_at = $current_datetime;
+                            $lotteryLoser->created_at = $current_datetime;
+                            $lotteryLoser->save();
+
+
+                            if($entries_details[$k]['guest_id'] != 0){
+
+                                $lotteryLoser = new Lottery_Losser;
+                                $lotteryLoser->lottery_id = $lottery_id;
+                                $lotteryLoser->entry_id = $entries_details[$k]['guest_id'];
+                                $lotteryLoser->updated_at = $current_datetime;
+                                $lotteryLoser->created_at = $current_datetime;
+                                $lotteryLoser->save();
+                            }
+                        }
+                    }
+                }else{
+                    //echo '<div class="alert alert-danger">No data available.</div>';
+                }
+            }else{
+                echo '<div class="alert alert-danger">Something went wrong, please try again later.</div>';
+            }
+            Lottery::where('id', $lottery_id)->update(['is_winners_selected' => 1]);
+
+            get_lotteries_winners_losers();
+
+    }else{
+        echo '<div class="alert alert-danger">Something went wrong, please try again later.</div>';
+    }
+
 }
 
 

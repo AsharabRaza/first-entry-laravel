@@ -296,7 +296,7 @@ $('#uid_form').submit(function(e) {
       data.append("find_uid", "true");
       data.append("POST", "true");
       request = $.ajax({
-          url: 'core/lotteries.php',
+          url: find_uid,
           type: 'POST',
           data: data,
           processData: false,

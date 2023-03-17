@@ -140,7 +140,7 @@
                                                                     <span style="display: block;text-align: center;font-size: 60%;font-style: italic;font-weight: bold;">GUEST</span>
                                                                 @endif
                                                             </td>
-                                                            <td><a href="{{route('lottery-form',['url'=> $lottery_url])}}" target="_blank">{{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}) <i class="bi bi-box-arrow-up-right"></i></a></td>
+                                                            <td><a href="{{route('lottery-form',['url'=> $lottery_url])}}" target="_blank">{{ isset($data['lottery']->title) ? htmlspecialchars($data['lottery']->title) : '' }} ({{ date('M d, Y', strtotime($start_datetime)) }}) <i class="bi bi-box-arrow-up-right"></i></a></td>
                                                             <td>
                                                                 @if(!empty($entry->qr_code))
                                                                     @php

@@ -21,9 +21,10 @@ use App\Models\Lottery_Losser;
 
 class LotteryController extends Controller
 {
-    public function __construct(Request $request){}
 
     public function all_lotteries(Request $request){
+
+        get_lotteries_winners_losers();
 
 //        expireStatus();
 
@@ -553,7 +554,7 @@ class LotteryController extends Controller
             $output['msg'] = 'Something went wrong. Please try again later.';
         }
 
-        if (Lottery_Agent::where('id', $request_id)->delete()) {
+        if (Lottery_Agent::where('lottery_id', $request_id)->delete()) {
             $output['success'] = true;
             $output['msg'] = 'Lottery successfully removed. Reloading...';
         } else {
