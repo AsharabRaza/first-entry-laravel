@@ -68,11 +68,11 @@
                 </li>
                 @if(auth()->user()->user_type==1)
                     <li class="slide not_hide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="agents_history.php"><i class="side-menu__icon bi bi-menu-button"></i><span class="side-menu__label">Live entry process</span></a>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="{{ route('user.agents-history') }}"><i class="side-menu__icon bi bi-menu-button"></i><span class="side-menu__label">Live entry process</span></a>
                     </li>
                 @endif
                 <li class="slide not_hide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="entry_verification.php"><i class="side-menu__icon bi bi-patch-check"></i><span class="side-menu__label">Verify entry</span></a>
+                    <a class="side-menu__item" data-bs-toggle="slide" href="{{ route('user.entry-verification') }}"><i class="side-menu__icon bi bi-patch-check"></i><span class="side-menu__label">Verify entry</span></a>
                 </li>
                 <li class="sub-category not_hide">
                     <h3>MANAGEMENT</h3>
@@ -83,7 +83,7 @@
                     <ul class="slide-menu">
                         <li class="side-menu-label1 not_hide"><a href="javascript:void(0)">Agents</a></li>
                         <li class="not_hide"><a href="{{ route('user.all-agents') }}" class="slide-item"> All agents</a></li>
-                        <li class="not_hide"><a href="agents_history.php" class="slide-item"> Agents history</a></li>
+                        <li class="not_hide"><a href="{{ route('user.agents-history') }}" class="slide-item"> Agents history</a></li>
                         <li class="not_hide"><a href="{{ route('user.add-agent') }}" class="slide-item"> Add agent</a></li>
                     </ul>
                 </li>

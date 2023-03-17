@@ -13,6 +13,7 @@ use App\Http\Controllers\User\Agent;
 use App\Http\Controllers\FrontEnd\LotteryFormController;
 use App\Http\Controllers\User\EntryController;
 use App\Http\Controllers\User\SendEmailController;
+use App\Http\Controllers\User\EntryVerificationController;
 
 
 /*
@@ -76,6 +77,7 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/add-agent',[Agent::class,'add_agent'])->name('add-agent');
         Route::any('/edit-agent',[Agent::class,'edit_agent'])->name('edit-agent');
         Route::any('/delete-agent',[Agent::class,'delete_agent'])->name('delete-agent');
+        Route::any('/agents-history',[Agent::class,'agents_history'])->name('agents-history');
         Route::get('/view-profile',[UserController::class,'view_profile'])->name('view-profile');
         Route::post('/upload-profile-image',[UserController::class,'upload_profile_image'])->name('upload-profile-image');
         Route::any('/edit-profile',[UserController::class,'edit_profile'])->name('edit-profile');
@@ -90,6 +92,9 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/send-losers-emails',[SendEmailController::class,'send_losers_emails'])->name('send-losers-emails');
         Route::any('/email-history',[SendEmailController::class,'email_history'])->name('email-history');
         Route::any('/see-analytics',[SendEmailController::class,'see_analytics'])->name('see-analytics');
+        Route::any('/entry-verification',[EntryVerificationController::class,'entry_verification'])->name('entry-verification');
+        Route::any('/entry-confirmation',[EntryVerificationController::class,'entry_confirmation'])->name('entry-confirmation');
+        Route::any('/get-uid-entries',[EntryVerificationController::class,'get_uid_entries'])->name('get-uid-entries');
 
     });
 

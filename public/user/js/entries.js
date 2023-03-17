@@ -197,7 +197,7 @@ $('#search_with_uid').click(function(){
         data.append("POST", "true");
 
         $.ajax({
-            url: '../dashboard/core/lotteries.php',
+            url: get_uid_entries,
             type: 'POST',
             data: data,
             processData: false,
@@ -347,7 +347,7 @@ $('#submit_confirm_entry').click(function(){
         data.append("POST", "true");
 
         $.ajax({
-            url: '../dashboard/core/lotteries.php',
+            url: entry_confirmation,
             type: 'POST',
             data: data,
             processData: false,

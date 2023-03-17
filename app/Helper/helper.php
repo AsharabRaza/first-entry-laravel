@@ -561,6 +561,24 @@ function get_winners_losers($lottery_id){
 
 }
 
+function getAgentsPermissions($permissions)
+{
+    $getPermissionsId = DB::table('agent_permissions')->where('permissions', $permissions)->first();
+    $permissionsId = $getPermissionsId->id;
+
+    $user = User::find(auth()->user()->id);
+
+    if ($user->user_type == 2) {
+        $permissionsDatabase = unserialize($user->permissions);
+        if (in_array($permissionsId, $permissionsDatabase)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+
 
 
 
