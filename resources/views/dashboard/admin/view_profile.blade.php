@@ -25,6 +25,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
+                                <div class="d-none alert"></div>
                                 <div class="wideget-user">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-xl-6">
@@ -33,7 +34,7 @@
 {{--
                                                 <!-- <img class="" src="<?php if($profile_pic == ''){echo '../assets/images/users/default-avatar.jpg';}else{echo '../assets/images/users/' . $profile_pic;}?>" alt="img"> -->
 --}}
-                                                    <form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
+                                                    <form class="form" id = "form" action="" enctype="multipart/form-data" method="post" onchange="handleImageUpload();">
                                                         <div class="upload">
                                                             @php
                                                             if($data['admin']->profile_picture == '')
@@ -42,7 +43,7 @@
                                                                 }
                                                                 else
                                                                 {
-                                                                    $image = url('assets/superAdmin/images/').$data['admin']->profile_picture;
+                                                                    $image = url('superAdmin/images/uploaded/'.$data['admin']->profile_picture);
                                                                 }
                                                             @endphp
                                                             <img src="{{ $image }}" width = 125 height = 125 title="{{ $image }}">
@@ -55,7 +56,7 @@
                                                 </div>
                                                 <div class="user-wrap">
                                                     <h4>&nbsp;&nbsp;{{ $data['admin']->name }}</h4>
-                                                    <h6 class="text-muted mb-3">&nbsp;&nbsp;&nbsp;Member since: {{ $data['admin']->created_at                                                                 }}</h6>
+                                                    <h6 class="text-muted mb-3">&nbsp;&nbsp;&nbsp;Member since: {{ $data['admin']->created_at }}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -225,10 +226,50 @@
     </style>
 @endpush
 @push('js')
-    <script type="text/javascript">
+    {{--<script type="text/javascript">
         document.getElementById("image").onchange = function(){
             document.getElementById("form").submit();
         };
+    </script>--}}
+
+    <script type="text/javascript">
+
+        function handleImageUpload(){
+            var fileInput = document.getElementById('image');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('image', file);
+
+            $.ajax({
+                url : '{{ route('admin.upload-profile-image') }}',
+                type : 'post',
+                data : formData,
+                dataType : 'json',
+                processData: false,
+                contentType: false,
+                success : function(resp){
+                    if(resp.success == 'true'){
+                        $('.alert').removeClass('d-none');
+                        $('.alert').text(resp.msg);
+                        $('.alert').addClass('alert-success');
+                        setTimeout(function (){
+                            window.location.reload();
+                        },2000);
+
+                    }
+                    else if(resp.success == 'false'){
+                        $('.alert').removeClass('d-none');
+                        $('.alert').text(resp.msg);
+                        $('.alert').addClass('alert-danger');
+                        setTimeout(function (){
+                            window.location.reload();
+                        },2000);
+                    }
+                }
+            });
+
+        }
+
     </script>
 @endpush
 

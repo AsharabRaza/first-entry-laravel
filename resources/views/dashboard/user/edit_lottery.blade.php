@@ -444,7 +444,7 @@
                                                                 <div class="form-group row d-flex">
                                                                     <label class="col-md-3 col-form-label" for="winners_emails_instructions" {{ ($tooltip_status)?$instructions_tooltip:'' }}>Instructions</label>
                                                                     <div class="col-md-9" style="height: 100%;">
-                                                                        <div id="winners_emails_instructions">{{ $data['winners_emails_instructions'] }}</div>
+                                                                        <div id="winners_emails_instructions">{!! $data['winners_emails_instructions'] !!}</div>
                                                                         <!--<textarea name="instructions" id="winners_emails_instructions" class="form-control" cols="30" rows="4" required></textarea>-->
                                                                     </div>
                                                                 </div>
@@ -452,7 +452,7 @@
                                                                 <div class="form-group row d-flex">
                                                                     <label class="col-md-3 col-form-label" {{ ($tooltip_status)?$reminders_tooltip:'' }} for="winners_emails_reminders">Reminders</label>
                                                                     <div class="col-md-9" style="height: 100%;">
-                                                                        <div id="winners_emails_reminders">{{ $data['winners_emails_reminders'] }}</div>
+                                                                        <div id="winners_emails_reminders">{!! $data['winners_emails_reminders'] !!}</div>
                                                                         <!--<textarea name="reminders" id="winners_emails_reminders" class="form-control" cols="30" rows="4" required></textarea>-->
                                                                     </div>
                                                                 </div>
@@ -483,7 +483,7 @@
                                                                 </button>
 
                                                                 <div style="float: left;">
-                                                                    <button {{ ($tooltip_status)?$preview_email_tooltip:'' }} class="btn btn-info preview_btn" type="button" id="preview_btn_winner" data-template="winner" style="float: right;margin-right: 6px;">Preview</button>
+                                                                    <button {!! ($tooltip_status)?$preview_email_tooltip:'' !!} class="btn btn-info preview_btn" type="button" id="preview_btn_winner" data-template="winner" style="float: right;margin-right: 6px;">Preview</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -496,7 +496,7 @@
                                                                 <div class="form-group row d-flex">
                                                                     <label class="col-md-3 col-form-label" for="losers_emails_instructions">Instructions</label>
                                                                     <div class="col-md-9" style="height: 100%;">
-                                                                        <div id="losers_emails_instructions">{{ $data['losers_emails_instructions'] }}</div>
+                                                                        <div id="losers_emails_instructions">{!! $data['losers_emails_instructions'] !!}</div>
                                                                     </div>
                                                                 </div>
 
@@ -513,7 +513,7 @@
                                                                 </button>
 
                                                                 <div style="float: left;">
-                                                                    <button {{ ($tooltip_status)?$preview_email_tooltip:'' }} class="btn btn-info preview_btn" type="button" id="preview_btn_looser" data-template="looser" style="float: right;margin-right: 6px;">Preview</button>
+                                                                    <button {!! ($tooltip_status)?$preview_email_tooltip:'' !!} class="btn btn-info preview_btn" type="button" id="preview_btn_looser" data-template="looser" style="float: right;margin-right: 6px;">Preview</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -633,7 +633,7 @@
                                 <tbody><tr>
                                     <td class="email-masthead" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 25px 0; text-align: center; background-color: #222222 !important; color: #FFFFFF !important;">
                                         <a href="website_url_Value" class="f-fallback email-masthead_name" style="color: #A8AAAF; font-size: 16px; font-weight: bold; text-decoration: none; text-shadow: none !important;">
-                                            <img src="https://lottery.snsohag.com/assets/images/logo_black_1.png" height="45" style="border: none;">
+                                            <img src="{{ url('assets/images/logo_black_1.png') }}" height="45" style="border: none;">
                                         </a>
                                     </td>
                                 </tr>
@@ -676,15 +676,15 @@
                                                                 </td>
                                                             </tr>
                                                             </tbody></table>
-                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">{{ $data['winners_emails_instructions'] }}</p>
+                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">{!! $data['winners_emails_instructions'] !!}</p>
 
                                                         <div class="align-center" style="text-align: center;"><img class="map_image_value" src="{{$data['winners_emails_map_image'] ? url('assets/images/media/' . $data['winners_emails_map_image']):'-'}}" alt="image not uploaded"></div>
 
-                                                        <p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Your QR Code:</p>
-                                                        <div class="align-center" style="text-align: center;"><img src="../assets/images/media/dummy_qr_code.png" class="uid-img" style="width: 30%; margin: auto;"></div>
+                                                        {{--<p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Your QR Code:</p>
+                                                        <div class="align-center" style="text-align: center;"><img src="../assets/images/media/dummy_qr_code.png" class="uid-img" style="width: 30%; margin: auto;"></div>--}}
 
                                                         <p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Some reminders:</p>
-                                                        <div>{{ $data['winners_emails_reminders'] }}</div>
+                                                        <div>{!! $data['winners_emails_reminders'] !!}</div>
 
                                                         <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review the <a href="venue_link_Value" class="venue-link-color" style="color: #FFFFFF;">venue policies on prohibited items</a></p>
 
@@ -737,12 +737,12 @@
                                                                 <div class="f-fallback">
 
                                                                     <p class="align-center" style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                                        <img class="second_logo_value" src="{{ $data['lottery_logo']!='' ? url('../assets/images/media' . $data['lottery_logo']) : '' }} " alt="image not found" style="width: 120px;">
+                                                                        <img class="second_logo_value" src="{{ $data['lottery_logo']!='' ? url('../assets/images/media/' . $data['lottery_logo']) : '' }} " alt="image not found" style="width: 120px;">
                                                                     </p>
                                                                     <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Thank you for entering {{config('app.name')}} {{ ucfirst($data['title']) }} {{ date('M d, Y', strtotime($data['event_date'])) }}</h1>
                                                                     <h2 style="margin-top: 0; color: #FFFFFF !important; font-size: 16px; font-weight: bold; text-align: left;">Not selected name,</h2>
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have not won the {{config('app.name')}} for {{ ucfirst($data['title']) }} {{ date('M d, Y', strtotime($data['event_date'])) }}, thank you for participating, please try again next time.</p>
-                                                                    {{ $data['losers_emails_instructions'] }}
+                                                                    {!! $data['losers_emails_instructions'] !!}
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review <a href="venue_link_Value" class="venue-link-color" style="color: #FFFFFF;">venue policies</a>.</p>
 
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Thank you,

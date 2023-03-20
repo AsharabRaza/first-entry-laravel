@@ -17,33 +17,33 @@
 {{ Html::style('assets/css/dark-style.css') }}
 {{ Html::style('assets/css/skin-modes.css') }}
 {{ Html::style('assets/css/transparent-style.css') }}
-{{ Html::style('assets/css/color2.css') }}
+{{ Html::style('assets/css/color2.css?t='.rand(0,1000)) }}
 
 
-{{--<link href="../assets/css/color2.css?t=<?php echo rand(0, 10000);?>" rel="stylesheet" />--}}
+{{ Html::script('assets/js/jquery.min.js') }}
 
+<!-- BOOTSTRAP JS -->
+{{ Html::script('assets/plugin/bootstrap/js/popper.min.js',array('media'=>'all','rel'=>'stylesheet')) }}
+{{ Html::script('assets/plugin/bootstrap/js/bootstrap.min.js') }}
+
+{{--<style>
+
+    @if(auth()->user()->user_type == 1)
+        @if(auth()->user()->in_review == 1 || auth()->user()->review_approves == 0)
+            .side-menu li:not(.not_hide) {
+                display: none !important;
+            }
+        @endif
+    @endif
+
+</style>--}}
 <!--- FONT-ICONS CSS -->
 <!--<link href="../assets/css/icons.css" rel="stylesheet" />-->
 
 <!-- COLOR SKIN CSS -->
 <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ url('assets/colors/color1.css') }}" />
 
-{{--
-<style>
-    <?php
-        if($user_type == 1){
-            if($in_review == 1 || $review_approves == 0){
-                ?>
-                .side-menu li:not(.not_hide) {
-        display: none !important;
-    }
-    <?php
-    }
-    }
 
-    ?>
-
-</style>--}}
 
 
 @stack('css')

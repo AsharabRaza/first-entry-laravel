@@ -38,9 +38,12 @@ class SendEmailController extends Controller
         {
 
             $lotter_details = Lottery::where('id', request()->input('lottery_id'))->where('user_id', $normal_user)->first();
+
             if($lotter_details) {
 
                 if ($entriesType == 'Winners') {
+
+                    $email_type = 'winners_email';
 
                     $total_result = Lottery_Winner::select('*')
                         ->join('entries', 'lottery_winners.entry_id', '=', 'entries.id')
@@ -78,6 +81,8 @@ class SendEmailController extends Controller
                 }
                 elseif($entriesType == 'Losers'){
 
+                    $email_type = 'losers_email';
+
                     $total_result = Lottery_Losser::select('*')
                         ->join('entries', 'lottery_losers.entry_id', '=', 'entries.id')
                         ->where('lottery_losers.lottery_id', $lotteryId)
@@ -111,6 +116,9 @@ class SendEmailController extends Controller
 
                 }
 
+                $email_data = Email_Template::where('lottery_id', request()->input('lottery_id'))->where('user_id', $normal_user)->where('email_type', $email_type)->first()->email_data;
+                $email_data = unserialize($email_data);
+
             }
             else
             {
@@ -127,7 +135,7 @@ class SendEmailController extends Controller
             ->orderBy('title', 'asc')
             ->get();
 
-        return view('dashboard.user.send_emails',compact('total_lotteries','available_l', 'error_msg', 'lotter_details', 'send', 'total_result'));
+        return view('dashboard.user.send_emails',compact('total_lotteries','available_l', 'error_msg', 'lotter_details', 'send', 'total_result', 'email_data'));
 
     }
 

@@ -129,7 +129,8 @@
     </div>
     <!--app-content end-->
     <!--Modal-->
-    {{--<div class="modal fade"  id="modalPreviewEmail">
+    @if(request()->has('lottery_id') && request()->filled('lottery_id') && request()->has('entries_type') && request()->filled('entries_type'))
+        <div class="modal fade"  id="modalPreviewEmail">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header pd-20">
@@ -137,10 +138,11 @@
                 </div>
                 <div class="modal-body pd-0">
                     <div class="row">
-                        <div class="col-lg-12" id="winner_template" style="display: none;">
-                            <?php //echo $template_output->HtmlBody; ?>
+                        @if(request()->has('entries_type') && request()->filled('entries_type') && request()->input('entries_type') == 'Winners')
+                            <div class="col-lg-12" id="winner_template" style="display: none;">
                             <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; margin: 0; padding: 0; -premailer-width: 100%; -premailer-cellpadding: 0; -premailer-cellspacing: 0; background-color: #222222 !important; color: #FFFFFF !important;">
-                                <tbody><tr>
+                                <tbody>
+                                <tr>
                                     <td class="email-masthead" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 25px 0; text-align: center; background-color: #222222 !important; color: #FFFFFF !important;">
                                         <a href="website_url_Value" class="f-fallback email-masthead_name" style="color: #A8AAAF; font-size: 16px; font-weight: bold; text-decoration: none; text-shadow: none !important;">
                                             <img src="https://lottery.snsohag.com/assets/images/logo_black_1.png" height="45" style="border: none;">
@@ -157,11 +159,11 @@
                                                     <div class="f-fallback">
 
                                                         <p class="align-center" style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                            <img class="second_logo_value" src="<?php if($lotter_details->header_image != ''){echo '../assets/images/media/' . $lotter_details->header_image;}?>" alt="image not found" style="width: 120px;">
+                                                            <img class="second_logo_value" src="{{ isset($lotter_details['header_image']) != '' ? url('assets/images/media/'.$lotter_details['header_image']) : '' }}" alt="image not found" style="width: 120px;">
                                                         </p>
                                                         <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Congratulations!</h1>
                                                         <h2 style="margin-top: 0; color: #FFFFFF !important; font-size: 16px; font-weight: bold; text-align: left;">winner name,</h2>
-                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have been randomly selected for <?php echo $site_title; ?> at <?php echo $lotter_details->title;?> on <?php echo date('M d, Y', strtotime($lotter_details->event_datetime)).' '.$lotter_details->event_time;?>. Please read the instructions carefully.</p>
+                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have been randomly selected for {{ config('app.name') }} at {{ $lotter_details['title'] }} on {{ date('M d, Y', strtotime($lotter_details['event_datetime'])).' '.$lotter_details['event_time'] }}. Please read the instructions carefully.</p>
                                                         <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Here's your winner information:</p>
                                                         <table class="attributes" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 21px;">
                                                             <tbody><tr>
@@ -186,20 +188,20 @@
                                                                 </td>
                                                             </tr>
                                                             </tbody></table>
-                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;"><?php echo $winners_emails_instructions;?></p>
+                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">{!! $email_data['instructions'] !!}</p>
 
-                                                        <img class="map_image_value" src="<?php echo ($winners_emails_map_image)?'../assets/images/media/' . $winners_emails_map_image:'-';?>" alt="image not uploaded">
+                                                        <img class="map_image_value" src="{{ $email_data['map_image'] != '' ? url('assets/images/media/'.$email_data['map_image']) : '-' }}" alt="image not uploaded">
 
-                                                        <p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Your QR Code:</p>
-                                                        <div class="align-center" style="text-align: center;"><img src="../assets/images/media/dummy_qr_code.png" class="uid-img" style="width: 30%; margin: auto;"></div>
+                                                        {{--<p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Your QR Code:</p>
+                                                        <div class="align-center" style="text-align: center;"><img src="../assets/images/media/dummy_qr_code.png" class="uid-img" style="width: 30%; margin: auto;"></div>--}}
 
                                                         <p class="align-center reminders-title" style="margin: 1.1875em 0 0.4em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Some reminders:</p>
-                                                        <div><?php echo $winners_emails_reminders;?></div>
+                                                        <div>{!! $email_data['reminders'] ? $email_data['reminders'] : '' !!}</div>
 
-                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review the <a href="venue_link_Value" class="venue-link-color" style="color: #FFFFFF;">venue policies on prohibited items</a></p>
+                                                        <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review the <a href="{{ $email_data['venue_link'] }}" class="venue-link-color" style="color: #FFFFFF;">venue policies on prohibited items</a></p>
 
                                                         <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Thank you,
-                                                            <br><?php echo $site_title; ?> Team</p>
+                                                            <br>{{ config('app.name') }} Team</p>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -211,12 +213,12 @@
                                         <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="width: 570px; margin: 0 auto; padding: 0; -premailer-width: 570px; -premailer-cellpadding: 0; -premailer-cellspacing: 0; text-align: center; background-color: #222222 !important; color: #FFFFFF !important;">
                                             <tbody><tr>
                                                 <td class="content-cell" align="center" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 10px 20px 20px;">
-                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;"><?php echo $company_address;?></p>
+                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">{{ config('app.company_address') }}</p>
                                                     <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                        This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with <?php echo $site_title; ?>. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
-                                                        <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from <?php echo $site_title; ?>, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
+                                                        This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with {{ config('app.name') }}. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
+                                                        <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from {{ config('app.name') }}, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
                                                     </p>
-                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © <?php echo date('Y');?> <?php echo $site_title; ?>. All rights reserved.</p>
+                                                    <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © <?php echo date('Y');?> {{ config('app.name') }}. All rights reserved.</p>
                                                 </td>
                                             </tr>
                                             </tbody></table>
@@ -224,8 +226,9 @@
                                 </tr>
                                 </tbody></table>
                         </div>
-
-                        <div class="col-lg-12" id="looser_template" style="display: none;">
+                        @endif
+                        @if(request()->has('entries_type') && request()->filled('entries_type') && request()->input('entries_type') == 'Losers')
+                            <div class="col-lg-12" id="looser_template" style="display: none;">
                             <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; margin: 0; padding: 0; -premailer-width: 100%; -premailer-cellpadding: 0; -premailer-cellspacing: 0; background-color: #222222 !important; color: #FFFFFF !important;">
                                 <tbody><tr>
                                     <td align="center" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px;">
@@ -247,16 +250,16 @@
                                                                 <div class="f-fallback">
 
                                                                     <p class="align-center" style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                                        <img src="<?php if($lotter_details->header_image != ''){echo '../assets/images/media/' . $lotter_details->header_image;}?>" alt="image not found" style="width: 240px;">
+                                                                        <img src="{{ $lotter_details['header_image'] != '' ? url('assets/images/media/'.$lotter_details['header_image']) : '' }}" alt="image not found" style="width: 240px;">
                                                                     </p>
-                                                                    <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Thank you for entering <?php echo $site_title; ?> <?php echo $lotter_details->title;?> <?php echo date('M d, Y', strtotime($lotter_details->event_datetime));?></h1>
+                                                                    <h1 class="align-center" style="margin-top: 0; color: #FFFFFF !important; font-size: 22px; font-weight: bold; text-align: center;">Thank you for entering {{ config('app.name') }} {{ $lotter_details['title'] }} {{ date('M d, Y', strtotime($lotter_details['event_datetime'])) }}</h1>
                                                                     <h2 style="margin-top: 0; color: #FFFFFF !important; font-size: 16px; font-weight: bold; text-align: left;">Not selected name,</h2>
-                                                                    <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have not won the <?php echo $site_title; ?> for <?php echo $lotter_details->title;?> <?php echo date('M d, Y', strtotime($lotter_details->event_datetime));?>, thank you for participating, please try again next time.</p>
-                                                                    <?php echo $losers_emails_instructions;?>
+                                                                    <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">You have not won the {{ config('app.name') }} for {{ $lotter_details['title'] }} {{ date('M d, Y', strtotime($lotter_details['event_datetime'])) }}, thank you for participating, please try again next time.</p>
+                                                                    {!! $email_data['instructions'] !!}
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Please review <a href="venue_link_Value" class="venue-link-color" style="color: #FFFFFF;">venue policies</a>.</p>
 
                                                                     <p style="margin: 0.4em 0 1.1875em; font-size: 16px; line-height: 1.625; color: #FFFFFF !important;">Thank you,
-                                                                        <br><?php echo $site_title; ?> Team</p>
+                                                                        <br>{{ config('app.name') }} Team</p>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -268,12 +271,12 @@
                                                     <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="width: 570px; margin: 0 auto; padding: 0; -premailer-width: 570px; -premailer-cellpadding: 0; -premailer-cellspacing: 0; text-align: center; background-color: #222222 !important; color: #FFFFFF !important;">
                                                         <tbody><tr>
                                                             <td class="content-cell" align="center" style="font-family: &quot;Nunito Sans&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 10px 20px 20px;">
-                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;"><?php echo $company_address;?></p>
+                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">{{ config('app.company_address') }}</p>
                                                                 <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">
-                                                                    This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with <?php echo $site_title; ?>. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
-                                                                    <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from <?php echo $site_title; ?>, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
+                                                                    This message was sent to <span style="color: #FFFFFF !important;">receiver_email_Value</span> as you signed up with {{ config('app.name') }}. Please do not reply to this email as this address is not monitored. Please <a href="contact_support_Value" style="color: #FFFFFF; text-decoration: underline;">contact support</a> for any questions.
+                                                                    <span class="unsubscribe_hide_Value" style="color: #FFFFFF !important;"><br>If you no longer wish to receive emails from {{ config('app.name') }}, <a href="https://subscriptions.pstmrk.it/demo/unsubscribe" style="color: #FFFFFF; text-decoration: underline;">click here</a> to unsubscribe.</span>
                                                                 </p>
-                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © <?php echo date('Y');?> <?php echo $site_title; ?>. All rights reserved.</p>
+                                                                <p class="f-fallback sub align-center" style="margin: 0.4em 0 1.1875em; font-size: 13px; line-height: 1.625; color: #FFFFFF !important; text-align: center;">Copyright © <?php echo date('Y');?> {{ config('app.name') }}. All rights reserved.</p>
                                                             </td>
                                                         </tr>
                                                         </tbody></table>
@@ -284,6 +287,7 @@
                                 </tr>
                                 </tbody></table>
                         </div>
+                        @endif
                     </div>
                     <div class="modal-footer pd-20">
                         <button class="btn btn-light" data-bs-dismiss="modal" aria-label="Close" >Close</button>
@@ -291,7 +295,8 @@
                 </div>
             </div>
         </div>
-    </div>--}}
+    </div>
+    @endif
         <!--/Modal-->
 
 

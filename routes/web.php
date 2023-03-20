@@ -123,6 +123,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/assign-membership',[MembershipController::class,'assign_membership'])->name('assign-membership');
         Route::post('/assign-membership',[MembershipController::class,'assign_membership'])->name('assign-membership');
         Route::get('/view-profile',[AdminController::class,'view_profile'])->name('view-profile');
+        Route::any('/upload-profile-image',[AdminController::class,'upload_profile_image'])->name('upload-profile-image');
         Route::any('/edit-profile',[AdminController::class,'edit_profile'])->name('edit-profile');
         Route::any('/change-password',[AdminController::class,'change_password'])->name('change-password');
     });

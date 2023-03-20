@@ -7,6 +7,7 @@ use App\Models\Lottery_Winner;
 use App\Models\Lottery_Losser;
 use Illuminate\Support\Facades\DB;
 use Postmark\PostmarkClient;
+use Illuminate\Http\Request;
 
 function formatted_date($date, $format = 'M d, Y h:i a') {
     $formatted_Date = date($format, strtotime($date));
@@ -577,6 +578,12 @@ function getAgentsPermissions($permissions)
         }
     }
 }
+
+// AppServiceProvider.php or a helper file
+function setActive($path, $active = 'active') {
+    return call_user_func_array('Request::is', (array)$path) ? $active : '';
+}
+
 
 
 

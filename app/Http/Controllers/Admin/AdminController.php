@@ -33,6 +33,44 @@ class AdminController extends Controller
         return view('dashboard.admin.view_profile')->with(['data'=>$this->data]);
     }
 
+    public function upload_profile_image(Request $request){
+
+
+        $imageName = $request->file('image')->getClientOriginalName();
+        $imageSize = $request->file('image')->getSize();
+        $tmpName = $request->file('image')->getPathname();
+
+        // Image validation
+        $validImageExtension = ['jpg', 'jpeg', 'png'];
+        $imageExtension = strtolower($request->file('image')->getClientOriginalExtension());
+        if (!in_array($imageExtension, $validImageExtension)) {
+            return response()->json([
+                'success' => 'false',
+                'msg' => 'Invalid Image Extension'
+            ]);
+        } elseif ($imageSize > 1200000) {
+            return response()->json([
+                'success' => 'false',
+                'msg' => 'Image Size Is Too Large'
+            ]);
+        } else {
+            $newImageName = date("Y.m.d") . "-" . date("h.i.sa"); // Generate new image name
+            $newImageName .= '.' . $imageExtension;
+
+            $user = Admin::find(auth()->user()->id);
+            $user->profile_picture = $newImageName;
+            $user->save();
+
+            $request->file('image')->move(public_path('superAdmin/images/uploaded/'), $newImageName);
+            return response()->json([
+                'success' => 'true',
+                'msg' => 'Profile picture updated successfully'
+            ]);
+        }
+
+
+    }
+
     public function edit_profile(Request $request){
         if($request->isMethod('post')){
             $update_admin = Admin::where('id',Auth::guard('admin')->id())->update([
