@@ -854,7 +854,6 @@
     </div>
     <!--/Modal-->
 
-
     <!--Modal-->
     <div class="modal fade"  id="modalQuill">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

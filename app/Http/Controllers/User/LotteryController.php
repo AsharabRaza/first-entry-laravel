@@ -216,15 +216,13 @@ class LotteryController extends Controller
             if ($request->has('duplicate_id')) {
                 $lottery_id = $request->duplicate_id;
                 $lottery_id = base64_decode($lottery_id);
-                $duplicate_lottery = Lottery::find($lottery_id);
-                if ($duplicate_lottery) {
-                    $this->data['dup_lottery_data'] = $duplicate_lottery;
-                }
+                $dup_row = Lottery::find($lottery_id);
+
             }
 
             $this->data['remaining_events'] = getRemainingUserEvents(auth()->user()->id);
 
-            return view('dashboard.user.add_lottery')->with(['data' => $this->data]);
+            return view('dashboard.user.add_lottery',compact('dup_row'))->with(['data' => $this->data]);
 
         }
     }

@@ -31,6 +31,7 @@ class SendEmailController extends Controller
         $lotter_details = [];
         $send = '';
         $total_result = [];
+        $email_data = [];
 
         //dd($request->all());
 

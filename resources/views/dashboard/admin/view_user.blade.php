@@ -36,7 +36,7 @@
                                         <div class="col-lg-12 col-md-12 col-xl-6">
                                             <div class="wideget-user-desc d-sm-flex">
                                                 <div class="wideget-user-img">
-                                                    <img class="" src=" @if($data['user']->profile_picture == NULL) {{ url('assets/images/default-avatar.jpg') }} @else {{ 'user/images/' . $data['user']->profile_picture }} @endif " alt="img" height="120">
+                                                    <img class="" src="@if($data['user']->profile_picture == NULL) {{ url('assets/images/default-avatar.jpg') }} @else {{ url('user/images/uploaded/' . $data['user']->profile_picture) }} @endif" alt="img" height="120">
                                                 </div>
                                                 <div class="user-wrap">
                                                     <h4>{{ $data['user']->first_name .' '. $data['user']->last_name }}</h4>

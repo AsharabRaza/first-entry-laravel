@@ -26,8 +26,8 @@
                 <li class="sub-category">
                     <h3>LOTTERIES</h3>
                 </li>
-                <li class="slide {{ setActive(['admin/home'], 'is-expanded') }}">
-                    <a class="side-menu__item {{ setActive('admin/home', 'active') }}" data-bs-toggle="slide" href="all_lotteries.php"><i class="side-menu__icon bi bi-stars"></i><span class="side-menu__label">All lotteries</span></a>
+                <li class="slide {{ setActive(['admin/all-lotteries'], 'is-expanded') }}">
+                    <a class="side-menu__item {{ setActive('admin/all-lotteries', 'active') }}" data-bs-toggle="slide" href="{{ route('admin.all-lotteries') }}"><i class="side-menu__icon bi bi-stars"></i><span class="side-menu__label">All lotteries</span></a>
                 </li>
                 <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person-lines-fill"></i><span class="side-menu__label">Participants</span><i class="angle bi bi-chevron-right"></i></a>

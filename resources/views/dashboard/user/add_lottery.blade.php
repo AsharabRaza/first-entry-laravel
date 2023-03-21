@@ -33,6 +33,23 @@
         $scan_starttime_tooltip = $tooltip_primary.' title="Set the date and time agents can start scanning for the event."';
         $scan_endtime_tooltip = $tooltip_primary.' title="Set the date and time agents stop scanning for the event."';
 
+        $lottery_logo = $dup_row->header_image;
+        $lottery_background_image = $dup_row->background_image;
+        $allow_guest = $dup_row->allow_guest;
+        $description = $dup_row->description;
+        $description = unserialize($description);
+
+        $country_code = $dup_row->country_code;
+        $lot_timezone = $dup_row->timezone;
+
+        $how_it_works = $dup_row->how_it_works;
+        $how_it_works = unserialize($how_it_works);
+
+        $terms_conditions = $dup_row->terms_conditions;
+        $terms_conditions = unserialize($terms_conditions);
+
+        $scanning_option = $dup_row->scanning_option;
+
 
     @endphp
     <!--app-content open-->
@@ -246,13 +263,13 @@
                                                             <label for="lottery_logo" <?php echo ($tooltip_status)?$logo_tooltip:'';?>>Logo <small class="text-default">(Optional)</small></label>
                                                             <input type="file" class="form-control" id="lottery_logo" accept="image/*">
 
-                                                            @php
+                                                           {{-- @php
                                                                 $lottery_logo = '';
                                                                 $lottery_background_image = '';
-                                                            @endphp
+                                                            @endphp--}}
 
                                                             <div class="mt-2 img-thumbnail <?php if(isset($_REQUEST['duplicate_id'])){if($lottery_logo == ''){echo 'd-none';}}else{echo 'd-none';}?>" style="width: fit-content;position: relative;" id="preview_lottery_logo_wrap">
-                                                                <img src="<?php if($lottery_logo != ''){echo '../assets/images/media/' . $lottery_logo;}?>" id="preview_lottery_logo" style="width: 120px;">
+                                                                <img src="<?php if($lottery_logo != ''){echo url('assets/images/media/' . $lottery_logo);}?>" id="preview_lottery_logo" style="width: 120px;">
                                                                 <input type="hidden" id="fake_img_lottery_logo" data-value="<?php if($lottery_logo != ''){echo $lottery_logo;}?>" value="<?php if($lottery_logo != ''){echo $lottery_logo;}?>">
                                                                 <button type="button" class="remove_btn" id="remove_img_lottery_logo"><i class="bi bi-x-circle-fill"></i></button>
                                                             </div>
@@ -262,7 +279,7 @@
                                                             <input type="file" class="form-control" id="lottery_background_image" accept="image/*">
 
                                                             <div class="mt-2 img-thumbnail <?php if(isset($_REQUEST['duplicate_id'])){if($lottery_background_image == ''){echo 'd-none';}}else{echo 'd-none';}?>" style="width: fit-content;position: relative;" id="preview_lottery_background_image_wrap">
-                                                                <img src="<?php if($lottery_background_image != ''){echo '../assets/images/media/' . $lottery_background_image;}?>" id="preview_lottery_background_image" style="width: 120px;">
+                                                                <img src="<?php if($lottery_background_image != ''){echo url('assets/images/media/' . $lottery_background_image);}?>" id="preview_lottery_background_image" style="width: 120px;">
                                                                 <input type="hidden" id="fake_img_lottery_background_image" data-value="<?php if($lottery_background_image != ''){echo $lottery_background_image;}?>" value="<?php if($lottery_background_image != ''){echo $lottery_background_image;}?>">
                                                                 <button type="button" class="remove_btn" id="remove_img_lottery_background_image"><i class="bi bi-x-circle-fill"></i></button>
                                                             </div>

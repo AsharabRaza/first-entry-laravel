@@ -61,8 +61,8 @@
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-xl-6">
                                             <div class="text-xl-right mt-4 mt-xl-0 p_right_buttons">
-                                                <a href="change_password.php" class="btn btn-white">Change password</a>
-                                                <a href="edit_profile.php" class="btn btn-primary">Edit Profile</a>
+                                                <a href="{{ route('user.change-password') }}" class="btn btn-white">Change password</a>
+                                                <a href="{{ route('user.edit-profile') }}" class="btn btn-primary">Edit Profile</a>
                                             </div>
                                             <div class="mt-5">
                                                 <div class="main-profile-contact-list float-lg-end d-lg-flex row" style="width: 100%;">
@@ -135,7 +135,7 @@
                                                         </tr>
                                                     @if($data['user']->user_type == 2)
                                                         <tr>
-                                                            <td><strong>Phone :</strong> <?php echo $phone; ?> </td>
+                                                            <td><strong>Phone :</strong> {{ $data['user']->phone }} </td>
                                                         </tr>
                                                     @elseif($data['user']->user_type == 1)
                                                         <tr>

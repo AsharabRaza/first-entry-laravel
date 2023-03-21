@@ -43,7 +43,11 @@ class UserController extends Controller
 
         $creds = $request->only('email','password');
         if(Auth::guard('web')->attempt($creds)){
-            return redirect()->route('user.home');
+            if(auth()->user()->user_type == 1){ //for user
+                return redirect()->route('user.home');
+            }else{ //for agent
+                return redirect()->route('user.entry-verification');
+            }
         }else{
             return redirect()->back()->with('fail','Incorrect credentials');
         }

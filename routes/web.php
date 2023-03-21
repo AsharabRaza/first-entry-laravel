@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\User\LotteryController;
+use App\Http\Controllers\Admin\LotteryController as AdminLotteryController;
 use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\Agent;
 use App\Http\Controllers\FrontEnd\LotteryFormController;
@@ -126,6 +127,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::any('/upload-profile-image',[AdminController::class,'upload_profile_image'])->name('upload-profile-image');
         Route::any('/edit-profile',[AdminController::class,'edit_profile'])->name('edit-profile');
         Route::any('/change-password',[AdminController::class,'change_password'])->name('change-password');
+        Route::any('/all-lotteries',[AdminLotteryController::class,'all_lotteries'])->name('all-lotteries');
     });
 
 });
