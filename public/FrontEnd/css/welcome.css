@@ -1,0 +1,41 @@
+
+.h-400{
+    height: 400px !important;
+}
+
+.text-dark-wc {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-dark-rgb),var(--bs-text-opacity))!important;
+}
+
+.welcome_sc p {
+    color: #0d0c22;
+}
+
+.welcome_sc label{
+    color:gray !important;
+}
+
+.shadow-w{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset !important;
+}
+
+.profile-image{
+    position: relative !important;
+    top:-25% !important;
+}
+.profile-image .pimg{
+    width: 150px !important;
+    border-radius: 50% !important;
+    border:1px solid black !important;
+    background-color: white !important;
+}
+.profile-desc{
+    position: relative !important;
+    top:-15% !important;
+}
+
+/* .footer{
+    position:fixed;
+    bottom: 0px;
+} */

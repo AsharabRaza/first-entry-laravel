@@ -72,8 +72,8 @@ class EntryController extends Controller
         $loser1->lottery_id = $lottery_id;
         $loser1->entry_id = $entry_id;
         $loser1->sorting = 0;
-        $loser1->last_updated = $current_datetime;
-        $loser1->date_created = $current_datetime;
+        $loser1->updated_at = $current_datetime;
+        $loser1->created_at = $current_datetime;
 
         if ($loser1->save()) {
             // Delete the winner record from lotteries_winners table
@@ -96,8 +96,8 @@ class EntryController extends Controller
             $loser2->lottery_id = $lottery_id;
             $loser2->entry_id = $guest_id;
             $loser2->sorting = 0;
-            $loser2->last_updated = $current_datetime;
-            $loser2->date_created = $current_datetime;
+            $loser2->updated_at = $current_datetime;
+            $loser2->created_at = $current_datetime;
 
             if ($loser2->save()) {
                 // Delete the winner record from lotteries_winners table

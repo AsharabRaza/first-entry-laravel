@@ -176,10 +176,12 @@
                                                                     @endif
                                                                 @endif
                                                             </td>
-                                                @endforeach
-                                            @else
-                                                <tr><td colspan="13" class="text-center">No data available.</td></tr>
-                                            @endif
+
+
+                                                    @endforeach
+                                                @else
+                                                    <tr><td colspan="13" class="text-center">No data available.</td></tr>
+                                                @endif
                                         </tbody>
                                     </table>
                                 </div>

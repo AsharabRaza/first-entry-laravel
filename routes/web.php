@@ -13,8 +13,10 @@ use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\Agent;
 use App\Http\Controllers\FrontEnd\LotteryFormController;
 use App\Http\Controllers\User\EntryController;
+use App\Http\Controllers\Admin\EntryController as AdminEntryController;
 use App\Http\Controllers\User\SendEmailController;
 use App\Http\Controllers\User\EntryVerificationController;
+use App\Http\Controllers\FrontEnd\IndexController;
 
 
 /*
@@ -39,9 +41,7 @@ Route::get('/clear', function() {
     echo '<p>Config cache cleared</p><br>';
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () { return view('welcome'); });
 Auth::routes();
 
 
@@ -128,6 +128,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::any('/edit-profile',[AdminController::class,'edit_profile'])->name('edit-profile');
         Route::any('/change-password',[AdminController::class,'change_password'])->name('change-password');
         Route::any('/all-lotteries',[AdminLotteryController::class,'all_lotteries'])->name('all-lotteries');
+        Route::any('/all-entries',[AdminEntryController::class,'all_entries'])->name('all-entries');
+        Route::any('/remove-winners',[AdminEntryController::class,'remove_winners'])->name('remove-winners');
+        Route::any('/remove-entries',[AdminEntryController::class,'remove_entries'])->name('remove-entries');
+        Route::any('/all-winners',[AdminEntryController::class,'all_winners'])->name('all-winners');
+        Route::any('/all-losers',[AdminEntryController::class,'all_losers'])->name('all-losers');
     });
 
 });
@@ -140,6 +145,10 @@ Route::any('/captcha',[LotteryFormController::class,'captcha'])->name('captcha')
 Route::any('/save_lottery_form',[LotteryFormController::class,'save_lottery_form'])->name('save-lottery-form');
 Route::any('/save-s_qrcode',[LotteryFormController::class,'save_s_qrcode'])->name('save-s_qrcode');
 Route::any('/uid-status/{uid?}',[LotteryFormController::class,'uid_status'])->name('uid-status');
+Route::any('/',[IndexController::class,'index'])->name('index');
+Route::any('/contact-us',[IndexController::class,'contact_us'])->name('contact-us');
+Route::any('/request-demo',[IndexController::class,'request_demo'])->name('request-demo');
+Route::any('/event-lottery',[IndexController::class,'event_lottery'])->name('event-lottery');
 
 
 

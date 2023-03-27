@@ -99,10 +99,10 @@
                                                         <td>
                                                             <span @if($tooltip_status){{$all_lott_row_winners_limit_tooltip}}@endif>{{$lottery->total_winners}}</span>
                                                             @if(strtotime($current_datetime) > strtotime($end_datetime) || (strtotime($current_datetime) >= strtotime($start_datetime) && strtotime($current_datetime) <= strtotime($end_datetime)))
-                                                                <a href="{{route('user.all-entries', ['id' => $lottery->id])}}" class="badge bg-primary rounded-pill" style="margin-right: 2px;margin-left: 4px;" data-bs-placement="top" data-bs-toggle="tooltip-primary" title="Total entries">{{$lottery->selected_total_entries}}</a>
+                                                                <a href="{{route('admin.all-entries', ['id' => $lottery->id])}}" class="badge bg-primary rounded-pill" style="margin-right: 2px;margin-left: 4px;" data-bs-placement="top" data-bs-toggle="tooltip-primary" title="Total entries">{{$lottery->selected_total_entries}}</a>
                                                                 @if(strtotime($current_datetime) > strtotime($end_datetime))
-                                                                    <a href="{{route('user.all-winners', ['id' => $lottery->id])}}" class="badge bg-info rounded-pill" style="margin-right: 2px;" data-bs-placement="top" data-bs-toggle="tooltip-info" title="Total winners">{{$lottery->selected_total_winners}}</a>
-                                                                    <a href="{{route('user.all-losers', ['id' => $lottery->id])}}" class="badge bg-danger rounded-pill" data-bs-placement="top" data-bs-toggle="tooltip-danger" title="Total losers">{{$lottery->selected_total_losers}}</a>
+                                                                    <a href="{{route('admin.all-winners', ['id' => $lottery->id])}}" class="badge bg-info rounded-pill" style="margin-right: 2px;" data-bs-placement="top" data-bs-toggle="tooltip-info" title="Total winners">{{$lottery->selected_total_winners}}</a>
+                                                                    <a href="{{route('admin.all-losers', ['id' => $lottery->id])}}" class="badge bg-danger rounded-pill" data-bs-placement="top" data-bs-toggle="tooltip-danger" title="Total losers">{{$lottery->selected_total_losers}}</a>
                                                                 @endif
                                                             @endif
                                                         </td>

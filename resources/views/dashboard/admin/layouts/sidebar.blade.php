@@ -29,13 +29,13 @@
                 <li class="slide {{ setActive(['admin/all-lotteries'], 'is-expanded') }}">
                     <a class="side-menu__item {{ setActive('admin/all-lotteries', 'active') }}" data-bs-toggle="slide" href="{{ route('admin.all-lotteries') }}"><i class="side-menu__icon bi bi-stars"></i><span class="side-menu__label">All lotteries</span></a>
                 </li>
-                <li class="slide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person-lines-fill"></i><span class="side-menu__label">Participants</span><i class="angle bi bi-chevron-right"></i></a>
+                <li class="slide {{ setActive(['admin/all-winners','admin/all-entries','admin/all-losers'], 'is-expanded') }}">
+                    <a class="side-menu__item {{ setActive(['admin/all-winners','admin/all-entries','admin/all-losers'], 'is-expanded active') }}" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon bi bi-person-lines-fill"></i><span class="side-menu__label">Participants</span><i class="angle bi bi-chevron-right"></i></a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1"><a href="javascript:void(0)">Participants</a></li>
-                        <li><a href="all_entries.php" class="slide-item"> All entries</a></li>
-                        <li><a href="all_winners.php" class="slide-item"> All winners</a></li>
-                        <li><a href="all_losers.php" class="slide-item"> All losers</a></li>
+                        <li><a href="{{ route('admin.all-entries') }}" class="slide-item {{ setActive('admin/all-entries', 'active') }}"> All entries</a></li>
+                        <li><a href="{{ route('admin.all-winners') }}" class="slide-item {{ setActive('admin/all-winners', 'active') }}"> All winners</a></li>
+                        <li><a href="{{ route('admin.all-losers') }}" class="slide-item {{ setActive('admin/all-losers', 'active') }}"> All losers</a></li>
                     </ul>
                 </li>
 
@@ -49,7 +49,7 @@
                         <li><a href="{{ route('admin.all-users') }}" class="slide-item {{ setActive('admin/all-users', 'active') }}"> All users</a></li>
                         <li><a href="{{ route('admin.in-review-users') }}" class="slide-item {{ setActive('admin/in-review-users', 'active') }}">
                                 In review
-                                <span class="badge bg-secondary side-badge" style="position:absolute;right: 0;top: 50%;transform: translate(-50%, -50%);">{{ $data['total_in_review_users'] ? $data['total_in_review_users'] : '' }}</span>
+                                <span class="badge bg-secondary side-badge" style="position:absolute;right: 0;top: 50%;transform: translate(-50%, -50%);">{{ isset($data['total_in_review_users']) && $data['total_in_review_users'] > 0 ? $data['total_in_review_users'] : '' }}</span>
                             </a>
                         </li>
                         <!-- <li><a href="in_review_users.php" class="slide-item"> In Review</a></li> -->

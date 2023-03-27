@@ -420,6 +420,34 @@ function send_email_batch_with_template($batch){
     return $response;
 }
 
+function send_email_info($email, $email_content, $email_subject, $tag_name){
+    $from_email = 'info@firstentry.net';
+    $to_email   = $from_email;
+    $from_email = 'admininfo@firstentry.net';
+
+    $client = new PostmarkClient('e22698e7-1778-41ea-bddc-c4442310a7b3');
+    $sendResult = $client->sendEmailWithTemplate(
+        $from_email,
+        $to_email,
+//        30307700,
+        28848668,
+        [
+            'email_subject ' => $email_subject,
+            "website_url" => url('/'),
+            "receiver_name" => config('app.name'),
+            "company_name" => config('app.name'),
+            "receiver_email" => $to_email,
+            "email_content" => $email_content,
+            "contact_support" => 'mailto:support@firstentry.net',
+            "company_address" => '',
+            "current_year" => date('Y')
+        ],
+        true,
+        $tag_name);
+
+    return true;
+}
+
 function get_lotteries_winners_losers(){
 
     $normal_user = auth()->user()->id;
