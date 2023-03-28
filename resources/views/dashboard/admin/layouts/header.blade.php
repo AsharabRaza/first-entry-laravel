@@ -1,3 +1,4 @@
+
 <!-- GLOBAL-LOADER -->
 {{--<div id="global-loader">
     <img src="{{ url('assets/images/loader.svg') }}" class="loader-img" alt="Loader">
@@ -93,30 +94,23 @@
                                 <span data-bs-toggle="dropdown" class="dropdown-toggle2 d-none"></span>
                                 <a href="javascript:void(0);" class="nav-link leading-none d-flex px-1" id="open_right_toggle">
                                                 <span>
-                                                    <i class="bi bi-person avatar profile-user brround cover-image" style="background: var(--color-one);box-shadow: 0px 2px 3px #1a1a2f;font-size: 20px;display: flex;place-content: center;align-items: center;"></i>
-                                                   {{-- <?php
-                                                    if($_SESSION['normal_profile_picture'] == ''){
-                                                    ?>
+                                                    @if(auth()->user()->profile_picture == '')
                                                         <i class="bi bi-person avatar profile-user brround cover-image" style="background: var(--color-one);box-shadow: 0px 2px 3px #1a1a2f;font-size: 20px;display: flex;place-content: center;align-items: center;"></i>
-                                                        <?php
-                                                    }else{
-                                                    ?>
-                                                        <img src="../assets/images/users/<?php echo $_SESSION['normal_profile_picture'];?>" alt="profile-user" class="avatar  profile-user brround cover-image">
-                                                        <?php
-                                                    }
-                                                    ?>--}}
+                                                    @else
+                                                        <img src="{{ url('superAdmin/images/uploaded/'.auth()->user()->profile_picture) }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                    @endif
                                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <div class="drop-heading">
                                         <div class="text-center">
 
-                                            <h5 class="text-dark mb-0">{{ auth()->user()->first_name.' '.auth()->user()->last_name }}</h5>
+                                            <h5 class="text-dark mb-0">{{ auth()->user()->name }}</h5>
                                             <small class="text-muted">Trial</small>
                                         </div>
                                     </div>
                                     <div class="dropdown-divider m-0"></div>
-                                    <a class="dropdown-item" href="profile.php">
+                                    <a class="dropdown-item" href="{{ route('admin.view-profile') }}">
                                         <i class="dropdown-icon bi bi-person"></i> Profile
                                     </a>
                                     <a class="dropdown-item" href="emailservices.html">

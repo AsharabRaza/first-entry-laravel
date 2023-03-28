@@ -12,7 +12,7 @@ class EntryController extends Controller
 {
     public function all_entries(Request $request){
 
-        $entries = Entry::orderByDesc('id')->get();
+        $entries = Entry::orderByDesc('id')->paginate(15);
 
         return view('dashboard.admin.all_entries',compact('entries'));
     }
@@ -116,14 +116,14 @@ class EntryController extends Controller
 
     public function all_winners(Request $request){
 
-        $winners = Lottery_Winner::orderByDesc('id')->get();
+        $winners = Lottery_Winner::orderByDesc('id')->paginate(15);
 
         return view('dashboard.admin.all_winners',compact('winners'));
     }
 
     public function all_losers(Request $request){
 
-        $losers = Lottery_Losser::orderBy('id', 'asc')->get();
+        $losers = Lottery_Losser::orderBy('id', 'asc')->paginate(15);
         return view('dashboard.admin.all_losers',compact('losers'));
     }
 }

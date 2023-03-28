@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 class UsersController extends Controller
 {
     public function all_users(){
-        $this->data['users'] = User::get()->where('status', '<>' ,0);
+        $this->data['users'] = User::where('status', '<>' ,0)->paginate(4);
         return view('dashboard.admin.all_users')->with(['data'=>$this->data]);
     }
 
@@ -209,14 +209,14 @@ class UsersController extends Controller
     //in_review_users
     public function in_review_users(){
 
-        $this->data['users'] = User::where('status','=',1)->get();
+        $this->data['users'] = User::where('status','=',1)->paginate(15);
         return view('dashboard.admin.in_review_users')->with(['data'=>$this->data]);
     }
 
     public function paid_users(){
 
         //$this->data['users'] = User::where('paid_memberships','=',1)->where('in_review','=',0)->orderBy('id', 'desc')->get();
-        $this->data['users'] = User::where('paid_memberships','=',1)->orderBy('id', 'desc')->get();
+        $this->data['users'] = User::where('paid_memberships','=',1)->orderBy('id', 'desc')->paginate(15);
         return view('dashboard.admin.paid_users')->with(['data'=>$this->data]);
     }
 

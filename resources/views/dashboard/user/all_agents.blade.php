@@ -78,6 +78,9 @@
 
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        {{ $data['agents']->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -38,7 +38,7 @@
                                     <small>All times are in <strong>{{ 'Selected Timezone' }}</strong></small>
                                 </div>
                                 <div>
-                                    <a href="emails.php" class="btn btn-danger" id="cancel_btn">Cancel</a>
+                                    <a href="{{ route('user.email-history') }}" class="btn btn-danger" id="cancel_btn">Cancel</a>
                                 </div>
                             </div>
                             <div class="card-body">

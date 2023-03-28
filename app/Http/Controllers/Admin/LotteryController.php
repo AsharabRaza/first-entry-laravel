@@ -23,7 +23,7 @@ class LotteryController extends Controller
             ->leftJoin('users', 'users.id', '=', 'lotteries.user_id')
             ->groupBy('lotteries.id')
             ->orderByDesc('lotteries.updated_at')
-            ->get();
+            ->paginate(15);
 
         //dd($this->data['lotteries']);
 

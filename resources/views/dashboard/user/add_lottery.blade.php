@@ -33,22 +33,22 @@
         $scan_starttime_tooltip = $tooltip_primary.' title="Set the date and time agents can start scanning for the event."';
         $scan_endtime_tooltip = $tooltip_primary.' title="Set the date and time agents stop scanning for the event."';
 
-        $lottery_logo = $dup_row->header_image;
-        $lottery_background_image = $dup_row->background_image;
-        $allow_guest = $dup_row->allow_guest;
-        $description = $dup_row->description;
+        $lottery_logo = isset($dup_row->header_image) ? $dup_row->header_image :'';
+        $lottery_background_image = isset($dup_row->background_image) ? $dup_row->background_image :'';
+        $allow_guest = isset($dup_row->allow_guest) ? $dup_row->allow_guest :'';
+        $description = isset($dup_row->description) ? $dup_row->description :'';
         $description = unserialize($description);
 
-        $country_code = $dup_row->country_code;
-        $lot_timezone = $dup_row->timezone;
+        $country_code = isset($dup_row->country_code) ? $dup_row->country_code :'';
+        $lot_timezone = isset($dup_row->timezone) ? $dup_row->timezone :'';
 
-        $how_it_works = $dup_row->how_it_works;
+        $how_it_works = isset($dup_row->how_it_works) ? $dup_row->how_it_works :'';
         $how_it_works = unserialize($how_it_works);
 
-        $terms_conditions = $dup_row->terms_conditions;
+        $terms_conditions = isset($dup_row->terms_conditions) ? $dup_row->terms_conditions :'';
         $terms_conditions = unserialize($terms_conditions);
 
-        $scanning_option = $dup_row->scanning_option;
+        $scanning_option = isset($dup_row->scanning_option) ? $dup_row->scanning_option :'';
 
 
     @endphp

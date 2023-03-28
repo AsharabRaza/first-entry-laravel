@@ -194,6 +194,9 @@
                                         @endif
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        {{ $winners->links() }}
+                                    </div>
                                 </div>
                             </div>
 

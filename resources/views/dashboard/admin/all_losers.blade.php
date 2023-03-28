@@ -175,6 +175,9 @@
                                         @endif
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        {{ $losers->links() }}
+                                    </div>
                                 </div>
                             </div>
 

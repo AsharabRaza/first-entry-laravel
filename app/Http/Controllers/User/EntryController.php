@@ -35,7 +35,7 @@ class EntryController extends Controller
                 ->where('lotteries.user_id', $normal_user)
                 ->where('entries.lottery_id', $request->input('id'))
                 ->orderByDesc('entries.id')
-                ->get();
+                ->paginate(15)->withQueryString();
 
           //  dd($this->data['entries']);
 
@@ -174,6 +174,7 @@ class EntryController extends Controller
                 ->where('lottery_winners.lottery_id', $request->id)
                 ->orderBy('sorting', 'ASC')
                 ->get();
+                //->paginate(15)->withQueryString();
             //dd($this->data['winners']);
 
         }else{
@@ -204,7 +205,7 @@ class EntryController extends Controller
 
         }
 
-
+        //  dd($this->data['winners']);
         return view('dashboard.user.all_winners',['data'=>$this->data]);
     }
 
@@ -227,7 +228,7 @@ class EntryController extends Controller
                 ->where('lotteries.user_id', '=', $normal_user)
                 ->where('lottery_losers.lottery_id', '=', $request->id)
                 ->orderBy('lottery_losers.id', 'ASC')
-                ->get();
+                ->paginate(15)->withQueryString();
 
         }else{
 

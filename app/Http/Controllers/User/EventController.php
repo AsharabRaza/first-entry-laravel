@@ -16,9 +16,7 @@ class EventController extends Controller
             return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
         }
 
-
-        $normal_user = request()->cookie('normal_user');
-        $this->data['events'] = Event::orderBy('id', 'DESC')->get();
+        $this->data['events'] = Event::orderBy('id', 'DESC')->paginate(15);
         return view('dashboard.user.events',['data'=>$this->data]);
     }
     public function event_landing(Request $request){

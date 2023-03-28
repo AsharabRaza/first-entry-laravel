@@ -23,5 +23,17 @@
 
 <!-- COLOR SKIN CSS -->
 <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ url('assets/colors/color1.css') }}" />
-
+<style>
+    .pagination {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+    .dataTables_paginate {
+        display: none;
+    }
+    .dataTables_info {
+        display: none;
+    }
+</style>
 @stack('css')

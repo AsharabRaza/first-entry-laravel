@@ -22,7 +22,7 @@ class Agent extends Controller
         $this->data['agents'] = User::where('user_type', 2)
             ->where('created_by', $normal_user)
             ->orderBy('id', 'DESC')
-            ->get();
+            ->paginate(15)->withQueryString();
 
         return view('dashboard.user.all_agents',['data'=>$this->data]);
     }
@@ -170,7 +170,7 @@ class Agent extends Controller
                 ->where('entries.entry_confirmed', '=', 1)
                 ->whereNotNull('entries.entry_confirmed_by')
                 ->where('entries.lottery_id', '=', $request->lottery_id)
-                ->get();
+                ->paginate(15)->withQueryString();
 
 //            $myfile = fopen("agents_history.txt", "w") or die("Unable to open file!");
 //            fwrite($myfile, $entries->toSql());

@@ -102,6 +102,11 @@
                                                     @endif
                                                 </tbody>
                                             </table>
+                                            <div class="pagination">
+                                                @if(count($entries) > 0)
+                                                    {{  $entries->links() }}
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

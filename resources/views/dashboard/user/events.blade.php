@@ -72,6 +72,9 @@
 
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        {{ $data['events']->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -177,13 +177,15 @@
                                                                 @endif
                                                             </td>
 
-
                                                     @endforeach
                                                 @else
                                                     <tr><td colspan="13" class="text-center">No data available.</td></tr>
                                                 @endif
                                         </tbody>
                                     </table>
+                                        <div class="pagination">
+                                            {{ $data['entries']->links() }}
+                                        </div>
                                 </div>
                             </div>
 

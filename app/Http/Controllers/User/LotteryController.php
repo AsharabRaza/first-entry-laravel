@@ -38,7 +38,7 @@ class LotteryController extends Controller
             ->where('lotteries.user_id', auth()->user()->id)
             ->groupBy('lotteries.id')
             ->orderByDesc('lotteries.updated_at')
-            ->get();
+            ->paginate(15);
 
         //dd($result);
 
@@ -208,6 +208,7 @@ class LotteryController extends Controller
         }
         else {
 
+            $dup_row = [];
             $memberInfo = expireStatus(auth()->user()->id);
             if ($memberInfo['status'] == false) {
                 return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
@@ -727,14 +728,9 @@ class LotteryController extends Controller
 
     public function get_country_timezone(Request $request){
 
-      /*  $country_code = $request->country_code; // Replace with the country code you want to get the time zone for
-
-        $location = new Location(GeoIP::getLocation($country_code));
-
-        $time_zone = $location->getAttribute('timezone');
-        dd($time_zone);*/
-        $timeZone = ['Pacific/Pago_Pago'];
-        return response()->json($timeZone);
+        $country_code = $request->country_code;
+        $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $country_code);
+        return response()->json($timezones);
     }
 
     public function update_lottery_agents_details(Request $request){

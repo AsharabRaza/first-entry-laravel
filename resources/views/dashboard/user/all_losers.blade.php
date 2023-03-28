@@ -147,6 +147,9 @@
                                             @endif
                                         </tbody>
                                     </table>
+                                        <div class="pagination">
+                                            {{ $data['losers']->links() }}
+                                        </div>
                                 </div>
                             </div>
                            {{-- <script>

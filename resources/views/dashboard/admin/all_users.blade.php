@@ -75,11 +75,11 @@
                                         <th class="wd-20p border-bottom-0">Trial</th>
                                         <th class="wd-20p border-bottom-0">Memberships</th>
                                         <th class="wd-20p border-bottom-0">In review</th>
-                                                <th class="wd-20p border-bottom-0">Last login</th>
-                                                <th class="wd-20p border-bottom-0">Last updated</th>
-                                                <th class="wd-20p border-bottom-0">Date joined</th>
-                                                <th class="wd-25p border-bottom-0">Action</th>
-                                            </tr>
+                                        <th class="wd-20p border-bottom-0">Last login</th>
+                                        <th class="wd-20p border-bottom-0">Last updated</th>
+                                        <th class="wd-20p border-bottom-0">Date joined</th>
+                                        <th class="wd-25p border-bottom-0">Action</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     @if(count($data['users'])>0)
@@ -254,11 +254,15 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="pagination">
+                                {{ $data['users']->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End Row -->
+
 
         </div>
         <!-- CONTAINER END -->
@@ -267,6 +271,7 @@
 <!--app-content end-->
 @endsection
 @push('css')
+
 @endpush
 @push('js')
     {{ Html::script('assets/plugin/sweet-alert/sweetalert.min.js') }}

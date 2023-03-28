@@ -127,6 +127,9 @@
                                             @endif
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        {{ $data['lotteries']->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -236,6 +236,9 @@
                                     @endif
                                     </tbody>
                                 </table>
+                                <div class="pagination">
+                                    {{ $data['users']->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,6 @@
 @extends('dashboard.user.layouts.template')
 
 @section('content')
-
     <!--app-content open-->
     <div class="main-content app-content mt-0">
         <div class="side-app">
@@ -166,14 +165,18 @@
                                                                 @endif
 
                                                             </td>
-                                                @endforeach
-                                            @else
-                                                <tr><td colspan="13" class="text-center">No data available.</td></tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
+                                                    @endforeach
+                                                @else
+                                                    <tr><td colspan="13" class="text-center">No data available.</td></tr>
+                                                @endif
+                                            </tbody>
+                                            {{--<div class="pagination">
+                                                {{ $data['winners']->links() }}
+                                            </div>--}}
+                                        </table>
+                                    </div>
+
                                 </div>
-                            </div>
                            {{-- <script>
                                 $('#download_table').click(function(){
                                     $("#responsive-datatable").table2csv({
@@ -260,9 +263,9 @@
             <!--app-content end-->
 
 
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+            </div>
+        </div>
+    </div>
 
 @endsection
 @push('css')

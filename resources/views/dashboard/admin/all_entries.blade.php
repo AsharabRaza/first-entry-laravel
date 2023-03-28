@@ -214,6 +214,9 @@
                                         @endif
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        {{ $entries->links() }}
+                                    </div>
                                 </div>
                             </div>
 
