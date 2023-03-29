@@ -113,7 +113,7 @@
                                     <a class="dropdown-item" href="{{ route('admin.view-profile') }}">
                                         <i class="dropdown-icon bi bi-person"></i> Profile
                                     </a>
-                                    <a class="dropdown-item" href="emailservices.html">
+                                    <a class="dropdown-item" href="javascript:void(0);">
                                         <i class="dropdown-icon bi bi-gear"></i> Settings
                                     </a>
                                     <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

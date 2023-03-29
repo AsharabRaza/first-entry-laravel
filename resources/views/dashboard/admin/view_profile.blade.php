@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-xl-6">
                                             <div class="text-xl-right mt-4 mt-xl-0 p_right_buttons">
-                                                <a href="change_password.php" class="btn btn-white">Change password</a>
+                                                <a href="{{ route('admin.change-password') }}" class="btn btn-white">Change password</a>
                                                 <a href="{{ route('admin.edit-profile') }}" class="btn btn-primary">Edit Profile</a>
                                             </div>
                                             <div class="mt-5">

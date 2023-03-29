@@ -40,7 +40,7 @@
                                                         }
                                                         else
                                                         {
-                                                            $image = url('assets/superAdmin/images/').$data['admin']->profile_picture;
+                                                            $image = url('superAdmin/images/uploaded/'.$data['admin']->profile_picture);
                                                         }
                                                 @endphp
                                                 <img class="" height="100" style="margin: 0;" src="{{ $image }}" alt="img">

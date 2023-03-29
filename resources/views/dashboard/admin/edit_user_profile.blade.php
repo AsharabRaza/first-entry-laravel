@@ -44,7 +44,7 @@
                                     <div class="row">
                                         <div class="wideget-user-desc d-sm-flex" style="display: flex;place-content: center;align-items: center;margin-bottom: 10px;">
                                             <div class="wideget-user-img">
-                                                <img class="" height="100" style="margin: 0;" src=" @if($data['user']->profile_picture == NULL) {{ url('assets/images/default-avatar.jpg') }} @else {{ 'user/images/' . $data['user']->profile_picture }} @endif " alt="img">
+                                                <img class="" height="100" style="margin: 0;" src=" @if($data['user']->profile_picture == NULL) {{ url('assets/images/default-avatar.jpg') }} @else {{ url('user/images/uploaded/' . $data['user']->profile_picture) }} @endif " alt="img">
                                             </div>
                                         </div>
                                         <div class="user-wrap mb-4">

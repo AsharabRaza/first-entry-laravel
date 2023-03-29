@@ -1035,11 +1035,12 @@
         var modify_emails = '{{ route('user.modify-emails') }}';
         var update_winners_emails = '{{ route('user.modify-emails',['update_winners_emails'=>true]) }}';
         var update_losers_emails = '{{ route('user.modify-emails',['update_losers_emails'=>true]) }}';
-        var edit_tab_3 = '{{ route('user.edit-lottery',['id' => request()->query('id'), 'edit_tab' => 3]) }}';
-        var winner_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 3]) }}';
-        var winners_emails_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 3]) }}';
+        var edit_tab_3 = '{{ route('user.edit-lottery',['id' => request()->query('id')]) }}';
+        var winner_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id']]) }}';
+
+        var winners_emails_edit_tab_3 = '{{ route('user.edit-lottery',['id' => $data['lottery_id']]) }}';
         var update_lottery_agents_details = '{{ route('user.update-lottery-agents-details') }}';
-        var edit_tab_4 = '{{ route('user.edit-lottery',['id' => $data['lottery_id'], 'edit_tab' => 4]) }}';
+        var edit_tab_4 = '{{ route('user.edit-lottery',['id' => $data['lottery_id']]) }}';
         var edit_lottery_details = '{{ route('user.edit-lottery-details') }}';
         var edit_lottery_detail_run = '{{ route('user.edit-lottery-details',['edit_lottery'=>true]) }}';
 

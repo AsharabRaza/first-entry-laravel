@@ -558,7 +558,7 @@ $('#update_agent_detail_form').submit(function(e) {
                         $('.lottery-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                         setTimeout(function(){
                             // window.location.href = 'edit_lottery.php?id='+lottery_id+'&edit_tab=4';
-                            window.location.href = edit_tab_4;
+                            window.location.href = edit_tab_4+'&edit_tab=4';
                         }, 1200);
                     }else if(res.success == false){
                         $('.lottery-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
@@ -601,7 +601,7 @@ $('#form_customization_form').submit(function(e){
                 $('.alert-customize').html(res.msg).addClass('alert-success').removeClass('alert-danger').fadeIn();
                 setTimeout(function(){
                     //window.location.href = 'edit_lottery.php?id='+$('#cus_lottery_id').val()+'&edit_tab=3';
-                    window.location.href = edit_tab_3;
+                    window.location.href = edit_tab_3+'&edit_tab=3';
                 }, 1200);
             }else if(res.success == false){
                 $('.alert-customize').html(res.msg).addClass('alert-danger').removeClass('alert-success').fadeIn();

@@ -147,7 +147,7 @@ function update_winners_email(instructions, reminders, map_image, venue_link, wi
                 localStorage.setItem('form_email_entry_tab', 'not-selected');
                 setTimeout(function(){
                     // window.location.href = 'edit_lottery.php?id='+winners_emails_lottery_id+'&edit_tab=3';
-                    window.location.href = winners_emails_edit_tab_3;
+                    window.location.href = winners_emails_edit_tab_3+'&edit_tab=3';
                 }, 1000);
             }else if(res.success == false){
                 $('.winners-emails-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
@@ -214,7 +214,7 @@ $('#modify_losers_email_form').submit(function(e){
                             $('.losers-emails-alert').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
                             setTimeout(function(){
                                 // window.location.href = window.location.href = 'edit_lottery.php?id='+losers_emails_lottery_id+'&edit_tab=3';
-                                window.location.href = winner_edit_tab_3;
+                                window.location.href = winner_edit_tab_3+'&edit_tab=3';
                             }, 1000);
                         }else if(res.success == false){
                             $('.losers-emails-alert').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();

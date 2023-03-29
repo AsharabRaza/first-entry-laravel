@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 class UsersController extends Controller
 {
     public function all_users(){
-        $this->data['users'] = User::where('status', '<>' ,0)->paginate(4);
+        $this->data['users'] = User::where('status', '<>' ,0)->paginate(15);
         return view('dashboard.admin.all_users')->with(['data'=>$this->data]);
     }
 
