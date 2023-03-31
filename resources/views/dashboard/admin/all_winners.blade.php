@@ -61,6 +61,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @php $start_datetime = ''; @endphp
                                         @if(count($winners) > 0)
                                             @foreach($winners as $winner)
                                                 @php

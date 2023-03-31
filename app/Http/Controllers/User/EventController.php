@@ -12,7 +12,7 @@ class EventController extends Controller
     public function events(){
 
         $memberInfo = expireStatus(auth()->user()->id);
-        if ($memberInfo['status'] == false) {
+        if ($memberInfo && $memberInfo['status'] == false) {
             return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
         }
 

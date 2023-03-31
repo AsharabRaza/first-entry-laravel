@@ -58,7 +58,7 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::post('/create',[UserController::class,'create'])->name('create');
         Route::post('/check',[UserController::class,'check'])->name('check');
     });
-    Route::middleware(['auth:web','PreventBackHistory'])->group(function(){
+    Route::middleware(['auth:web','PreventBackHistory','CheckMembership'])->group(function(){
         Route::get('/home',[UserDashboardController::class,'dashboard'])->name('home');
         Route::any('/logout',[UserController::class,'logout'])->name('logout');
         Route::any('/all-lotteries',[LotteryController::class,'all_lotteries'])->name('all-lotteries');

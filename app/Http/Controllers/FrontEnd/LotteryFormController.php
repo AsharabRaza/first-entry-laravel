@@ -234,7 +234,7 @@ class LotteryFormController extends Controller
                 if($c_logo == ''){
                     $c_logo = '';
                 }else{
-                    $c_logo = "<img src=\"".url('/')."assets/images/media/".$c_logo."\" width=\"65\">";
+                    $c_logo = "<img src=\"".url('assets/images/media/'.$c_logo)."\" width=\"65\">";
                 }
 
                 //require_once('send_emails_new.php');

@@ -176,6 +176,7 @@
                                                     <td>{{ formatted_date($entry->created_at) }}</td>
                                                     @php
                                                         $winner_query = \App\Models\Lottery_Winner::select('*')->where('entry_id',$entry->id)->first();
+                                                        $winner_tid = '';
                                                         if($winner_query){
                                                             $winner_tid = $winner_query->id;
                                                         }

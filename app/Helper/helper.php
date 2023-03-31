@@ -84,7 +84,7 @@ function expireStatus($userId)
     $user = User::find($userId);
     $userType = $user->user_type;
 
-    if($userType === 1){
+    if($userType == 1){
 
         $membershipInfo = getMemberShipInfo($userId);
 

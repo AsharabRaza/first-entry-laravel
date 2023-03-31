@@ -420,6 +420,7 @@ function send_losers_email(start_batch, current_batch){
             processData: false,
             contentType: false,
             success: function(res){
+
                 window.onbeforeunload = null
                 if(res.success == true){
                     var val = res.emails;
@@ -427,7 +428,8 @@ function send_losers_email(start_batch, current_batch){
 
                     for (let index = 0; index < keys.length; index++) {
                         if(val[keys[index]] == 0){
-                            $('.right_content_19495').find('.spinner-border').hide();
+                            //$('.right_content_19495').find('.spinner-border').hide();
+                            $('.spinner-border').hide();
                             $('.right_content_' + keys[index]).find('span').html('Sent').addClass('bg-success').removeClass('bg-info').show();
                         }else{
                             $('.right_content_' + keys[index]).find('.spinner-border').hide();
@@ -435,15 +437,22 @@ function send_losers_email(start_batch, current_batch){
                         }
                     }
 
+                    $('.alert-sendings-emails-res').html(res.msg).addClass('alert-success').removeClass('alert-danger').fadeIn();
+                    hideLoaderBtn(update_btn);
+                    setTimeout(function(){
+                        $(update_btn).prop('disabled', true);
+                    }, 210);
+
+
                     if(current_batch < total_batch){
                         send_losers_email(start_batch + 500, current_batch + 1);
-                    }else{
+                    }/*else{
                         $('.alert-sendings-emails-res').html(res.msg).addClass('alert-success').removeClass('alert-danger').fadeIn();
                         hideLoaderBtn(update_btn);
                         setTimeout(function(){
                             $(update_btn).prop('disabled', true);
                         }, 210);
-                    }
+                    }*/
 
                 }else if(res.success == false){
                     $('.right_content').children('.spinner-border').hide();;

@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function dashboard(){
         $memberInfo = expireStatus(auth()->user()->id);
-        if ($memberInfo['status'] == false) {
+        if ($memberInfo && $memberInfo['status'] == false) {
             return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
         }
         return view('dashboard.user.home')->with(['data'=>$this->data]);

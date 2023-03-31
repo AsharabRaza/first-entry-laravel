@@ -30,7 +30,7 @@
                             </div>
                             <form id="edit_profile_form" method="POST" style="display: inline-grid;">
                                 <div class="card-body">
-                                    @if($data['user']->user_type == 1)
+                                    {{--@if($data['user']->user_type == 1)
                                        @if($data['user']->in_review == NULL)
                                            <div class="alert alert-warning">Please update your profile information so we can start reviewing your profile.</div>
                                        @elseif($data['user']->in_review == 1)
@@ -40,7 +40,7 @@
                                        @elseif($data['user']->review_approves == 1 && $data['user']->review_msg_seen == 0)
                                            <div class="alert alert-success">Congratulations! Your request has been approved.</div>
                                        @endif
-                                    @endif
+                                    @endif--}}
                                     <div class="alert edit_profile_alert" style="display: none;"></div>
                                     <div class="row">
                                         <div class="wideget-user-desc d-sm-flex" style="display: flex;place-content: center;align-items: center;margin-bottom: 10px;">

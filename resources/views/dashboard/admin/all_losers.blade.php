@@ -60,6 +60,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @php $start_datetime = ''; @endphp
                                         @if(count($losers) > 0)
                                             @foreach($losers as $loser)
                                                 @php

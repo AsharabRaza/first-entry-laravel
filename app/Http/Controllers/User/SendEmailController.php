@@ -17,12 +17,6 @@ class SendEmailController extends Controller
 {
     public function send_emails(Request $request){
 
-        //check membership
-        $memberInfo = expireStatus(auth()->user()->id);
-        if ($memberInfo['status'] == false) {
-            return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
-        }
-
         $normal_user = auth()->user()->id;
         $current_datetime = now();
         $lotteryId = $request->input('lottery_id');
@@ -348,7 +342,9 @@ class SendEmailController extends Controller
                     $result3 = Email_Template::where('email_type', '=', $email_type)
                         ->where('user_id', '=', $normal_user)
                         ->where('lottery_id', '=', $lottery_id)
-                        ->get();
+                        ->first();
+
+                    //dd($result3);
 
                     if($result3){
                         $row3 = $result3;

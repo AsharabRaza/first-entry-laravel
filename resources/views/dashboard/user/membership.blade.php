@@ -1,4 +1,6 @@
-
+{{--@php
+    dd(auth()->user());
+@endphp--}}
 
 @extends('dashboard.user.layouts.template')
 
@@ -47,6 +49,7 @@
             <!-- CONTAINER END -->
         </div>
     </div>
+
     <!--app-content end-->
 
 @endsection

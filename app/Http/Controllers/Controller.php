@@ -16,5 +16,9 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->data['total_in_review_users'] = User::get()->where('status',1)->count();
+        /*$memberInfo = expireStatus(auth()->user()->id);
+        if ($memberInfo['status'] == false) {
+            return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
+        }*/
     }
 }
