@@ -49,11 +49,19 @@
                                             <th class="wd-15p border-bottom-0">Time</th>
                                             <th class="wd-25p border-bottom-0">Location</th>
                                             <th class="wd-25p border-bottom-0">Url</th>
-                                            <!-- <th class="wd-25p border-bottom-0">Copy url</th> -->
+                                            <th class="wd-25p border-bottom-0">Action</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
+                                        @php
+                                            $tooltip_status = 1;
+                                            $tooltip_primary = 'data-bs-toggle="tooltip-primary"';
+                                            $view_tooltip = $tooltip_primary.' title="view your online form" ';
+                                            $edit_tooltip = $tooltip_primary.' title="edit your event/lottery" ';
+                                            $duplicate_tooltip = $tooltip_primary.' title="Duplicate your event/lottery" ';
+                                            $erase_tooltip = $tooltip_primary.' title="Erase your event/lottery" ';
+                                        @endphp
                                         @if(count($data['events']) > 0)
                                             @foreach($data['events'] as $event)
                                                 <tr>
@@ -62,8 +70,17 @@
                                                     <td>{{ $event->date }}</td>
                                                     <td>{{ $event->time }}</td>
                                                     <td>{{ $event->location }}</td>
-                                                    <td>{{ route('user.event-landing',['event'=>$event->slug]) }}</td>
-{{--                                                <!-- <td><button class="btn btn-sm btn-primary copy-event-link" data-url="<?php echo $slug ?>">copy</button></td> -->--}}
+                                                    <td>{{ route('user.event-landing',['event'=>$event->slug]) }} <button class="btn btn-sm btn-primary copy-event-link" data-url="{{ route('user.event-landing',['event'=>$event->slug]) }}"><i class="bi bi-clipboard"></i> copy</button></td>
+                                                    <td class="text-center align-middle">
+                                                        <div class="btn-group align-top">
+                                                            <a {!! ($tooltip_status)?$view_tooltip:'' !!}  class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.event-landing',['event'=>$event->slug]) }}" target="_blank"><i class="bi bi-eye-fill"></i></a>
+
+                                                            <a {!! ($tooltip_status)?$edit_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.edit-event',['id'=>$event->id]) }}"><i class="bi bi-pencil-square"></i></a>
+                                                            <a {!! ($tooltip_status)?$duplicate_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.add-event',['duplicate_id'=>base64_encode($event->id)]) }}"><i class="bi bi-clipboard-plus"></i></a>
+
+                                                            <button {!! ($tooltip_status)?$erase_tooltip:'' !!} class="btn btn-sm btn-primary badge delete_lotteries" type="button" id="delete_lotteries"  data-id="{{ '' }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @else

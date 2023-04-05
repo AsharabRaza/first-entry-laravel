@@ -109,17 +109,17 @@
                                                         </td>
                                                         <td>{{ formatted_date($start_datetime) }}</td>
                                                         <td>{{ formatted_date($end_datetime) }}</td>
-                                                        <td class="text-center align-middle">
-                                                            <div class="btn-group align-top">
-{{--                                                                <a {{ ($tooltip_status)?$all_lott_row_view_tooltip:'' }} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="../lotteries/<?php echo trim($lottery_url);?>" target="_blank"><i class="bi bi-eye-fill"></i></a>--}}
-                                                                <a {!! ($tooltip_status)?$all_lott_row_view_tooltip:'' !!}  class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('lottery-form', ['url' => trim($lottery->lottery_url)]) }}" target="_blank"><i class="bi bi-eye-fill"></i></a>
+                                                            <td class="text-center align-middle">
+                                                                <div class="btn-group align-top">
+    {{--                                                                <a {{ ($tooltip_status)?$all_lott_row_view_tooltip:'' }} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="../lotteries/<?php echo trim($lottery_url);?>" target="_blank"><i class="bi bi-eye-fill"></i></a>--}}
+                                                                    <a {!! ($tooltip_status)?$all_lott_row_view_tooltip:'' !!}  class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('lottery-form', ['url' => trim($lottery->lottery_url)]) }}" target="_blank"><i class="bi bi-eye-fill"></i></a>
 
-                                                                <a {!! ($tooltip_status)?$all_lott_row_edit_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.edit-lottery',['id'=>$lottery->id]) }}"><i class="bi bi-pencil-square"></i></a>
-                                                                <a {!! ($tooltip_status)?$all_lott_row_duplicate_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.add-lottery',['duplicate_id'=>base64_encode($lottery->id)]) }}"><i class="bi bi-clipboard-plus"></i></a>
+                                                                    <a {!! ($tooltip_status)?$all_lott_row_edit_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.edit-lottery',['id'=>$lottery->id]) }}"><i class="bi bi-pencil-square"></i></a>
+                                                                    <a {!! ($tooltip_status)?$all_lott_row_duplicate_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.add-lottery',['duplicate_id'=>base64_encode($lottery->id)]) }}"><i class="bi bi-clipboard-plus"></i></a>
 
-                                                                <button {!! ($tooltip_status)?$all_lott_row_erase_tooltip:'' !!} class="btn btn-sm btn-primary badge delete_lotteries" type="button" id="delete_lotteries"  data-id="{{ $lottery->id }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
-                                                            </div>
-                                                        </td>
+                                                                    <button {!! ($tooltip_status)?$all_lott_row_erase_tooltip:'' !!} class="btn btn-sm btn-primary badge delete_lotteries" type="button" id="delete_lotteries"  data-id="{{ $lottery->id }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
+                                                                </div>
+                                                            </td>
                                                     </tr>
                                                 @endforeach
                                             @else

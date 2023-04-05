@@ -72,8 +72,9 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/delete-lottery',[LotteryController::class,'delete_lottery'])->name('delete-lottery');
         Route::any('/get-country-timezone',[LotteryController::class,'get_country_timezone'])->name('get-country-timezone');
         Route::any('/events',[EventController::class,'events'])->name('events');
-        Route::any('/event-landing',[EventController::class,'event_landing'])->name('event-landing');
+        Route::any('/event/{event}',[EventController::class,'event_landing'])->name('event-landing');
         Route::any('/add-event',[EventController::class,'add_event'])->name('add-event');
+        Route::any('/edit-event',[EventController::class,'edit_event'])->name('edit-event');
         Route::any('/all-agents',[Agent::class,'all_agents'])->name('all-agents');
         Route::any('/add-agent',[Agent::class,'add_agent'])->name('add-agent');
         Route::any('/edit-agent',[Agent::class,'edit_agent'])->name('edit-agent');

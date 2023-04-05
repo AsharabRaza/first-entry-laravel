@@ -209,10 +209,6 @@ class LotteryController extends Controller
         else {
 
             $dup_row = [];
-            $memberInfo = expireStatus(auth()->user()->id);
-            if ($memberInfo['status'] == false) {
-                return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
-            }
 
             if ($request->has('duplicate_id')) {
                 $lottery_id = $request->duplicate_id;
@@ -229,11 +225,6 @@ class LotteryController extends Controller
     }
 
     public function edit_lottery(Request $request){
-
-        $memberInfo = expireStatus(auth()->user()->id);
-        if ($memberInfo['status'] == false) {
-            return view('dashboard.user.membership')->with(['membershipInfo' => $memberInfo]);
-        }
 
         $lottery_id = request()->input('id');
         $result = Lottery::leftJoin('lottery_agents', 'lotteries.id', '=', 'lottery_agents.lottery_id')

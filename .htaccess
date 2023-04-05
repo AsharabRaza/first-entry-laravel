@@ -1,5 +1,9 @@
 
 
-
 RewriteEngine On
+
+# Allow direct access to phpmyadmin
+RewriteCond %{REQUEST_URI} !^/phpmyadmin
+
+# Redirect all other requests to public folder
 RewriteRule ^(.*)$ public/$1 [L]

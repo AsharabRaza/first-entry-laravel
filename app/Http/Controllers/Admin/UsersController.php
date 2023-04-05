@@ -45,7 +45,7 @@ class UsersController extends Controller
                 'start_date' => date('Y-m-d'),
                 'end_date' => NULL,
                 'is_admin' => 0,
-                'status' => 0,
+                'status' => 1,
             ];
 
             User::create($associativeArray);
@@ -149,6 +149,7 @@ class UsersController extends Controller
                 'company_size' => $data['company_size'],
                 'about_projects' => $data['about_projects'],
                 'features_functions' => $data['features_or_functions'],
+                'website' => $data['website_or_social'],
             ];
 
 

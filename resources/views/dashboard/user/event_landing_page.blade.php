@@ -100,20 +100,20 @@
 
 
             @foreach($data['other_events'] as $event)
-            <div class="col-md-3">
-{{--                <a href="<?php echo '/public_pages/event-landing.php?event=' . $event['slug']?>" class="text-white">--}}
-                <a href="{{ route('user.event-landing',['event'=>$event->slug]) }}" class="text-white">
-                    <img src="{{ url('assets/images/event-thumb.jpg') }}" width="100%" height="150px"/>
-                    <table class="w-100 border bg-dark">
-                        <tr>
-                            <td class="w-25 border text-center"><strong><span
-                                        class="text-light"> {{ date('F', strtotime($event->date)) }} </span><br>{{ date('d', strtotime($event->date)) }}
-                                </strong></td>
-                            <td class="w-75 border text-center"> {{ $event->name }} </td>
-                        </tr>
-                    </table>
-                </a>
-            </div>
+                <div class="col-md-3 mb-4">
+    {{--                <a href="<?php echo '/public_pages/event-landing.php?event=' . $event['slug']?>" class="text-white">--}}
+                    <a href="{{ route('user.event-landing',['event'=>$event->slug]) }}" class="text-white">
+                        <img src="{{ url('assets/images/event-thumb.jpg') }}" width="100%" height="150px"/>
+                        <table class="w-100 border bg-dark">
+                            <tr>
+                                <td class="w-25 border text-center"><strong><span
+                                            class="text-light"> {{ date('F', strtotime($event->date)) }} </span><br>{{ date('d', strtotime($event->date)) }}
+                                    </strong></td>
+                                <td class="w-75 border text-center"> {{ $event->name }} </td>
+                            </tr>
+                        </table>
+                    </a>
+                </div>
             @endforeach
 
         </div>
@@ -135,7 +135,7 @@
                     <div class="card-header text-center bg-dark text-white">
                         <i class="fas fa-calendar-day mx-2"></i> Date
                     </div>
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         {{ $data['event']->date }}
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                     <div class="card-header text-center bg-dark text-white">
                         <span class="fas fa-clock mx-2"></span> Time
                     </div>
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         {{ $data['event']->time }}
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                     <div class="card-header text-center bg-dark text-white">
                         <span class="fas fa-map-marker-alt mx-2"></span> Location
                     </div>
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         {{ $data['event']->location }}
                     </div>
                 </div>
