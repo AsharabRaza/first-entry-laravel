@@ -26,7 +26,8 @@
 <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="index.php"> {{ $data['user']->first_name . ' ' . $data['user']->last_name }} </a></h1>
+{{--        <h1 class="logo"><a href="index.php"> {{ $data['user']->first_name . ' ' . $data['user']->last_name }} </a></h1>--}}
+        <h1 class="logo"><a href="index.php"> {{ $data['event']->name }} </a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.php" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -47,7 +48,7 @@
 <!-- ======= Hero Section ======= -->
 
 <section id="hero"
-         style="background-image: url('../assets/images/media/{{ $data['event']->image }}');background-position: center;">
+         style="background-image: url('{{ url('assets/images/media/'.$data['event']->image) }}');background-position: center;">
     <div class="hero-container">
         <h3>Welcome to </h3>
         <h1> {{ $data['event']->name }} </h1>
@@ -68,7 +69,7 @@
                 <p> {{ $data['event']->about_event }}</p>
             </div>
             <div class="col-md-6 d-flex justify-content-center">
-                <img src="../../assets/images/media/{{ $data['event']->about_event_image }}" width="300px"
+                <img src="{{ url('assets/images/media/'.$data['event']->about_event_image)  }}" width="300px"
                      height="300px"/>
             </div>
         </div>
@@ -136,7 +137,7 @@
                         <i class="fas fa-calendar-day mx-2"></i> Date
                     </div>
                     <div class="card-body text-center">
-                        {{ $data['event']->date }}
+                        {{ date('M d, Y',strtotime($data['event']->date)) }}
                     </div>
                 </div>
             </div>

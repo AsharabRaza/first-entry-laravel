@@ -160,7 +160,7 @@
                                                                 <option value="BAR_CODE" <?php echo (isset($scanning_option) && $scanning_option == 'BAR_CODE') ? 'selected' : ''; ?>>Bar Code</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-4 mb-4">
+                                                        {{--<div class="col-lg-4 col-md-4 mb-4">
                                                             <div class="form-group">
                                                                 <div class="form-label">Queuing option</div>
                                                                 <label class="custom-switch" style="margin-top: 8px;">
@@ -169,7 +169,7 @@
                                                                     <span class="" style="margin-left: 0.5rem;">Deactive/Active</span>
                                                                 </label>
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
                                                     </div>
 
                                                     <div class="form-row">
