@@ -116,14 +116,28 @@ class EntryController extends Controller
 
     public function all_winners(Request $request){
 
-        $winners = Lottery_Winner::orderByDesc('id')->paginate(15);
+        if($request->has('id')){
+
+            $winners = Lottery_Winner::where('lottery_id',$request->id)->orderByDesc('id')->paginate(15);
+        }else{
+
+            $winners = Lottery_Winner::orderByDesc('id')->paginate(15);
+        }
+
 
         return view('dashboard.admin.all_winners',compact('winners'));
     }
 
     public function all_losers(Request $request){
 
-        $losers = Lottery_Losser::orderBy('id', 'asc')->paginate(15);
+        if($request->has('id')){
+
+            $losers = Lottery_Losser::where('lottery_id',$request->id)->orderBy('id', 'asc')->paginate(15);
+        }else{
+
+            $losers = Lottery_Losser::orderBy('id', 'asc')->paginate(15);
+        }
+
         return view('dashboard.admin.all_losers',compact('losers'));
     }
 }

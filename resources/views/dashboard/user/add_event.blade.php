@@ -55,8 +55,8 @@
                                                             <input type="file" name="image" id="image" value="" class="form-control">
 
                                                             <div class="mt-2 img-thumbnail {{ isset($_REQUEST['duplicate_id']) ? ($dup_row->image == '' ? 'd-none' : '') : 'd-none' }}" style="width: fit-content; position: relative;" id="preview_image_wrap">
-                                                                <img src="{{ $dup_row->image != '' ? url('assets/images/media/' . $dup_row->image) : '' }}" id="preview_image" style="width: 120px;">
-                                                                <input type="hidden" id="fake_image" data-value="{{ $dup_row->image != '' ? $dup_row->image : '' }}" value="{{ $dup_row->image != '' ? $dup_row->image : '' }}">
+                                                                <img src="{{ isset($dup_row->image) && $dup_row->image != '' ? url('assets/images/media/' . $dup_row->image) : '' }}" id="preview_image" style="width: 120px;">
+                                                                <input type="hidden" id="fake_image" data-value="{{ isset($dup_row->image) && $dup_row->image != '' ? $dup_row->image : '' }}" value="{{ isset($dup_row->image) && $dup_row->image != '' ? $dup_row->image : '' }}">
                                                                 <button type="button" class="remove_btn" id="remove_image"><i class="bi bi-x-circle-fill"></i></button>
                                                             </div>
 
@@ -102,8 +102,8 @@
                                                             <input type="file" class="form-control" name="about_event_image" id="about_event_image">
 
                                                             <div class="mt-2 img-thumbnail {{ isset($_REQUEST['duplicate_id']) ? ($dup_row->about_event_image == '' ? 'd-none' : '') : 'd-none' }}" style="width: fit-content; position: relative;" id="preview_about_event_image_wrap">
-                                                                <img src="{{ $dup_row->about_event_image != '' ? url('assets/images/media/' . $dup_row->about_event_image) : '' }}" id="preview_about_event_image" style="width: 120px;">
-                                                                <input type="hidden" id="fake_about_event_image" data-value="{{ $dup_row->about_event_image != '' ? $dup_row->about_event_image : '' }}" value="{{ $dup_row->about_event_image != '' ? $dup_row->about_event_image : '' }}">
+                                                                <img src="{{ isset($dup_row->about_event_image) && $dup_row->about_event_image != '' ? url('assets/images/media/' . $dup_row->about_event_image) : '' }}" id="preview_about_event_image" style="width: 120px;">
+                                                                <input type="hidden" id="fake_about_event_image" data-value="{{ isset($dup_row->about_event_image) && $dup_row->about_event_image != '' ? $dup_row->about_event_image : '' }}" value="{{ isset($dup_row->about_event_image) && $dup_row->about_event_image != '' ? $dup_row->about_event_image : '' }}">
                                                                 <button type="button" class="remove_btn" id="remove_about_event_image"><i class="bi bi-x-circle-fill"></i></button>
                                                             </div>
 

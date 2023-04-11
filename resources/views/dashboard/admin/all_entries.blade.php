@@ -62,6 +62,10 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @php
+                                            $title = '';
+                                            $start_datetime = '';
+                                        @endphp
                                         @if(count($entries) > 0)
                                             @foreach($entries as $entry)
                                                 <tr>

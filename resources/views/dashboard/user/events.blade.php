@@ -78,13 +78,13 @@
                                                             <a {!! ($tooltip_status)?$edit_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.edit-event',['id'=>$event->id]) }}"><i class="bi bi-pencil-square"></i></a>
                                                             <a {!! ($tooltip_status)?$duplicate_tooltip:'' !!} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.add-event',['duplicate_id'=>base64_encode($event->id)]) }}"><i class="bi bi-clipboard-plus"></i></a>
 
-                                                            <button {!! ($tooltip_status)?$erase_tooltip:'' !!} class="btn btn-sm btn-primary badge delete_lotteries" type="button" id="delete_lotteries"  data-id="{{ '' }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>
+{{--                                                            <button {!! ($tooltip_status)?$erase_tooltip:'' !!} class="btn btn-sm btn-primary badge delete_lotteries" type="button" id="delete_lotteries"  data-id="{{ '' }}"><i class="bi bi-trash-fill"></i><div class="spinner-border spinner-border-sm" style="display: none;place-content: center;align-items: center;width: 10px;height: 10px;" role="status"></div></button>--}}
                                                         </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         @else
-                                            {{ '<tr><td colspan="9" class="text-center">No data available.</td></tr>' }}
+                                            <tr><td colspan="9" class="text-center">No data available.</td></tr>
                                         @endif
 
                                         </tbody>

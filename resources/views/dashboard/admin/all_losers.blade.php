@@ -12,11 +12,11 @@
                 <!-- PAGE-HEADER -->
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title"><?php echo htmlspecialchars('ALL WINNERS');?></h1>
+                        <h1 class="page-title"><?php echo htmlspecialchars('ALL LOSERS');?></h1>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Lotteries</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Participants</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">All winners</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">All losers</a></li>
                         </ol>
                     </div>
                 </div>

@@ -79,7 +79,7 @@
                                                         </td>
                                                         <td>{{ $lottery->title }}</td>
                                                         <td>{{ $lottery->lottery_url }}</td>
-                                                        <td>{{ $lottery->event_datetime }}</td>
+                                                        <td>{{ formatted_date($lottery->event_datetime) }}</td>
                                                         <td>{{ $lottery->lottery_agents }}</td>
                                                         <td>{{ getCountriesNames($lottery->country_code, true) }}</td>
                                                         <td>{{ $lottery->timezone }}</td>

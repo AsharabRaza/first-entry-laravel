@@ -41,8 +41,8 @@ class IndexController extends Controller
         $tag_name   =   'Send plan email';
 
 
-
         if(send_email_info($email, $email_content, $email_subject, $tag_name) == true){
+
             $output['success'] = true;
             $output['msg'] = 'Request submitted successfully.';
         }else{

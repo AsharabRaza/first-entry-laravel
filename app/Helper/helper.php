@@ -423,7 +423,8 @@ function send_email_batch_with_template($batch){
 function send_email_info($email, $email_content, $email_subject, $tag_name){
     $from_email = 'info@firstentry.net';
     $to_email   = $from_email;
-    $from_email = 'admininfo@firstentry.net';
+    //$to_email   = $email;
+   // $from_email = 'admininfo@firstentry.net';
 
     $client = new PostmarkClient('e22698e7-1778-41ea-bddc-c4442310a7b3');
     $sendResult = $client->sendEmailWithTemplate(
