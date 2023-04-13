@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\EventLottery;
+use App\Models\Lottery;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\User;
@@ -20,6 +22,11 @@ class EventController extends Controller
         $slug = $request->segment(3);
 
         $this->data['event'] = Event::where('slug', $slug)->first();
+
+        $this->data['event_lotteries'] = EventLottery::select('lotteries.*','event_lotteries.id as event_lottery_id','event_lotteries.updated_at as event_lotteries_updated_at','event_lotteries.created_at as event_lotteries_created_at'  ,'event_lotteries.*')
+                                        ->where('event_lotteries.event_id',$this->data['event']->id)
+                                        ->join('lotteries','lotteries.id','=','event_lotteries.lottery_id')->get();
+        //dd($this->data['event_lotteries']);
 
         $user_id = $this->data['event']->user_id;
         $this->data['other_events'] = Event::where('user_id', $user_id)
@@ -84,6 +91,18 @@ class EventController extends Controller
 
 
             if($event->save()){
+
+                //save data in Event_lotteries table
+                if($request->has('select_lotteries')){
+                    $selected_lotteries = explode(',',$request->select_lotteries);
+                    foreach($selected_lotteries as $lottery){
+                        EventLottery::insert([
+                            'event_id' => $event->id,
+                            'lottery_id' => $lottery
+                        ]);
+                    }
+                }
+
                 $output['success'] = true;
                 $output['msg'] = 'Event successfully added. Reloading.....';
             }else{
@@ -102,14 +121,14 @@ class EventController extends Controller
                 $dup_row = Event::find($event_id);
                 //dd($this->data['dup_row']);
             }
-            return view('dashboard.user.add_event',compact('dup_row'));
+            $lotteries = Lottery::get();
+            return view('dashboard.user.add_event',compact('dup_row','lotteries'));
         }
     }
 
     public function edit_event(Request $request){
 
         if($request->isMethod('post')){
-
             $event_id = $request->event_id;
             $name = $request->input('name');
             $image = 'image here';
@@ -149,6 +168,20 @@ class EventController extends Controller
             }
 
             if($event->save()){
+
+                //save data in Event_lotteries table
+                if($request->has('select_lotteries')){
+
+                    $selected_lotteries = explode(',',$request->select_lotteries);
+                    EventLottery::where('event_id',$event->id)->delete();
+                    foreach($selected_lotteries as $lottery){
+                        EventLottery::insert([
+                            'event_id' => $event->id,
+                            'lottery_id' => $lottery
+                        ]);
+                    }
+                }
+
                 $output['success'] = true;
                 $output['msg'] = 'Event successfully added. Reloading.....';
             }else{
@@ -160,7 +193,14 @@ class EventController extends Controller
 
         }else{
             $event = Event::where('id', $request->id)->first();
-            return view('dashboard.user.edit_event',compact('event'));
+            $lotteries = Lottery::get()->toArray();
+            $selected_lotteries = EventLottery::select('lottery_id')->where('event_lotteries.event_id',$event->id)->get()->toArray();
+            $selected_lots = [];
+            foreach($selected_lotteries as $selected_lottery){
+                $selected_lots[] = $selected_lottery['lottery_id'];
+            }
+            //dd($selected_lots);
+            return view('dashboard.user.edit_event',compact('event','selected_lotteries','lotteries', 'selected_lots'));
         }
     }
 }

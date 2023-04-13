@@ -189,18 +189,18 @@
                     $countEntries = 1;
                     $c_time = convert_timezone_in_UTC(date('Y-m-d H:i:s'), 'Y-m-d H:i:s');
                     $current_datetime = convert_timezone_new($c_time, config('app.timezone'), $data['lottery']->timezone, 'd-m-Y h:i A');
-                   //dd($current_datetime);
+                    //dd($data['lottery']);
 
                     //$start_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->start_datetime));
                     //$end_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->end_datetime));
                     //$start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
                     //$end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
-                    $start_datetime = convert_timezone_new($data['lottery']->start_datetime, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
-                    $end_datetime = convert_timezone_new($data['lottery']->end_datetime, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
+                    $start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
+                    $end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
                     $date_created = date('d-m-Y h:i A', strtotime($data['lottery']->date_created));
                     $form_customization = unserialize($data['lottery']->form_customization);
-                    //echo $current_datetime." < ";
-                    //echo $start_datetime;die;
+                    /*echo $current_datetime." < ";
+                    echo $start_datetime;die;*/
                 @endphp
 
 

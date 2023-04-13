@@ -78,6 +78,18 @@
                                                             <input type="text" name="location" id="location" value="{{ $event->location }}" class="form-control" required="">
                                                         </div>
                                                     </div>
+                                                    <div class="form-group row d-flex">
+                                                        <label class="col-md-3 col-form-label" for="startDate">Select Lottery</label>
+                                                        <div class="col-md-9">
+                                                            <select name="select_lotteries[]" id="select_lotteries" class="form-control select2" multiple required>
+                                                                @if(count($lotteries) > 0)
+                                                                    @foreach($lotteries as $lottery)
+                                                                        <option value="{{ $lottery['id'] }}" {{ in_array($lottery['id'], $selected_lots) ? 'selected' : '' }}>{{ $lottery['title'] }}</option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
                                                 </div>
                                             </div>

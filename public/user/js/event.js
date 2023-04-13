@@ -8,6 +8,7 @@ $('#add_event_form').submit(function(e){
     var location = $('#location').val();
     var about_event = $('#about_event').val();
     var how_it_works = $('#how_it_works').val();
+    var select_lotteries = $('#select_lotteries').val();
     var add_btn = $('#add_btn');
 
         $('.add_event_alert').fadeOut();
@@ -62,6 +63,7 @@ $('#add_event_form').submit(function(e){
         data.append("about_event", about_event);
         //data.append("about_event_image", $('#about_event_image').get(0).files[0]);
         data.append("how_it_works", how_it_works);
+        data.append("select_lotteries", select_lotteries);
         data.append("add_event_btn", "true");
         data.append("POST", "true");
         request = $.ajax({
@@ -103,6 +105,7 @@ $('#edit_event_form').submit(function(e){
     var location = $('#location').val();
     var about_event = $('#about_event').val();
     var how_it_works = $('#how_it_works').val();
+    var select_lotteries = $('#select_lotteries').val();
     var add_btn = $('#add_btn');
 
     $('.add_event_alert').fadeOut();
@@ -135,6 +138,7 @@ $('#edit_event_form').submit(function(e){
     data.append("location", location);
     data.append("about_event", about_event);
     data.append("how_it_works", how_it_works);
+    data.append("select_lotteries", select_lotteries);
     data.append("add_event_btn", "true");
     data.append("POST", "true");
     request = $.ajax({

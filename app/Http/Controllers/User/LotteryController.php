@@ -99,7 +99,8 @@ class LotteryController extends Controller
 
                     if ($remaining_events > 0) {
 
-                            $timezone = 'America/New_York';
+                            //$timezone = 'America/New_York';
+                            $timezone = config('app.timezone');
                             $lottery_url = $data[0]['lottery_url'];
                             $lottery_title = $data[0]['lottery_title'];
                             $lottery_logo = $data[0]['lottery_logo'];
@@ -120,8 +121,8 @@ class LotteryController extends Controller
                             $end_datetime = date('Y-m-d H:i', strtotime($end_date . $end_time));
 
 
-                            $start_datetime_utc = convert_timezone($start_datetime, $timezone, 'UTC', 'Y-m-d H:i');
-                            $end_datetime_utc = convert_timezone($end_datetime, $timezone, 'UTC', 'Y-m-d H:i');
+                            $start_datetime_utc = convert_timezone($start_datetime, $data[0]['timezone'], 'UTC', 'Y-m-d H:i');
+                            $end_datetime_utc = convert_timezone($end_datetime, $data[0]['timezone'], 'UTC', 'Y-m-d H:i');
 
                             $description = serialize($data[1]);
                             $how_it_works = serialize($data[2]);
@@ -428,7 +429,8 @@ class LotteryController extends Controller
 
         $requestData = $request->json()->all();
         if ($requestData[0]['edit_lottery'] == 'true') {
-            $timezone = 'America/New_York';
+            //$timezone = 'America/New_York';
+            $timezone = config('app.timezone');
             $normal_user = auth()->user()->id;
             $lottery_id = $requestData[0]['lottery_id'];
 
@@ -449,8 +451,8 @@ class LotteryController extends Controller
             $end_time = $requestData[0]['end_time'];
             $end_datetime = date('Y-m-d H:i', strtotime($end_date . $end_time));
 
-            $start_datetime_utc = convert_timezone($start_datetime, $timezone, 'UTC', 'Y-m-d H:i');
-            $end_datetime_utc = convert_timezone($end_datetime, $timezone, 'UTC', 'Y-m-d H:i');
+            $start_datetime_utc = convert_timezone($start_datetime, $requestData[0]['timezone'], 'UTC', 'Y-m-d H:i');
+            $end_datetime_utc = convert_timezone($end_datetime, $requestData[0]['timezone'], 'UTC', 'Y-m-d H:i');
 
             $description = serialize($requestData[1]);
             $how_it_works = serialize($requestData[2]);

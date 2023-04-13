@@ -89,8 +89,8 @@
                                                             /*echo '(ashrab starts) ';
                                                             echo $current_datetime."<br>";*/
 
-                                                            $end_datetime = convert_timezone_new($lottery->end_datetime, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
-                                                            $start_datetime = convert_timezone_new($lottery->start_datetime, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
+                                                            $end_datetime = convert_timezone_new($lottery->end_datetime_utc, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
+                                                            $start_datetime = convert_timezone_new($lottery->start_datetime_utc, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
                                                             /*echo $start_datetime." (asharab ends)";die;*/
 
                                                         @endphp

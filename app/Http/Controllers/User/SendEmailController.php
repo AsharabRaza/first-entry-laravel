@@ -208,7 +208,7 @@ class SendEmailController extends Controller
                                 $c_logo = '';
                             } else {
 //                            $c_logo = "<img src=\"" . $website_url . "assets/images/media/" . $c_logo . "\" width=\"65\">";
-                                $c_logo = "<img src=\"" .url('assets/images/media/') . $c_logo . "\" width=\"65\">";
+                                $c_logo = "<img src=\"" .url('assets/images/media/'. $c_logo)  . "\" width=\"65\">";
                             }
 
                             $payload = array(
@@ -358,7 +358,7 @@ class SendEmailController extends Controller
                                 $c_logo = '';
                             }else{
 //                                $c_logo = "<img src=\"".$website_url."assets/images/media/".$c_logo."\" width=\"65\">";
-                                $c_logo = "<img src=\"" .url('assets/images/media/') . $c_logo . "\" width=\"65\">";
+                                $c_logo = "<img src=\"" .url('assets/images/media/'. $c_logo)  . "\" width=\"65\">";
                             }
 
                             $payload = array(
