@@ -383,8 +383,18 @@ function convert_timezone_new($datetime, $from_tz, $to_tz, $format = 'M d, Y h:i
         return null;
     }
 
-    $to_tz = empty($to_tz) ? config('app.timezone') : $to_tz;
+    //$to_tz = empty($to_tz) ? config('app.timezone') : $to_tz;
+
     $date = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $from_tz)->setTimezone($to_tz);
+    return $date->format($format);
+}
+
+function convert_timezone_in_UTC($datetime, $format) {
+    if(empty($datetime)) {
+        return null;
+    }
+
+    $date = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $datetime);
     return $date->format($format);
 }
 

@@ -17,6 +17,7 @@ class LotteryFormController extends Controller
 {
     public function lottery_form(Request $request){
         $this->data['lottery'] = Lottery::where('lottery_url', $request->segment(2))->first();
+        //dd($this->data['lottery']);
         $this->data['countEntries'] = Entry::where('lottery_id', $this->data['lottery']->id)->count();
         return view('FrontEnd.lottery_form',['data'=>$this->data]);
     }

@@ -83,9 +83,16 @@
                                                         <td>{{ getCountriesNames($lottery->country_code, true) }}</td>
                                                         <td>{{ $lottery->timezone }}</td>
                                                         @php
-                                                            $current_datetime = date('d-m-Y h:i A');
-                                                            $end_datetime = convert_timezone_new($lottery->end_datetime_utc, 'UTC',$lottery->timezone, 'M d, Y h:i a');
-                                                            $start_datetime = convert_timezone_new($lottery->start_datetime_utc, 'UTC',$lottery->timezone, 'M d, Y h:i a');
+                                                            //$current_datetime = date('d-m-Y h:i A');
+                                                            $c_time = convert_timezone_in_UTC(date('Y-m-d H:i:s'), 'Y-m-d H:i:s');
+                                                            $current_datetime = convert_timezone_new($c_time, config('app.timezone'), $lottery->timezone, 'd-m-Y h:i A');
+                                                            /*echo '(ashrab starts) ';
+                                                            echo $current_datetime."<br>";*/
+
+                                                            $end_datetime = convert_timezone_new($lottery->end_datetime, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
+                                                            $start_datetime = convert_timezone_new($lottery->start_datetime, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
+                                                            /*echo $start_datetime." (asharab ends)";die;*/
+
                                                         @endphp
                                                         <td>
                                                             <span @if($tooltip_status){{$all_lott_row_winners_limit_tooltip}}@endif>{{$lottery->total_winners}}</span>
@@ -107,8 +114,8 @@
                                                             @endif
 
                                                         </td>
-                                                        <td>{{ formatted_date($start_datetime) }}</td>
-                                                        <td>{{ formatted_date($end_datetime) }}</td>
+                                                        <td>{{ formatted_date($lottery->start_datetime) }}</td>
+                                                        <td>{{ formatted_date($lottery->end_datetime) }}</td>
                                                             <td class="text-center align-middle">
                                                                 <div class="btn-group align-top">
     {{--                                                                <a {{ ($tooltip_status)?$all_lott_row_view_tooltip:'' }} class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="../lotteries/<?php echo trim($lottery_url);?>" target="_blank"><i class="bi bi-eye-fill"></i></a>--}}

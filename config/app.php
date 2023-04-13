@@ -68,8 +68,8 @@ return [
     |
     */
 
-    //'timezone' => 'UTC',
-    'timezone' => 'America/New_York',
+    'timezone' => 'UTC',
+    //'timezone' => 'America/New_York',
 
     /*
     |--------------------------------------------------------------------------

@@ -285,12 +285,14 @@ class LotteryController extends Controller
             ->where('user_id', $normal_user)
             ->first();
 
+
         if ($email_template != null) {
             $current_datetime = date('d-m-Y h:i A');
             $last_updated = date('d-m-Y h:i A', strtotime($email_template->updated_at));
 
             $email_data = $email_template->email_data;
             if ($email_data != '') {
+                //dd($email_data);
                 $email_data = unserialize($email_data);
                 $this->data['winners_emails_instructions'] = $email_data['instructions'];
                 $this->data['winners_emails_reminders'] = $email_data['reminders'];
@@ -388,6 +390,7 @@ class LotteryController extends Controller
 
         if ($request->has('lottery_images_upload')) {
 
+
             if ($request->hasFile('lottery_logo')) {
                 $tmp_img = $request->file('lottery_logo')->getClientOriginalName();
                 $extention = $request->file('lottery_logo')->getClientOriginalExtension();
@@ -479,19 +482,20 @@ class LotteryController extends Controller
                 'timezone' => $lott_timezone,
                 'scanning_option' => $scanning_option,
                 'queing_process' => $queing_process,
-                'updated_at' => $current_datetime
+                'updated_at' => $current_datetime,
             ];
 
-            if (isset($request[0]['lottery_logo'])) {
-                $lottery_logo = $request[0]['lottery_logo'];
+
+            if (isset($requestData[0]['lottery_logo'])) {
+                $lottery_logo = $requestData[0]['lottery_logo'];
                 //$lottery->header_image = $lottery_logo;
-                array_push($data,'header_image',$lottery_logo);
+                $data['header_image'] = $lottery_logo;
             }
 
-            if (isset($request[0]['lottery_background_image'])) {
-                $lottery_background_image = $request[0]['lottery_background_image'];
+            if (isset($requestData[0]['lottery_background_image'])) {
+                $lottery_background_image = $requestData[0]['lottery_background_image'];
 //              $lottery->background_image = $lottery_background_image;
-                array_push($data,'background_image',$lottery_background_image);
+                $data['background_image'] = $lottery_background_image;
             }
 
             $result = $lottery->where('user_id', $normal_user)

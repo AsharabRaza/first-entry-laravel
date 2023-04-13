@@ -143,7 +143,7 @@
                                                                 <option value="BAR_CODE" {{ (isset($data['scanning_option']) && $data['scanning_option'] == 'BAR_CODE') ? 'selected' : '' }}>Bar Code</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-4 mb-4 ms-4">
+                                                        {{--<div class="col-lg-4 col-md-4 mb-4 ms-4">
                                                             <div class="form-group">
                                                                 <div class="form-label">Queuing option</div>
                                                                 <label class="custom-switch" style="margin-top: 8px;">
@@ -152,7 +152,7 @@
                                                                     <span class="" style="margin-left: 0.5rem;">Deactive/Active</span>
                                                                 </label>
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
                                                     </div>
 
                                                     <div class="form-row">
@@ -250,7 +250,7 @@
                                                                 <button type="button" class="remove_btn" id="remove_img_lottery_logo"><i class="bi bi-x-circle-fill"></i></button>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 mb-4">
+                                                        <div class="col-lg-6 col-md-6 mb-4 d-none">
                                                             <label for="lottery_background_image" {!! ($tooltip_status)?$bg_image_tooltip:'' !!}>Background image <small class="text-green">(1920x1080)</small> <small class="text-default">(Optional)</small></label>
                                                             <input type="file" class="form-control" id="lottery_background_image" accept="image/*">
 
