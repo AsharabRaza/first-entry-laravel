@@ -60,7 +60,7 @@ Route::prefix('user')->name('user.')->group(function(){
     });
     Route::middleware(['auth:web','PreventBackHistory','CheckMembership'])->group(function(){
         Route::get('/home',[UserDashboardController::class,'dashboard'])->name('home');
-        Route::any('/logout',[UserController::class,'logout'])->name('logout');
+        Route::any('/logout',[UserController::class,'logout'])->name('logout')->withoutMiddleware(['CheckMembership']);
         Route::any('/all-lotteries',[LotteryController::class,'all_lotteries'])->name('all-lotteries');
         Route::any('/add-lottery',[LotteryController::class,'add_lottery'])->name('add-lottery');
         Route::any('/edit-lottery',[LotteryController::class,'edit_lottery'])->name('edit-lottery');

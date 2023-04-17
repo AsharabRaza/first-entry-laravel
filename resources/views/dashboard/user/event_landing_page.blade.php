@@ -119,7 +119,7 @@
 
             @foreach($data['event_lotteries'] as $event_lottery)
                 <div class="col-md-3 mb-4">
-                    <a href="{{ route('lottery-form',['url'=>$event_lottery->lottery_url]) }}" class="text-white">
+                    <a href="{{ route('lottery-form',['url'=>$event_lottery->lottery_url]) }}" target="_blank" class="text-white">
                         <img src="{{ url('assets/images/event-thumb.jpg') }}" width="100%" height="150px"/>
                         <table class="w-100 border bg-dark">
                             <tr>

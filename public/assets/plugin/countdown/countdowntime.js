@@ -45,9 +45,10 @@
           }else{
 
             if(tZ2 != "") {
-             // var deadline = moment.tz(fullEndDateTime, tZ2).format();
-              var deadline = fullEndDateTime;
-               // alert(fullEndDateTime);
+              var deadline = moment.tz(fullEndDateTime, tZ2).format();
+              //var deadline = fullEndDateTime;
+                //var deadline = new Date(fullEndDateTime);
+                //alert(deadline);
             }else if(tZ == ""){
               var deadline = new Date(fullEndDateTime);
             }else {

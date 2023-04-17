@@ -31,6 +31,7 @@ class SendEmailController extends Controller
 
         if(request()->has('lottery_id') && request()->filled('lottery_id') && request()->has('entries_type') && request()->filled('entries_type'))
         {
+            //dd($request->all());
 
             $lotter_details = Lottery::where('id', request()->input('lottery_id'))->where('user_id', $normal_user)->first();
 
@@ -129,6 +130,7 @@ class SendEmailController extends Controller
             ->where('is_winners_selected', true)
             ->orderBy('title', 'asc')
             ->get();
+
 
         return view('dashboard.user.send_emails',compact('total_lotteries','available_l', 'error_msg', 'lotter_details', 'send', 'total_result', 'email_data'));
 

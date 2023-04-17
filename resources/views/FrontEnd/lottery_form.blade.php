@@ -167,7 +167,49 @@
     .iti--allow-dropdown {
         width: 100%;
     }
+
+
+    .new_counter {
+        display: inline-block;
+        line-height: 1;
+        padding: 20px;
+        font-size: 40px;
+    }
+
+    span {
+        display: block;
+        font-size: 20px;
+        color: white;
+    }
+
+    #days {
+        font-size: 100px;
+        color: #db4844;
+    }
+    #hours {
+        font-size: 100px;
+        color: #f07c22;
+    }
+    #minutes {
+        font-size: 100px;
+        color: #f6da74;
+    }
+    #seconds {
+        font-size: 50px;
+        color: #abcd58;
+    }
+    .body-counter-css{
+        font-family: 'Titillium Web', cursive;
+        width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        color: white;
+        background: #222;
+        font-weight: 100;
+    }
+
 </style>
+
 
 <!-- BACKGROUND-IMAGE -->
 <div class=""></div>
@@ -187,21 +229,69 @@
                     $entriesPerEvent = 0;
                     $countEntries = $data['countEntries'];
                     $countEntries = 1;
-                    $c_time = convert_timezone_in_UTC(date('Y-m-d H:i:s'), 'Y-m-d H:i:s');
-                    $current_datetime = convert_timezone_new($c_time, config('app.timezone'), $data['lottery']->timezone, 'd-m-Y h:i A');
+                    //$c_time = convert_timezone_in_UTC(date('Y-m-d H:i:s'), 'Y-m-d H:i:s');
+                    //$current_datetime = convert_timezone_new(date('Y-m-d H:i:s'), config('app.timezone'), $data['lottery']->timezone, 'd-m-Y h:i A');
+                    //$current_datetime = date('Y-m-d H:i:s');
+                    $current_datetime = date('d-m-Y h:i A');
+                    $test_times = date('d-m-Y h:i A');
+                    /*echo "Current Time = ". $test_times;
+                    echo "<br>";*/
+
+                    //dd($data['lottery']);
+
                     //dd($data['lottery']);
 
                     //$start_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->start_datetime));
                     //$end_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->end_datetime));
                     //$start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
                     //$end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
-                    $start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
-                    $end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
+                    $start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
+                    /*echo 'Start Time = '; print_r($start_datetime);
+                    echo "<br>";*/
+
+
+                    $date = DateTime::createFromFormat('d-m-Y h:i A', $start_datetime);
+                    $count_date_format = $date->format('d F Y H:i:s');
+
+                    $date_string = date('d-m-Y h:i A');
+                    $date = \Carbon\Carbon::createFromFormat('d-m-Y h:i A', $date_string, config('app.timezone'));
+                    $current_date_format = $date->format('D M d Y H:i:s \G\M\TO (T)');
+
+                  /*  echo $current_date_format;
+
+
+
+                    echo "<br>";*/
+
+                    //$start = '2023-04-17 09:22:00';
+                    //$end = '2023-04-17 10:00:00';
+
+                    /*$time_difference = getTimeDifference($current_datetime, $start_datetime);
+                    echo 'Time Difference = '. $time_difference;*/
+
+                    //echo (strtotime($test_times) - strtotime($start_datetime));
+                    $end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
                     $date_created = date('d-m-Y h:i A', strtotime($data['lottery']->date_created));
                     $form_customization = unserialize($data['lottery']->form_customization);
                     /*echo $current_datetime." < ";
                     echo $start_datetime;die;*/
                 @endphp
+
+
+             {{--   @php
+                    $entriesPerEvent = 0;
+                    $countEntries = $data['countEntries'];
+                    $countEntries = 1;
+                    $current_datetime = date('d-m-Y h:i A');
+                    $start_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->start_datetime));
+                    $end_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->end_datetime));
+                    $start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
+                    $end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
+                    $date_created = date('d-m-Y h:i A', strtotime($data['lottery']->date_created));
+                    $form_customization = unserialize($data['lottery']->form_customization);
+                @endphp--}}
+
+
 
 
                 @if(strtotime($current_datetime) < strtotime($start_datetime))
@@ -211,8 +301,8 @@
                         <span class="alert-inner--text">This lottery has not started yet. Coming soon.</span>
                     </div>
 
-                    <div class="col-md-8 mx-auto mt-6">
-                        <div class="count-down row">
+                    <div class="col-md-8 mx-auto mt-6 body-counter-css">
+                        {{--<div class="count-down row">
                             <div class="col-6 col-xl-3 col-md-6 countdown mb-6 mb-xl-0">
                                 <span class="days text-primary ">00</span>
                                 <span class="text-dark">Days</span>
@@ -230,14 +320,41 @@
                                 <span class="seconds text-primary">00</span>
                                 <span class="text-dark">Secs</span>
                             </div>
+                        </div>--}}
+                        <div id="timer" class="new_counter">
+                            <table cellpadding="16" cellspacing="16">
+                                <tr>
+                                    <td><div id="days"></div></td>
+                                    <td><div id="hours"></div></td>
+                                    <td><div id="minutes"></div></td>
+                                    <td><div id="seconds"></div></td>
+                                </tr>
+                            </table>
+
                         </div>
+
                     </div>
+                    {{--@php
+                        $entriesPerEvent = 0;
+                        $countEntries = $data['countEntries'];
+                        $countEntries = 1;
+                        $current_datetime = date('d-m-Y h:i A');
+                        $start_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->start_datetime));
+                        $end_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->end_datetime));
+                        $start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
+                        $end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
+                        $date_created = date('d-m-Y h:i A', strtotime($data['lottery']->date_created));
+                        $form_customization = unserialize($data['lottery']->form_customization);
+                    @endphp--}}
                 @php
 
-                    $start_datetime = date('Y-m-d h:i:s',strtotime($data['lottery']->start_datetime));
-                   $new =  convert_timezone_new($data['lottery']->start_datetime,$data['lottery']->timezone,$data['lottery']->timezone);
+                    //$start_datetime = date('Y-m-d h:i:s',strtotime($data['lottery']->start_datetime));
+                    //$start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, config('app.timezone'),$data['lottery']->timezone, 'd-m-Y h:i A');
+                    //dd($start_datetime);
+                   //$new =  convert_timezone_new($data['lottery']->start_datetime,$data['lottery']->timezone,$data['lottery']->timezone);
                   // dd(formatted_date($start_datetime));
-                    //dd($new);
+                    //dd($data['lottery']->timezone);
+                    //dd(formatted_date($start_datetime));
                 @endphp
 
                     {{ Html::script('assets/plugin/countdown/moment.min.js') }}
@@ -246,7 +363,7 @@
                     {{ Html::script('assets/plugin/countdown/countdowntime.js') }}
 
                     <script>
-                        $( function() {
+                       /* $( function() {
                             $('.count-down').countdown100({
                                 endtimeYear: 0,
                                 endtimeMonth: 0,
@@ -256,10 +373,52 @@
                                 endtimeSeconds: 0,
                                 timeZone: "",
                                 timeZone2: "{{ $data['lottery']->timezone }}",
-                                fullEndDateTime: '{{ $new }}',
+                                fullEndDateTime: '{{ formatted_date($start_datetime) }}',
                                 reloadPage: true
                             });
-                        });
+                        });*/
+
+                       function makeTimer() {
+
+                           // var endTime = new Date("29 April 2018 9:56:00 GMT+01:00");
+                           //var endTime = new Date("18 April 2023 20:55:00");
+                           var endTime = new Date("{{ $count_date_format }}");
+                           endTime = (Date.parse(endTime) / 1000);
+
+                           var now = new Date();
+                           now = now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"});
+                           now = new Date(now);
+                          // var now = "{{ $current_date_format }}";
+                          // var now = "Mon Apr 17 2023 11:40:00 GMT-0700 (PDT)";
+                           //var now = "Mon Apr 17 2023 23:23:01 GMT+0500 (Pakistan Standard Time)";
+                           //alert(now);
+                           now = (Date.parse(now) / 1000);
+
+                           var timeLeft = endTime - now;
+
+                           var days = Math.floor(timeLeft / 86400);
+                           var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+                           var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+                           var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+                           if (hours < "10") { hours = "0" + hours; }
+                           if (minutes < "10") { minutes = "0" + minutes; }
+                           if (seconds < "10") { seconds = "0" + seconds; }
+
+                           $("#days").html(days + "<span>Days</span>");
+                           $("#hours").html(hours + "<span>Hours</span>");
+                           $("#minutes").html(minutes + "<span>Minutes</span>");
+                           $("#seconds").html(seconds + "<span>Seconds</span>");
+
+                       }
+
+                       setInterval(function() { makeTimer(); }, 1000);
+
+
+
+
+
+
                     </script>
 
                 @elseif($entriesPerEvent > $countEntries)

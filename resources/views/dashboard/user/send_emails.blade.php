@@ -41,6 +41,9 @@
                                     <a href="{{ route('user.email-history') }}" class="btn btn-danger" id="cancel_btn">Cancel</a>
                                 </div>
                             </div>
+                            @php
+                            //dd(request('lottery_id'));
+                            @endphp
                             <div class="card-body">
                                 <div class="alert alert-emails" style="display: none;"></div>
                                 <form action="{{ route('user.send-emails') }}" method="GET" id="send_emails_filter">
@@ -56,7 +59,7 @@
                                                 <option value="" @if(!request()->has('lottery_id') || !request()->filled('lottery_id')) selected @endif disabled >Select a lottery</option>
                                                 @if($available_l)
                                                     @foreach($available_l as $lottery)
-                                                        <option value="{{ $lottery['id'] }}" @if(request()->has('lottery_id') || request('lottery_id') == $lottery->id) selected @endif >{{ $lottery->title }}</option>
+                                                        <option value="{{ $lottery['id'] }}" @if(request()->has('lottery_id') && request('lottery_id') == $lottery['id']) selected @endif >{{ $lottery->title }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>

@@ -73,7 +73,7 @@
                                                 </tr>
                                             @endforeach
                                         @else
-                                            {{ '<tr><td colspan="18" class="text-center">No data available.</td></tr>' }}
+                                            <tr><td colspan="18" class="text-center">No data available.</td></tr>
                                         @endif
 
                                         </tbody>

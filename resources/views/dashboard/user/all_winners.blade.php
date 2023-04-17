@@ -33,6 +33,8 @@
                     </div>
                     <!-- PAGE-HEADER END -->
 
+
+
                     <!-- Row -->
                     <div class="row row-sm">
                         <div class="col-lg-12">
@@ -51,6 +53,12 @@
                                 <div class="card-body">
                                     <div class="alert alert-entries" style="display: none;"></div>
                                     <div class="table-responsive">
+                                        {{--@php
+                                            dd($data['winners']);
+                                        @endphp--}}
+                                        <div class="pagination">
+                                            {{ $data['winners']->links() }}
+                                        </div>
                                         <table class="table table-bordered text-nowrap border-bottom w-100"
                                                id="file-datatable">
                                             <thead>
@@ -73,6 +81,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+
                                                 @if(count($data['winners']) > 0)
                                                     @foreach($data['winners'] as $entry)
                                                         <tr>
@@ -165,7 +174,9 @@
                                                                 @endif
 
                                                             </td>
+
                                                     @endforeach
+
                                                 @else
                                                     <tr><td colspan="13" class="text-center">No data available.</td></tr>
                                                 @endif
@@ -173,7 +184,11 @@
                                             {{--<div class="pagination">
                                                 {{ $data['winners']->links() }}
                                             </div>--}}
+
                                         </table>
+                                       {{-- <div class="pagination">
+                                            {{ $data['winners']->links() }}
+                                        </div>--}}
                                     </div>
 
                                 </div>

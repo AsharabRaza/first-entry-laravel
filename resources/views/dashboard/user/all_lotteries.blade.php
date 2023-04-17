@@ -84,13 +84,19 @@
                                                         <td>{{ $lottery->timezone }}</td>
                                                         @php
                                                             //$current_datetime = date('d-m-Y h:i A');
-                                                            $c_time = convert_timezone_in_UTC(date('Y-m-d H:i:s'), 'Y-m-d H:i:s');
-                                                            $current_datetime = convert_timezone_new($c_time, config('app.timezone'), $lottery->timezone, 'd-m-Y h:i A');
+                                                            //$c_time = convert_timezone_in_UTC(date('Y-m-d H:i:s'), 'Y-m-d H:i:s');
+                                                            //dd(date('Y-m-d H:i:s'));
+                                                            //$current_datetime = convert_timezone_new(date('Y-m-d H:i:s'), config('app.timezone'), $lottery->timezone, 'd-m-Y h:i A');
+                                                            $current_datetime = date('Y-m-d H:i:s');
+                                                            //dd($current_datetime);
                                                             /*echo '(ashrab starts) ';
                                                             echo $current_datetime."<br>";*/
 
-                                                            $end_datetime = convert_timezone_new($lottery->end_datetime_utc, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
-                                                            $start_datetime = convert_timezone_new($lottery->start_datetime_utc, config('app.timezone'),$lottery->timezone, 'd-m-Y h:i A');
+                                                            $end_datetime = convert_timezone_new($lottery->end_datetime_utc, 'UTC',$lottery->timezone, 'M d, Y h:i a');
+                                                            $start_datetime = convert_timezone_new($lottery->start_datetime_utc, 'UTC',$lottery->timezone, 'M d, Y h:i a');
+
+
+                                                            //dd($lottery->start_datetime_utc);
                                                             /*echo $start_datetime." (asharab ends)";die;*/
 
                                                         @endphp

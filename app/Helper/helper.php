@@ -29,6 +29,21 @@ function getRemainingUserEvents($userId)
     return false;
 }
 
+function getTimeDifference($start, $end)
+{
+    $start_datetime = new DateTime($start);
+    $end_datetime = new DateTime($end);
+    $interval = $start_datetime->diff($end_datetime);
+
+    $hours_in_seconds = $interval->h * 3600;
+    $minutes_in_seconds = $interval->i * 60;
+    $seconds = $interval->s;
+
+    $total_seconds = $hours_in_seconds + $minutes_in_seconds + $seconds;
+
+    return $interval->format('%h hours %i minutes %s seconds') . " ($total_seconds seconds)";
+}
+
 function getMemberShipInfo($userId)
 {
     $row1 = DB::table('memberships')->where('user_id', $userId)->first();
@@ -470,6 +485,8 @@ function get_lotteries_winners_losers(){
             ->orderBy('updated_at', 'desc')
             ->first();
 
+    //dd($lottery);
+
     if ($lottery) {
         $lottery_id = $lottery->id;
         get_winners_losers($lottery_id);
@@ -485,6 +502,7 @@ function get_winners_losers($lottery_id){
     $result = Lottery::where('user_id', $normal_user)
         ->where('id', $lottery_id)
         ->first();
+
 
     if($result){
             $row = $result;

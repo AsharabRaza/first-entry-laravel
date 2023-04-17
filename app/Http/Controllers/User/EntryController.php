@@ -172,9 +172,9 @@ class EntryController extends Controller
                 ->leftJoin('lottery_winners as l2', 'entries.guest_id', '=', 'l2.entry_id')
                 ->where('lotteries.user_id', $normal_user)
                 ->where('lottery_winners.lottery_id', $request->id)
-                ->orderBy('sorting', 'ASC')
-                ->get();
-                //->paginate(15)->withQueryString();
+                //->orderBy('sorting', 'ASC')
+                //->get();
+                ->paginate(15)->withQueryString();
             //dd($this->data['winners']);
 
         }else{
@@ -206,7 +206,7 @@ class EntryController extends Controller
         }
 
         //  dd($this->data['winners']);
-        return view('dashboard.user.all_winners',['data'=>$this->data]);
+        return view('dashboard.user.all_winners')->with(['data'=>$this->data]);
     }
 
     public function all_losers(Request $request){

@@ -92,7 +92,7 @@ class EntryVerificationController extends Controller
                     $error = true;
                 }
             }
-            else if($user_type == 2){
+            else if($user_type == 2){ //for agent
 
                 $result_check_agent = Lottery_Agent::where('lottery_id', $row->lottery_id)
                     ->where('agent_id', $normal_user)
@@ -104,6 +104,7 @@ class EntryVerificationController extends Controller
                     $error = true;
                 }
             }
+
 
             if($error == false){
                 $output['title'] = $row->title;
@@ -153,8 +154,9 @@ class EntryVerificationController extends Controller
                     $output['bring_guest'] = '<span class="badge bg-primary">Yes</span>';
 
                     $result2 = Entry::where('id',$row->guest_id)->first();
+
                     if($result2 == true){
-                        $row2 = $result2->fetch_object();
+                        $row2 = $result2;
                         $output['g_first_name'] = $row2->first_name;
                         $output['g_last_name'] = $row2->last_name;
 
