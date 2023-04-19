@@ -2,6 +2,7 @@
 
 @section('content')
     <!--app-content open-->
+
     <div class="main-content app-content mt-0">
         <div class="side-app">
 
@@ -11,6 +12,7 @@
                 @if(request()->has('id') && request()->filled('id'))
                     <!-- PAGE-HEADER -->
                     @php
+                    //dd($data['winners']);
                         $is_winners_selected = $data['lottery']->is_winners_selected;
                         $lottery_url = $data['lottery']->lottery_url;
                         $event_datetime = formatted_date($data['lottery']->event_datetime, 'M d, Y');
@@ -50,9 +52,20 @@
                                         <a href="{{ route('user.send-emails',['lottery_id'=>$data['lottery']->id,'entries_type'=>'Winners']) }}" class="btn btn-primary">Send emails</a>
                                     </div>
                                 </div>
+
                                 <div class="card-body">
                                     <div class="alert alert-entries" style="display: none;"></div>
                                     <div class="table-responsive">
+                                        <form action="{{ route('user.all-winners',['id'=>request('id'),'per_page'=>15]) }}" method="get">
+                                            <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
+                                            Show
+                                            <select name="per_page" onchange="this.form.submit()" class="select2" style="width : 50px !important;">
+                                                <option value="10" {{ $data['winners']->perPage() == 10 ? 'selected' : '' }}>10</option>
+                                                <option value="20" {{ $data['winners']->perPage() == 20 ? 'selected' : '' }}>20</option>
+                                                <option value="100000" {{ $data['winners']->perPage() == 100000 ? 'selected' : '' }}>All</option>
+                                            </select>
+                                            rows per page
+                                        </form>
                                         <table class="table table-bordered text-nowrap border-bottom w-100"
                                                id="file-datatable">
                                             <thead>
@@ -194,6 +207,7 @@
 
                                         <div class="pagination">
                                             {{ $data['winners']->links() }}
+{{--                                            {{ $data['winners']->appends(['per_page' => $data['winners']->perPage()])->links() }}--}}
                                         </div>
                                     </div>
 
@@ -364,7 +378,10 @@ td a:hover, .list_a:hover {
     var remove_winners = '{{ route('user.remove-winners') }}'
     var remove_entries = '{{ route('user.remove-entries') }}'
     var table = $('#file-datatable').DataTable({
+        lengthMenu: [],
+        pageLength : {{ isset($data['winners']) ? $data['winners']->perPage():'' }},
         scrollX: "100%",
+        "lengthChange": false,
         language: {
             searchPlaceholder: 'Search...',
             sSearch: '',

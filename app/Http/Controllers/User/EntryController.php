@@ -18,9 +18,11 @@ class EntryController extends Controller
         $current_datetime = date('Y-m-d H:i:s');
         if($request->has('id') && $request->input('id') != '') {
 
+            $perPage = isset($request->per_page) ? $request->per_page : '10';
+
             $this->data['lottery'] = Lottery::where('user_id', $normal_user)->where('id', $request->input('id'))->first();
 
-            $this->data['entries'] = Entry::select(
+                $this->data['entries'] = Entry::select(
                 'entries.id as entry_tid',
                 'entries.*',
                 'e2.first_name as g_first_name',
@@ -35,7 +37,7 @@ class EntryController extends Controller
                 ->where('lotteries.user_id', $normal_user)
                 ->where('entries.lottery_id', $request->input('id'))
                 ->orderByDesc('entries.id')
-                ->paginate(15)->withQueryString();
+                ->paginate($perPage)->withQueryString();
 
           //  dd($this->data['entries']);
 
@@ -157,12 +159,17 @@ class EntryController extends Controller
         $normal_user = auth()->user()->id;
         $current_datetime = now();
 
+        //dd($request->all());
+
         if($request->filled('id') && $request->input('id') != '') {
 
             $this->data['lottery'] = Lottery::select('id', 'title', 'lottery_url', 'is_winners_selected', 'start_datetime','event_datetime')
                 ->where('user_id', $normal_user)
                 ->where('id', $request->id)
                 ->first();
+
+            $perPage = isset($request->per_page) ? $request->per_page : '10';
+            //$perPage = request()->input('per_page', 10);
 
 
             $this->data['winners'] = Lottery_Winner::select('lottery_winners.id as winner_tid', 'lottery_winners.*', 'entries.id as entry_tid', 'entries.*', 'e2.first_name as g_first_name', 'e2.last_name as g_last_name', 'l2.sorting as g_sorting', 'l2.id as g_id')
@@ -174,7 +181,7 @@ class EntryController extends Controller
                 ->where('lottery_winners.lottery_id', $request->id)
                 //->orderBy('sorting', 'ASC')
                 //->get();
-                ->paginate(15)->withQueryString();
+                ->paginate($perPage)->withQueryString();
             //dd($this->data['winners']);
 
         }else{
@@ -216,6 +223,8 @@ class EntryController extends Controller
 
         if($request->filled('id') && $request->input('id') != '') {
 
+            $perPage = isset($request->per_page) ? $request->per_page : '10';
+
             $this->data['lottery'] = Lottery::select('id', 'title', 'lottery_url', 'is_winners_selected', 'start_datetime','event_datetime')
                 ->where('user_id', $normal_user)
                 ->where('id', $request->id)
@@ -228,7 +237,7 @@ class EntryController extends Controller
                 ->where('lotteries.user_id', '=', $normal_user)
                 ->where('lottery_losers.lottery_id', '=', $request->id)
                 ->orderBy('lottery_losers.id', 'ASC')
-                ->paginate(15)->withQueryString();
+                ->paginate($perPage)->withQueryString();
 
         }else{
 

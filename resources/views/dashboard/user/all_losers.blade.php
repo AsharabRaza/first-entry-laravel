@@ -51,6 +51,16 @@
                                 <div class="card-body">
                                     <div class="alert alert-entries" style="display: none;"></div>
                                     <div class="table-responsive">
+                                        <form action="{{ route('user.all-losers',['id'=>request('id'),'per_page'=>15]) }}" method="get">
+                                            <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
+                                            Show
+                                            <select name="per_page" onchange="this.form.submit()" class="select2" style="width : 50px !important;">
+                                                <option value="10" {{ $data['losers']->perPage() == 10 ? 'selected' : '' }}>10</option>
+                                                <option value="20" {{ $data['losers']->perPage() == 20 ? 'selected' : '' }}>20</option>
+                                                <option value="100000" {{ $data['losers']->perPage() == 100000 ? 'selected' : '' }}>All</option>
+                                            </select>
+                                            rows per page
+                                        </form>
                                         <table class="table table-bordered text-nowrap border-bottom w-100"
                                                id="file-datatable">
                                             <thead>
@@ -322,7 +332,10 @@
     var remove_winners = '{{ route('user.remove-winners') }}'
     var remove_entries = '{{ route('user.remove-entries') }}'
     var table = $('#file-datatable').DataTable({
+        lengthMenu: [],
+        pageLength : {{ isset($data['losers']) ? $data['losers']->perPage():'' }},
         scrollX: "100%",
+        "lengthChange": false,
         language: {
             searchPlaceholder: 'Search...',
             sSearch: '',
