@@ -170,6 +170,60 @@ $('#edit_event_form').submit(function(e){
 });
 
 
+$('.delete_events').click(function(e){
+    e.preventDefault();
+    var b = $(this);
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete this Event?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Remove',
+            cancelButtonText: 'Cancel'
+        }, function(isConfirmed){
+            if (isConfirmed) {
+                b.children('i').hide();
+                b.children('div').show();
+
+                var data = new FormData();
+                data.append("event_id", b.attr('data-id'));
+                var event_id = $(this).data('id');
+
+                 $.ajax({
+                    url: delete_events,
+                    type: 'POST',
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success: function(res){
+                        if(res.success == true){
+                            $('.alert-entries').removeClass('alert-danger').addClass('alert-success').html(res.msg).fadeIn();
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 1200);
+                        }else if(res.success == false){
+                            $('.alert-entries').removeClass('alert-success').addClass('alert-danger').html(res.msg).fadeIn();
+                            b.children('i').show();
+                            b.children('div').hide();
+                        }else{
+                            $('.alert-entries').removeClass('alert-success').addClass('alert-danger').html('Something went wrong, please try again later.').fadeIn();
+                            b.children('i').show();
+                            b.children('div').hide();
+                        }
+                    },
+                    error: function(){
+                        $('.alert-entries').removeClass('alert-success').addClass('alert-danger').html('Something went wrong, please try again later.').fadeIn();
+                        b.children('i').show();
+                        b.children('div').hide();
+                    }
+                });
+            }
+        });
+
+});
+
+
+
 function showLoaderBtn(add_btn){
     add_btn.prop('disabled', true);
     var add_btn_height = add_btn.height() / 2;

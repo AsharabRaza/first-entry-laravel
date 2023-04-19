@@ -203,4 +203,24 @@ class EventController extends Controller
             return view('dashboard.user.edit_event',compact('event','selected_lotteries','lotteries', 'selected_lots'));
         }
     }
+
+    public function delete_event(Request $request){
+
+        $request_id = $request->event_id;
+        if (EventLottery::where('event_id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Event successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+        if (Event::where('id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Event successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+        return response()->json($output);
+    }
 }

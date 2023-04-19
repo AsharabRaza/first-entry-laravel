@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\EventLottery;
 use App\Models\Lottery;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -560,6 +561,14 @@ class LotteryController extends Controller
 
 
         if (Entry::where('lottery_id', $request_id)->delete()) {
+            $output['success'] = true;
+            $output['msg'] = 'Lottery successfully removed. Reloading...';
+        } else {
+            $output['success'] = false;
+            $output['msg'] = 'Something went wrong. Please try again later.';
+        }
+
+        if (EventLottery::where('lottery_id', $request_id)->delete()) {
             $output['success'] = true;
             $output['msg'] = 'Lottery successfully removed. Reloading...';
         } else {

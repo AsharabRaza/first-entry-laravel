@@ -75,6 +75,7 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::any('/event/{event}',[EventController::class,'event_landing'])->name('event-landing');
         Route::any('/add-event',[EventController::class,'add_event'])->name('add-event');
         Route::any('/edit-event',[EventController::class,'edit_event'])->name('edit-event');
+        Route::any('/delete-event',[EventController::class,'delete_event'])->name('delete-event');
         Route::any('/all-agents',[Agent::class,'all_agents'])->name('all-agents');
         Route::any('/add-agent',[Agent::class,'add_agent'])->name('add-agent');
         Route::any('/edit-agent',[Agent::class,'edit_agent'])->name('edit-agent');
