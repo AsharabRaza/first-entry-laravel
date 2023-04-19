@@ -176,7 +176,7 @@
         font-size: 40px;
     }
 
-    span {
+    .count-span {
         display: block;
         font-size: 20px;
         color: white;
@@ -276,22 +276,6 @@
                     /*echo $current_datetime." < ";
                     echo $start_datetime;die;*/
                 @endphp
-
-
-             {{--   @php
-                    $entriesPerEvent = 0;
-                    $countEntries = $data['countEntries'];
-                    $countEntries = 1;
-                    $current_datetime = date('d-m-Y h:i A');
-                    $start_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->start_datetime));
-                    $end_datetime = date('d-m-Y h:i A', strtotime($data['lottery']->end_datetime));
-                    $start_datetime = convert_timezone_new($data['lottery']->start_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
-                    $end_datetime = convert_timezone_new($data['lottery']->end_datetime_utc, 'UTC',$data['lottery']->timezone, 'd-m-Y h:i A');
-                    $date_created = date('d-m-Y h:i A', strtotime($data['lottery']->date_created));
-                    $form_customization = unserialize($data['lottery']->form_customization);
-                @endphp--}}
-
-
 
 
                 @if(strtotime($current_datetime) < strtotime($start_datetime))
@@ -405,10 +389,10 @@
                            if (minutes < "10") { minutes = "0" + minutes; }
                            if (seconds < "10") { seconds = "0" + seconds; }
 
-                           $("#days").html(days + "<span>Days</span>");
-                           $("#hours").html(hours + "<span>Hours</span>");
-                           $("#minutes").html(minutes + "<span>Minutes</span>");
-                           $("#seconds").html(seconds + "<span>Seconds</span>");
+                           $("#days").html(days + "<span class='count-span'>Days</span>");
+                           $("#hours").html(hours + "<span class='count-span'>Hours</span>");
+                           $("#minutes").html(minutes + "<span class='count-span'>Minutes</span>");
+                           $("#seconds").html(seconds + "<span class='count-span'>Seconds</span>");
 
                        }
 
