@@ -140,6 +140,7 @@
                                                             </td>
                                                             <td><a href="{{route('lottery-form',['url'=> $lottery_url])}}" target="_blank">{{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}) <i class="bi bi-box-arrow-up-right"></i></a></td>
                                                             <td>{{ formatted_date($entry->created_at) }}</td>
+                                                        </tr>
 
                                                 @endforeach
                                             @else
@@ -155,7 +156,7 @@
                            {{-- <script>
                                 $('#download_table').click(function(){
                                     $("#responsive-datatable").table2csv({
-                                        filename: 'Winners - {{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}).csv',
+                                        filename: 'Losers - {{ htmlspecialchars($data['lottery']->title) }} ({{ date('M d, Y', strtotime($start_datetime)) }}).csv',
                                         excludeColumns: '.action'
                                     });
                                 });
