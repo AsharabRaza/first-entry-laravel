@@ -74,7 +74,7 @@
                                                     <div id="file-datatable_filter" class="dataTables_filter d-flex">
                                                         <label><input type="search" name="search" value="{{ request()->has('search')?request('search'):'' }}" class="form-control form-control-sm" placeholder="Search..."></label>
                                                         <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
-                                                        <button type="submit" class="btn btn-primary search" style="margin-left: 6px">Search</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm search" style="margin-left: 6px; height:29px">Search</button>
                                                     </div>
                                                 </form>
                                             </div>
