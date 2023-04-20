@@ -65,9 +65,9 @@
                                                 </form>
                                             </div>
                                             <div class="col-sm-12 col-md-3">
-                                                <form action="{{ route('user.all-losers',['id'=>request('id')]) }}" method="get">
+                                                <form action="{{ route('user.all-losers',['id'=>request('id')]) }}" method="get" id="search_form">
                                                     <div id="file-datatable_filter" class="dataTables_filter d-flex">
-                                                        <label><input type="search" name="search" value="{{ request()->has('search')?request('search'):'' }}" class="form-control form-control-sm" placeholder="Search..."></label>
+                                                        <label><input type="search" name="search" onblur="getOriginalRecords();" value="{{ request()->has('search')?request('search'):'' }}" class="form-control form-control-sm search" placeholder="Search..."></label>
                                                         <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
                                                         <button type="submit" class="btn btn-primary btn-sm search" style="margin-left: 6px; height:29px">Search</button>
                                                     </div>
@@ -342,6 +342,20 @@
 {{ Html::script('user/js/entries.js?t='.rand(0,10000)) }}
 
 <script>
+    function getOriginalRecords(){
+        var submiForm = $('#search_form');
+        var uri = '{{ route('user.all-losers') }}';
+        var lottery_id = '{{ isset($data["lottery"]) ? $data["lottery"]->id : "" }}';
+        var url = uri + "?id=" + lottery_id;
+        submiForm.submit();
+
+        $(document).on('submit',submiForm,function(e){
+            e.preventDefault();
+            if($('.search').val() == ''){
+                window.location.href = url;
+            }
+        });
+    }
     var remove_winners = '{{ route('user.remove-winners') }}'
     var remove_entries = '{{ route('user.remove-entries') }}'
     var table = $('#file-datatable').DataTable({
