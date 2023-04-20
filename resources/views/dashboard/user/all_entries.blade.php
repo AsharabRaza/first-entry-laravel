@@ -50,16 +50,29 @@
                                 <div class="card-body">
                                     <div class="alert alert-entries" style="display: none;"></div>
                                     <div class="table-responsive">
-                                        <form action="{{ route('user.all-entries',['id'=>request('id'),'per_page'=>15]) }}" method="get">
-                                            <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
-                                            Show
-                                            <select name="per_page" onchange="this.form.submit()" class="select2" style="width : 50px !important;">
-                                                <option value="10" {{ $data['entries']->perPage() == 10 ? 'selected' : '' }}>10</option>
-                                                <option value="20" {{ $data['entries']->perPage() == 20 ? 'selected' : '' }}>20</option>
-                                                <option value="100000" {{ $data['entries']->perPage() == 100000 ? 'selected' : '' }}>All</option>
-                                            </select>
-                                            rows per page
-                                        </form>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-9">
+                                                <form action="{{ route('user.all-entries',['id'=>request('id'),'per_page'=>15]) }}" method="get">
+                                                    <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
+                                                    Show
+                                                    <select name="per_page" onchange="this.form.submit()" class="select2" style="width : 50px !important;">
+                                                        <option value="10" {{ $data['entries']->perPage() == 10 ? 'selected' : '' }}>10</option>
+                                                        <option value="20" {{ $data['entries']->perPage() == 20 ? 'selected' : '' }}>20</option>
+                                                        <option value="100000" {{ $data['entries']->perPage() == 100000 ? 'selected' : '' }}>All</option>
+                                                    </select>
+                                                    rows per page
+                                                </form>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <form action="{{ route('user.all-entries',['id'=>request('id')]) }}" method="get">
+                                                    <div id="file-datatable_filter" class="dataTables_filter d-flex">
+                                                        <label><input type="search" name="search" value="{{ request()->has('search')?request('search'):'' }}" class="form-control form-control-sm" placeholder="Search..."></label>
+                                                        <input type="hidden" name="id" value="{{ $data['lottery']->id }}">
+                                                        <button type="submit" class="btn btn-primary search" style="margin-left: 6px">Search</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                         <table class="table table-bordered text-nowrap border-bottom w-100"
                                                id="file-datatable">
                                             <thead>
@@ -353,6 +366,7 @@
     var remove_entries = '{{ route('user.remove-entries') }}'
     var table = $('#file-datatable').DataTable({
         lengthMenu: [],
+        searching: false,
         pageLength : {{ isset($data['entries']) ? $data['entries']->perPage():'' }},
         scrollX: "100%",
         "lengthChange": false,

@@ -19,6 +19,7 @@ class EntryController extends Controller
         if($request->has('id') && $request->input('id') != '') {
 
             $perPage = isset($request->per_page) ? $request->per_page : '10';
+            $search_key = isset($request->search) ? $request->search : '';
 
             $this->data['lottery'] = Lottery::where('user_id', $normal_user)->where('id', $request->input('id'))->first();
 
@@ -37,6 +38,15 @@ class EntryController extends Controller
                 ->where('lotteries.user_id', $normal_user)
                 ->where('entries.lottery_id', $request->input('id'))
                 ->orderByDesc('entries.id')
+                ->when($request->search, function($query, $search_key) {
+                    return $query->where(function($query) use ($search_key) {
+                        $query->where('entries.uid', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.first_name', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.last_name', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.email', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.phone', 'like', '%'.$search_key.'%');
+                    });
+                })
                 ->paginate($perPage)->withQueryString();
 
           //  dd($this->data['entries']);
@@ -170,6 +180,8 @@ class EntryController extends Controller
 
             $perPage = isset($request->per_page) ? $request->per_page : '10';
             //$perPage = request()->input('per_page', 10);
+            $search_key = isset($request->search) ? $request->search : '';
+
 
 
             $this->data['winners'] = Lottery_Winner::select('lottery_winners.id as winner_tid', 'lottery_winners.*', 'entries.id as entry_tid', 'entries.*', 'e2.first_name as g_first_name', 'e2.last_name as g_last_name', 'l2.sorting as g_sorting', 'l2.id as g_id')
@@ -181,6 +193,15 @@ class EntryController extends Controller
                 ->where('lottery_winners.lottery_id', $request->id)
                 //->orderBy('sorting', 'ASC')
                 //->get();
+                ->when($request->search, function($query, $search_key) {
+                    return $query->where(function($query) use ($search_key) {
+                        $query->where('entries.uid', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.first_name', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.last_name', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.email', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.phone', 'like', '%'.$search_key.'%');
+                    });
+                })
                 ->paginate($perPage)->withQueryString();
             //dd($this->data['winners']);
 
@@ -224,6 +245,7 @@ class EntryController extends Controller
         if($request->filled('id') && $request->input('id') != '') {
 
             $perPage = isset($request->per_page) ? $request->per_page : '10';
+            $search_key = isset($request->search) ? $request->search : '';
 
             $this->data['lottery'] = Lottery::select('id', 'title', 'lottery_url', 'is_winners_selected', 'start_datetime','event_datetime')
                 ->where('user_id', $normal_user)
@@ -237,6 +259,15 @@ class EntryController extends Controller
                 ->where('lotteries.user_id', '=', $normal_user)
                 ->where('lottery_losers.lottery_id', '=', $request->id)
                 ->orderBy('lottery_losers.id', 'ASC')
+                ->when($request->search, function($query, $search_key) {
+                    return $query->where(function($query) use ($search_key) {
+                        $query->where('entries.uid', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.first_name', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.last_name', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.email', 'like', '%'.$search_key.'%')
+                            ->orWhere('entries.phone', 'like', '%'.$search_key.'%');
+                    });
+                })
                 ->paginate($perPage)->withQueryString();
 
         }else{
