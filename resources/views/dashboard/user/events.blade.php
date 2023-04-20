@@ -61,6 +61,7 @@
                                             $edit_tooltip = $tooltip_primary.' title="edit your event/lottery" ';
                                             $duplicate_tooltip = $tooltip_primary.' title="Duplicate your event/lottery" ';
                                             $erase_tooltip = $tooltip_primary.' title="Erase your event/lottery" ';
+                                            $copy_tooltip = $tooltip_primary.' title="Copy to Clipboard" ';
                                         @endphp
                                         @if(count($data['events']) > 0)
                                             @foreach($data['events'] as $event)
@@ -70,7 +71,7 @@
                                                     <td>{{ $event->date }}</td>
                                                     <td>{{ $event->time }}</td>
                                                     <td>{{ $event->location }}</td>
-                                                    <td>{{ route('user.event-landing',['event'=>$event->slug]) }} <button class="btn btn-sm btn-primary copy-event-link" data-url="{{ route('user.event-landing',['event'=>$event->slug]) }}"><i class="bi bi-clipboard"></i> copy</button></td>
+                                                    <td>{{ route('user.event-landing',['event'=>$event->slug]) }} <button {!! ($tooltip_status)?$copy_tooltip:'' !!} class="btn btn-sm btn-primary copy-event-link" data-url="{{ route('user.event-landing',['event'=>$event->slug]) }}"><i class="bi bi-clipboard"></i> copy</button></td>
                                                     <td class="text-center align-middle">
                                                         <div class="btn-group align-top">
                                                             <a {!! ($tooltip_status)?$view_tooltip:'' !!}  class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" href="{{ route('user.event-landing',['event'=>$event->slug]) }}" target="_blank"><i class="bi bi-eye-fill"></i></a>
@@ -125,6 +126,7 @@
     {{ Html::script('assets/plugin/sweet-alert/sweetalert.min.js') }}
 
     <script>
+
         $(function(e) {
             $('#responsive-datatable').DataTable({
                 scrollX: "100%",
@@ -133,6 +135,25 @@
                     sSearch: '',
                 }
             });
+
+            var tooltip_primary = $('[data-bs-toggle="tooltip-primary"]');
+            for (let index = 0; index < tooltip_primary.length; index++) {
+                var tooltip = new bootstrap.Tooltip(tooltip_primary[index], {
+                    template: '<div class="tooltip tooltip-primary" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+                });
+            }
+            var tooltip_info = $('[data-bs-toggle="tooltip-info"]');
+            for (let index = 0; index < tooltip_info.length; index++) {
+                var tooltip = new bootstrap.Tooltip(tooltip_info[index], {
+                    template: '<div class="tooltip tooltip-info" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+                });
+            }
+            var tooltip_danger = $('[data-bs-toggle="tooltip-danger"]');
+            for (let index = 0; index < tooltip_danger.length; index++) {
+                var tooltip = new bootstrap.Tooltip(tooltip_danger[index], {
+                    template: '<div class="tooltip tooltip-danger" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+                });
+            }
         });
     </script>
 
